@@ -16,7 +16,7 @@ func _input(event):
 			intro.set_animation("intro")
 		elif !intro.is_hidden():
 			pass
-	if event.is_action_pressed("toggleFView"):
+	if event.is_action_pressed("borderless"):
 		OS.set_window_fullscreen(!OS.is_window_fullscreen())
-	if event.is_action_pressed("toggleBView"):
+	if event.is_action_pressed("fullscreen"):
 		OS.set_borderless_window(!OS.get_borderless_window())
