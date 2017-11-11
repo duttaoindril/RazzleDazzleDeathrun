@@ -20,9 +20,10 @@ func _ready():
 		"grounded": false,
 		"velocity": Vector2(),
 		"facing": Vector2(1, 0),
-#		"sprite": get_node("PlayerSprite"),
+		"sprite": get_node("PlayerSprite"),
 #		"sound": get_node("Sound"),
 #		"body": get_node("PlayerBody"),
+		"action": "idle",
 		"directions": {
 			Vector2(-1, 1): "head",
 			Vector2(1, 1): "head",
@@ -49,7 +50,7 @@ func _fixed_process(delta):
 			state["sprite"].play("move")
 	elif state["action"] == "idle":
 		state["sprite"].play("idle")
-	if Input.is_action_pressed("up"+state["id"] && state["ground"]):
+	if Input.is_action_pressed("up"+state["id"]) && state["grounded"]:
 		state["action"] = "jump"
 		state["velocity"].y = GRAVITY*-JUMP_MULT
 		if (is_colliding()) and test_move(Vector2(0,1)):
@@ -63,7 +64,7 @@ func _fixed_process(delta):
 	
 	state["velocity"] += state["velocity"] * delta
 	state["velocity"].x *= DAMPEN
-	move(state["velocity"].y)
+	move(state["velocity"])
 	if is_colliding(): 
 		var n = get_collision_normal()
 		state["velocity"] = n.slide(state["velocity"])
