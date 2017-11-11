@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://Game/backgrounds/bg1.jpg" type="Texture" id=2]
 [ext_resource path="res://Tiles/TileSet64.tres" type="TileSet" id=3]
-[ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=4]
+[ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=4]
 [ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=5]
-[ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=6]
+[ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=6]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -21,7 +22,7 @@ animations = [ {
 animations = [ {
 "frames": [ ExtResource( 4 ) ],
 "loop": true,
-"name": "default",
+"name": "survivor",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 5 ) ],
@@ -31,7 +32,7 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
-"name": "survivor",
+"name": "default",
 "speed": 5.0
 } ]
 
@@ -99,6 +100,7 @@ __meta__ = {
 
 [node name="Intro" type="AnimatedSprite" parent="."]
 
+visibility/visible = false
 transform/pos = Vector2( 960, 540 )
 frames = SubResource( 2 )
 animation = "default"
@@ -181,5 +183,9 @@ max_lines_visible = -1
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Player" parent="." instance=ExtResource( 7 )]
+
+transform/pos = Vector2( 181.568, 130.111 )
 
 

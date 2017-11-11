@@ -8,6 +8,8 @@ const JUMP_SPEED = JUMP_MULT*GRAVITY
 const ATTACK_DELAY = 65
 const RELOAD_SPEED = 0.5
 
+
+
 func _ready():
 	state = {
 		"id": get_name()[get_name().length()-1],
@@ -35,6 +37,7 @@ func _ready():
 	
 
 func _fixed_process(delta):
+
 	# Left and right movements
 	if Input.is_action_pressed("right"+state["id"]):
 		state["facing"].x = 1
@@ -53,7 +56,7 @@ func _fixed_process(delta):
 		state["velocity"].y = 0
 	
 	
-	if Input.is_action_pressed("up"+state["id"] && state["ground"]):
+	if Input.is_action_pressed("up"+state["id"] && state["grounded"]):
 		state["action"] = "jump"
 		state["velocity"].y = GRAVITY*-JUMP_MULT
 		if (is_colliding()) and test_move(Vector2(0,1)):
@@ -68,6 +71,7 @@ func _fixed_process(delta):
 	state["velocity"] += state["velocity"] * delta
 	state["velocity"].x *= DAMPEN
 	move(state["velocity"].y)
+	
 	if is_colliding(): 
 		var n = get_collision_normal()
 		state["velocity"] = n.slide(state["velocity"])
