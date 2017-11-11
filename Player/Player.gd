@@ -7,6 +7,8 @@ const JUMP_MULT = 30
 const JUMP_SPEED = JUMP_MULT*GRAVITY
 const ATTACK_DELAY = 65
 const RELOAD_SPEED = 0.5
+#Global Variables
+var state
 
 func _ready():
 	state = {
@@ -18,21 +20,18 @@ func _ready():
 		"grounded": false,
 		"velocity": Vector2(),
 		"facing": Vector2(1, 0),
-		"sprite": get_node("PlayerSprite"),
-		"sound": get_node("Sound"),
-		"body": get_node("PlayerBody"),
-
+#		"sprite": get_node("PlayerSprite"),
+#		"sound": get_node("Sound"),
+#		"body": get_node("PlayerBody"),
 		"directions": {
 			Vector2(-1, 1): "head",
 			Vector2(1, 1): "head",
 			Vector2(-1, 0): "left",
 			Vector2(1, 0): "right"
 		},
-		"nameLabel": get_node("PlayerName")
+#		"nameLabel": get_node("PlayerName")
 	}
 	
-	
-
 func _fixed_process(delta):
 	if Input.is_action_pressed("up"+state["id"]):
 		state["velocity"].y = GRAVITY*-JUMP_MULT
@@ -42,5 +41,3 @@ func _fixed_process(delta):
 		state["velocity"].x -= MOVE_SPEED
 	if Input.is_action_pressed("down"+state["id"]): #This is going to do nothing for now
 		state["velocity"].y = GRAVITY*-JUMP_MULT
-	
-	

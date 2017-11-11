@@ -2,10 +2,10 @@
 
 [ext_resource path="res://Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://Game/backgrounds/bg1.jpg" type="Texture" id=2]
-[ext_resource path="res://Tiles/TileSet64.tres" type="TileSet" id=3]
-[ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=4]
-[ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=5]
-[ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=6]
+[ext_resource path="res://Tiles/tileset.tres" type="TileSet" id=3]
+[ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=4]
+[ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=5]
+[ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -21,17 +21,17 @@ animations = [ {
 animations = [ {
 "frames": [ ExtResource( 4 ) ],
 "loop": true,
-"name": "default",
+"name": "survivor",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
-"name": "survivor",
+"name": "death",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
-"name": "death",
+"name": "intro",
 "speed": 5.0
 } ]
 
@@ -76,15 +76,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Tiles" type="TileMap" parent="."]
+[node name="Layer0Map" type="TileMap" parent="."]
 
 mode = 0
 tile_set = ExtResource( 3 )
 cell/size = Vector2( 60, 60 )
-cell/quadrant_size = 1
+cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 cell/half_offset = 2
-cell/tile_origin = 1
+cell/tile_origin = 0
 cell/y_sort = false
 collision/use_kinematic = false
 collision/friction = 1.0
@@ -92,16 +92,7 @@ collision/bounce = 0.0
 collision/layers = 1
 collision/mask = 1
 occluder/light_mask = 1
-tile_data = IntArray( 0, 0, 31, 0, 1114112, 0, 1114113, 0, 1114114, 0, 1114115, 0, 1114116, 0, 1114117, 0, 1114118, 0, 1114119, 0, 1114120, 0, 1114121, 0, 1114122, 0, 1114123, 0, 1114124, 0, 1114125, 0, 1114126, 0, 1114127, 0, 1114128, 0, 1114129, 0, 1114130, 0, 1114131, 0, 1114132, 0, 1114133, 0, 1114134, 0, 1114135, 0, 1114136, 0, 1114137, 0, 1114138, 0, 1114139, 0, 1114140, 0, 1114141, 0, 1114142, 0, 1114143, 0 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Intro" type="AnimatedSprite" parent="."]
-
-transform/pos = Vector2( 960, 540 )
-frames = SubResource( 2 )
-animation = "default"
+tile_data = IntArray( 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 21, 0, 22, 0, 23, 0, 24, 0, 25, 0, 26, 0, 27, 0, 28, 0, 29, 0, 30, 0, 31, 0, 65536, 0, 65551, 0, 65552, 0, 65553, 0, 65567, 0, 131072, 0, 131087, 0, 131088, 0, 131089, 0, 131103, 0, 196608, 0, 196623, 0, 196624, 0, 196625, 0, 196639, 0, 262144, 0, 262159, 0, 262160, 0, 262161, 0, 262175, 0, 327680, 0, 327695, 0, 327696, 0, 327697, 0, 327711, 0, 393216, 0, 393231, 0, 393232, 0, 393233, 0, 393247, 0, 458752, 0, 458767, 1610612737, 458768, 1610612737, 458769, 1610612737, 458783, 0, 524288, 0, 524319, 0, 589824, 0, 589855, 0, 655360, 0, 655375, 1, 655376, 1, 655377, 1, 655391, 0, 720896, 0, 720911, 0, 720912, 0, 720913, 0, 720927, 0, 786432, 0, 786447, 0, 786448, 0, 786449, 0, 786463, 0, 851968, 0, 851983, 0, 851984, 0, 851985, 0, 851999, 0, 917504, 0, 917519, 0, 917520, 0, 917521, 0, 917535, 0, 983040, 0, 983055, 0, 983056, 0, 983057, 0, 983071, 0, 1048576, 0, 1048591, 0, 1048592, 0, 1048593, 0, 1048607, 0, 1114112, 0, 1114113, 0, 1114114, 0, 1114115, 0, 1114116, 0, 1114117, 0, 1114118, 0, 1114119, 0, 1114120, 0, 1114121, 0, 1114122, 0, 1114123, 0, 1114124, 0, 1114125, 0, 1114126, 0, 1114127, 0, 1114128, 0, 1114129, 0, 1114130, 0, 1114131, 0, 1114132, 0, 1114133, 0, 1114134, 0, 1114135, 0, 1114136, 0, 1114137, 0, 1114138, 0, 1114139, 0, 1114140, 0, 1114141, 0, 1114142, 0, 1114143, 0 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -178,6 +169,16 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Splashscreen" type="AnimatedSprite" parent="."]
+
+visibility/visible = false
+transform/pos = Vector2( 960, 540 )
+frames = SubResource( 2 )
+animation = "intro"
 __meta__ = {
 "_edit_lock_": true
 }
