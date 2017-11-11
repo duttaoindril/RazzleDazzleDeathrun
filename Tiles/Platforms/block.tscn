@@ -15,7 +15,7 @@ texture = ExtResource( 1 )
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 2.90461, 0, 0, 2.8781, -0.0600619, -0.211206 )
+shapes/0/transform = Matrix32( 3, 0, 0, 3, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -26,8 +26,7 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 
-transform/pos = Vector2( -0.0600619, -0.211206 )
-transform/scale = Vector2( 2.90461, 2.8781 )
+transform/scale = Vector2( 3, 3 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0

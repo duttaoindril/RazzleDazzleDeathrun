@@ -5,13 +5,12 @@ var state
 
 func _ready():
 	randomize()
-	print(get_node("Layer0Map").get_cell_size())
 	state = {
-		"tileSize": 60,
+		"tileSize": get_node("Layer0Map").get_cell_size()[0],
 		"width": get_viewport().get_rect().size[0],
 		"height": get_viewport().get_rect().size[1],
-		"mapWidth": state["width"]/state["tileSize"],
-		"mapHeight": state["height"]/state["tileSize"],
+		"mapWidth": get_viewport().get_rect().size[0]/get_node("Layer0Map").get_cell_size()[0],
+		"mapHeight": get_viewport().get_rect().size[1]/get_node("Layer0Map").get_cell_size()[1],
 		"splash": get_node("Splashscreen"),
 		"bg": get_node("BG"),
 		"score1bg": get_node("Panel1"),
@@ -27,7 +26,7 @@ func _ready():
 	state["splash"].play("intro")
 	act("show", ["splash"])
 	set_process_input(true)
-
+  
 func setUp():
 #	for i in range(1, 3):
 #		var playerI = player.instance()
@@ -55,8 +54,14 @@ func _input(event):
 			act("hide", ["splash"])
 			state["splash"].set_animation("default")
 			setUp()
-	if event.is_action_pressed("borderless"):
+	elif event.is_action_pressed("borderless"):
 		OS.set_borderless_window(!OS.get_borderless_window())
+	elif event.is_action_pressed("reload"):
+		get_tree().reload_current_scene()
+	elif event.is_action_pressed("restart"):
+		get_parent().reset()
+	elif event.is_action_pressed("quit"):
+		get_tree().quit()
 
 func act(funct, args):
 	for arg in args:
