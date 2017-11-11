@@ -8,7 +8,7 @@ func _ready():
 	pass
 
 func _input(event):
-	if event.is_action_pressed("restart"):
+	if event.is_action_pressed("action"):
 		if intro.is_hidden():
 			pass
 		elif intro.get_animation() == "intro":
