@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=1]
 
-[ext_resource path="res://Game.gd" type="Script" id=1]
-[ext_resource path="res://Game/bg1.jpg" type="Texture" id=2]
+[ext_resource path="res://Game/Game.gd" type="Script" id=1]
+[ext_resource path="res://Game/backgrounds/bg1.jpg" type="Texture" id=2]
 [ext_resource path="res://Tiles/TileSet64.tres" type="TileSet" id=3]
-[ext_resource path="res://Assets/introllpage2.jpg" type="Texture" id=4]
-[ext_resource path="res://Assets/introllpage.jpg" type="Texture" id=5]
-[ext_resource path="res://Assets/splashpage.jpg" type="Texture" id=6]
+[ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=4]
+[ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=5]
+[ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -26,12 +26,12 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
-"name": "pickDeath",
+"name": "survivor",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
-"name": "default",
+"name": "death",
 "speed": 5.0
 } ]
 
@@ -92,11 +92,13 @@ collision/bounce = 0.0
 collision/layers = 1
 collision/mask = 1
 occluder/light_mask = 1
-tile_data = IntArray(  )
+tile_data = IntArray( 0, 0, 31, 0, 1114112, 0, 1114113, 0, 1114114, 0, 1114115, 0, 1114116, 0, 1114117, 0, 1114118, 0, 1114119, 0, 1114120, 0, 1114121, 0, 1114122, 0, 1114123, 0, 1114124, 0, 1114125, 0, 1114126, 0, 1114127, 0, 1114128, 0, 1114129, 0, 1114130, 0, 1114131, 0, 1114132, 0, 1114133, 0, 1114134, 0, 1114135, 0, 1114136, 0, 1114137, 0, 1114138, 0, 1114139, 0, 1114140, 0, 1114141, 0, 1114142, 0, 1114143, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Intro" type="AnimatedSprite" parent="."]
 
-visibility/visible = false
 transform/pos = Vector2( 960, 540 )
 frames = SubResource( 2 )
 animation = "default"
