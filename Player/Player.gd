@@ -19,9 +19,10 @@ func _ready():
 		"grounded": false,
 		"velocity": Vector2(),
 		"facing": Vector2(1, 0),
-		"sprite": get_node("PlayerSprite"),
+		"sprite": get_node("PlayerAnimation"),
 		"sound": get_node("Sound"),
 		"body": get_node("PlayerBody"),
+		"action": "idle",
 
 		"directions": {
 			Vector2(-1, 1): "head",
@@ -36,21 +37,31 @@ func _ready():
 	
 
 func _fixed_process(delta):
-
+	# Left and right movements
 	if Input.is_action_pressed("right"+state["id"]):
+		state["facing"].x = 1
 		state["velocity"].x += MOVE_SPEED
+		if (state["action"] == "idle"):
+			state["sprite"].play("move")
 	elif Input.is_action_pressed("left"+state["id"]):
+		state["facing"].x = -1
 		state["velocity"].x -= MOVE_SPEED
-
-	if Input.is_action_pressed("down"+state["id"]): #This is going to do nothing for now
+		if (state["action"] == "idle"):
+			state["sprite"].play("move")
+	elif state["action"] == "idle":
+		state["sprite"].play("idle")
+	#This is going to do nothing for now
+	if Input.is_action_pressed("down"+state["id"]): 
 		state["velocity"].y = 0
 	
 	
-	if Input.is_action_pressed("up"+state["id"]):
+	if Input.is_action_pressed("up"+state["id"] && state["ground"]):
+		state["action"] = "jump"
 		state["velocity"].y = GRAVITY*-JUMP_MULT
 		if (is_colliding()) and test_move(Vector2(0,1)):
-			velocity.y -= GRAVITY * 5
-		
+			state["velocity"].y -= GRAVITY * 5
+	state["sprite"].set_flip_h(state["facing"].x+1)
+	
 	if(!is_colliding()):
 		   state["velocity"].y += GRAVITY
 	else:
@@ -64,3 +75,6 @@ func _fixed_process(delta):
 		state["velocity"] = n.slide(state["velocity"])
 		move(state["velocity"])
 	
+func _PlayerAnimation_finished():
+	state["sprite"].play("idle")
+	state["action"]="idle"
