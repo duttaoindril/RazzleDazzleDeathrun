@@ -1,8 +1,10 @@
 extends Node
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
+	map = get_node("Tiles")
+	intro = get_node("Intro")
+	intro.show()
+	intro.set_animation("intro")
 	pass
 
 func _input(event):
