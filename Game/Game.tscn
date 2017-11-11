@@ -4,8 +4,8 @@
 [ext_resource path="res://Game/backgrounds/bg1.jpg" type="Texture" id=2]
 [ext_resource path="res://Tiles/TileSet64.tres" type="TileSet" id=3]
 [ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=4]
-[ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=5]
-[ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=6]
+[ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=5]
+[ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -26,12 +26,12 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
-"name": "survivor",
+"name": "death",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
-"name": "death",
+"name": "survivor",
 "speed": 5.0
 } ]
 

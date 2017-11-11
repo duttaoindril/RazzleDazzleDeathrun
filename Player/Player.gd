@@ -1,5 +1,4 @@
 extends KinematicBody2D
-# ;OJADMFLAKSMD:LKASM:DLKMAS:LKDMA:LSKDM:ALKSMDASLKDM GITHUB GDI
 #Global Constants
 const MOVE_SPEED = 1
 const GRAVITY = .2
@@ -23,7 +22,6 @@ func _ready():
 		"sound": get_node("Sound"),
 		"body": get_node("PlayerBody"),
 		"action": "idle",
-
 		"directions": {
 			Vector2(-1, 1): "head",
 			Vector2(1, 1): "head",
