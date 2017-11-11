@@ -2,11 +2,10 @@
 
 [ext_resource path="res://Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://Game/backgrounds/bg1.jpg" type="Texture" id=2]
-[ext_resource path="res://Tiles/TileSet64.tres" type="TileSet" id=3]
+[ext_resource path="res://Tiles/tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=4]
 [ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=5]
 [ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=6]
-[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -32,7 +31,7 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
-"name": "default",
+"name": "intro",
 "speed": 5.0
 } ]
 
@@ -77,15 +76,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Tiles" type="TileMap" parent="."]
+[node name="Layer0Map" type="TileMap" parent="."]
 
 mode = 0
 tile_set = ExtResource( 3 )
 cell/size = Vector2( 60, 60 )
-cell/quadrant_size = 1
+cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 cell/half_offset = 2
-cell/tile_origin = 1
+cell/tile_origin = 0
 cell/y_sort = false
 collision/use_kinematic = false
 collision/friction = 1.0
@@ -184,8 +183,12 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Player" parent="." instance=ExtResource( 7 )]
+[node name="Splashscreen" type="AnimatedSprite" parent="."]
 
-transform/pos = Vector2( 181.568, 130.111 )
-
-
+visibility/visible = false
+transform/pos = Vector2( 960, 540 )
+frames = SubResource( 2 )
+animation = "intro"
+__meta__ = {
+"_edit_lock_": true
+}
