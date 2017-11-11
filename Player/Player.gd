@@ -35,6 +35,7 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
+
 	# Left and right movements
 	if Input.is_action_pressed("right"+state["id"]):
 		state["facing"].x = 1
@@ -50,7 +51,7 @@ func _fixed_process(delta):
 			state["sprite"].play("move")
 	elif state["action"] == "idle":
 		state["sprite"].play("idle")
-	if Input.is_action_pressed("up"+state["id"]) && state["grounded"]:
+	if Input.is_action_pressed("up"+state["id"] && state["grounded"]):
 		state["action"] = "jump"
 		state["velocity"].y = GRAVITY*-JUMP_MULT
 		if (is_colliding()) and test_move(Vector2(0,1)):
