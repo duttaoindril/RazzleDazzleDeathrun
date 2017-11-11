@@ -44,6 +44,11 @@ func clear():
 			child.set_name("A")
 			child.queue_free()
 
+func playerBeat(id):
+	clear()
+	state["score"+id] += 1
+	setUp()
+
 func _input(event):
 	if event.is_action_pressed("action") && !state["splash"].is_hidden():
 		if state["splash"].get_animation() == "intro":

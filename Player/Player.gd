@@ -1,12 +1,17 @@
 extends KinematicBody2D
-
-#PRE SETUP
+#SETUP
 const MOVE_SPEED = 1
 const GRAVITY = .2
 const DAMPEN = 0.8
 const JUMP_MULT = 30
 var state
-
+#TODO
+# - Implement Animations
+# - Area Detection
+# - Jumping
+# - Death Switching
+# - Death Controls
+# - Win Detection
 func _ready():
 	state = {
 		"id": get_name()[get_name().length()-1],
@@ -20,17 +25,19 @@ func _ready():
 		"action": "idle"
 	}
 	set_fixed_process(true)
-
+#RUNS 60HZ
 func _fixed_process(delta):
 	#LEFT AND RIGHT CONTROLS
 	if Input.is_action_pressed("left"+state["id"]):
 		state["velocity"].x -= MOVE_SPEED 
 	elif Input.is_action_pressed("right"+state["id"]):
-		state["velocity"].x += MOVE_SPEED 
+		state["velocity"].x += MOVE_SPEED
+	#JUMP CONTROLS
 	if Input.is_action_pressed("up"+state["id"]) && state["grounded"]:
 		state["velocity"].y = -JUMP_MULT*GRAVITY
 		if is_colliding() && test_move(Vector2(0,1)):
 			state["velocity"].y -= GRAVITY*5
+	#PHYSICS
 	if !is_colliding():
 		state["velocity"].y += GRAVITY
 	else:
@@ -42,10 +49,10 @@ func _fixed_process(delta):
 		var n = get_collision_normal()
 		state["velocity"] = n.slide(state["velocity"])
 	move(state["velocity"])
-
-func die():
+#DEATH HANDLING
+func death():
 	get_parent().playerBeat(int(state["id"]), int(state["otherId"]))
-
+#ANIMATION FINISH HANDLING
 func _on_PlayerSprite_finished():
 	state["sprite"].play("idle")
 	state["action"] = "idle"
