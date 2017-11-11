@@ -1,5 +1,11 @@
 extends Node
 
+var playerScores = [0, 0]
+var mwidth = 30
+var mheight = 17
+var map
+var intro
+
 func _ready():
 	map = get_node("Tiles")
 	intro = get_node("Intro")
@@ -20,5 +26,3 @@ func _input(event):
 			pass
 	if event.is_action_pressed("borderless"):
 		OS.set_window_fullscreen(!OS.is_window_fullscreen())
-	if event.is_action_pressed("fullscreen"):
-		OS.set_borderless_window(!OS.get_borderless_window())
