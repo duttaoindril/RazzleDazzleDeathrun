@@ -7,11 +7,11 @@ func _ready():
 	randomize()
 	print(get_node("Layer0Map").get_cell_size())
 	state = {
-		"tileSize": 60,
+		"tileSize": get_node("Layer0Map").get_cell_size()[0],
 		"width": get_viewport().get_rect().size[0],
 		"height": get_viewport().get_rect().size[1],
-		"mapWidth": state["width"]/state["tileSize"],
-		"mapHeight": state["height"]/state["tileSize"],
+		"mapWidth": get_viewport().get_rect().size[0]/get_node("Layer0Map").get_cell_size()[0],
+		"mapHeight": get_viewport().get_rect().size[1]/get_node("Layer0Map").get_cell_size()[1],
 		"splash": get_node("Splashscreen"),
 		"bg": get_node("BG"),
 		"score1bg": get_node("Panel1"),
@@ -44,6 +44,11 @@ func clear():
 		if child.is_type("KinematicBody2D") || child.is_type("RigidBody2D"):
 			child.set_name("A")
 			child.queue_free()
+
+func playerBeat(id):
+	clear()
+	state["score"+id] += 1
+	setUp()
 
 func _input(event):
 	if event.is_action_pressed("action") && !state["splash"].is_hidden():

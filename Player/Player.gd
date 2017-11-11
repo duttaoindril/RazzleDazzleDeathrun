@@ -44,3 +44,6 @@ func _fixed_process(delta):
 		var n = get_collision_normal()
 		velocity = n.slide(velocity)
 	move(velocity)
+	
+func death():
+	playerBeat(state["id"])
