@@ -30,6 +30,7 @@ func _ready():
 		},
 		"nameLabel": get_node("PlayerName")
 	}
+	set_fixed_process(true)
 	
 	
 
@@ -48,13 +49,12 @@ func _fixed_process(delta):
 		state["velocity"].y = GRAVITY*-JUMP_MULT
 		if (is_colliding()) and test_move(Vector2(0,1)):
 			velocity.y -= GRAVITY * 5
-		else:
-			pass
-	
+		
 	if(!is_colliding()):
 		   state["velocity"].y += GRAVITY
 	else:
        state["velocity"].y = 0
+	
 	state["velocity"] += state["velocity"] * delta
 	state["velocity"].x *= DAMPEN
 	move(state["velocity"].y)
