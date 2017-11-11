@@ -34,23 +34,13 @@ func _ready():
 	
 
 func _fixed_process(delta):
-	# P1 (Survivor) controls
-	if Input.is_action_pressed("up1"+state["id"]):
+	if Input.is_action_pressed("up"+state["id"]):
 		state["velocity"].y = GRAVITY*-JUMP_MULT
-	if Input.is_action_pressed("right1"+state["id"]):
+	if Input.is_action_pressed("right"+state["id"]):
 		state["velocity"].x += MOVE_SPEED
-	if Input.is_action_pressed("left1"+state["id"]):
+	if Input.is_action_pressed("left"+state["id"]):
 		state["velocity"].x -= MOVE_SPEED
-	if Input.is_action_pressed("down1"+state["id"]): #This is going to do nothing for now
-		state["velocity".y = 0
-		
-	# P2 (Death) controls
-	if Input.is_action_pressed("up2"+state["id"]):
+	if Input.is_action_pressed("down"+state["id"]): #This is going to do nothing for now
 		state["velocity"].y = GRAVITY*-JUMP_MULT
-	if Input.is_action_pressed("right2"+state["id"]):
-		state["velocity"].x += MOVE_SPEED
-	if Input.is_action_pressed("left2"+state["id"]):
-		state["velocity"].x -= MOVE_SPEED
-	if Input.is_action_pressed("down2"+state["id"]):
-		state["velocity"].y = GRAVITY*-JUMP_MULT
+	
 	

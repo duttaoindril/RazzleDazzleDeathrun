@@ -26,12 +26,12 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
-"name": "pickSurvivor",
+"name": "pickDeath",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
-"name": "pickDeath",
+"name": "pickSurvivor",
 "speed": 5.0
 } ]
 
