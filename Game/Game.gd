@@ -2,6 +2,8 @@ extends Node
 
 var player = preload("res://Player/Player.tscn")
 var state
+var lost_id
+var win_id
 
 func _ready():
 	randomize()
@@ -44,9 +46,9 @@ func clear():
 			child.set_name("A")
 			child.queue_free()
 
-func playerBeat(id):
+func playerBeat(id,otherid):
 	clear()
-	state["score"+id] += 1
+	win_id =(state["score"+otherid])+ 1
 	setUp()
 
 func _input(event):
