@@ -1,4 +1,5 @@
 extends KinematicBody2D
+# ;OJADMFLAKSMD:LKASM:DLKMAS:LKDMA:LSKDM:ALKSMDASLKDM GITHUB GDI
 #Global Constants
 const MOVE_SPEED = 1
 const GRAVITY = .2
