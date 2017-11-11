@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://Game/backgrounds/bg1.jpg" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Game/splashscreen/introllpage.jpg" type="Texture" id=4]
 [ext_resource path="res://Game/splashscreen/introllpage2.jpg" type="Texture" id=5]
 [ext_resource path="res://Game/splashscreen/splashpage.jpg" type="Texture" id=6]
-[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -183,9 +182,5 @@ animation = "intro"
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="Player" parent="." instance=ExtResource( 7 )]
-
-transform/pos = Vector2( 521.287, 419.305 )
 
 
