@@ -21,7 +21,7 @@ func _ready():
 		"score2": get_node("ScorePlayer2"),
 		"music": get_node("Music"),
 		"fx": get_node("FX"),
-		"playerStates": [0, 1],
+		"playerStates": [false, true],
 		"playerScores": [0, 0],
 		"layer0": get_node("Layer0Map")
 	}
