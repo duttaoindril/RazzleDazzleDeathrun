@@ -34,13 +34,32 @@ func _ready():
 	
 
 func _fixed_process(delta):
-	if Input.is_action_pressed("up"+state["id"]):
-		state["velocity"].y = GRAVITY*-JUMP_MULT
+
 	if Input.is_action_pressed("right"+state["id"]):
 		state["velocity"].x += MOVE_SPEED
-	if Input.is_action_pressed("left"+state["id"]):
+	elif Input.is_action_pressed("left"+state["id"]):
 		state["velocity"].x -= MOVE_SPEED
+
 	if Input.is_action_pressed("down"+state["id"]): #This is going to do nothing for now
-		state["velocity"].y = GRAVITY*-JUMP_MULT
+		state["velocity"].y = 0
 	
+	
+	if Input.is_action_pressed("up"+state["id"]):
+		state["velocity"].y = GRAVITY*-JUMP_MULT
+		if (is_colliding()) and test_move(Vector2(0,1)):
+			velocity.y -= GRAVITY * 5
+		else:
+			pass
+	
+	if(!is_colliding()):
+		   state["velocity"].y += GRAVITY
+	else:
+       state["velocity"].y = 0
+	state["velocity"] += state["velocity"] * delta
+	state["velocity"].x *= DAMPEN
+	move(state["velocity"].y)
+	if is_colliding(): 
+		var n = get_collision_normal()
+		state["velocity"] = n.slide(state["velocity"])
+		move(state["velocity"])
 	
