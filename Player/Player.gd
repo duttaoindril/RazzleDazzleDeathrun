@@ -22,7 +22,7 @@ func _ready():
 		"facing": Vector2(1, 0),
 		"sprite": get_node("PlayerSprite"),
 #		"sound": get_node("Sound"),
-#		"body": get_node("PlayerBody"),
+		"body": get_node("PlayerBody"),
 		"action": "idle",
 		"directions": {
 			Vector2(-1, 1): "head",
@@ -51,7 +51,7 @@ func _fixed_process(delta):
 			state["sprite"].play("move")
 	elif state["action"] == "idle":
 		state["sprite"].play("idle")
-	if Input.is_action_pressed("up"+state["id"] && state["grounded"]):
+	if Input.is_action_pressed("up"+state["id"]) && state["grounded"]:
 		state["action"] = "jump"
 		state["velocity"].y = GRAVITY*-JUMP_MULT
 		if (is_colliding()) and test_move(Vector2(0,1)):
