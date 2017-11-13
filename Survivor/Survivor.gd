@@ -25,6 +25,7 @@ func _ready():
 	state["feet"] = get_node("SurvivorBottom")
 	state["body"] = get_node("SurvivorBody")
 	state["sprite"] = get_node("SurvivorSprite")
+	state["sound"] = get_node("FX")
 	state["name"] = get_node("SurvivorName")
 	state["name"].set_text(get_name())
 	set_fixed_process(true)
@@ -38,16 +39,22 @@ func init(name, set):
 	return self
 #RUNS 60HZ
 func _fixed_process(delta):
+	if(!get_viewport_rect().has_point(get_pos())):
+		get_parent().playerBeat(int(state["id"]))
+	print(state["feet"].get_overlapping_bodies())
+	state["grounded"] = state["feet"].get_overlapping_bodies().size() > 1
 	#LEFT AND RIGHT CONTROLS
 	if Input.is_action_pressed("left"+state["id"]):
+		state["facing"].x = 1
 		state["velocity"].x -= MOVE_SPEED
+		if state["action"] == "idle":
+			state["sprite"].play("move")
 	elif Input.is_action_pressed("right"+state["id"]):
+		state["facing"].x = -1
 		state["velocity"].x += MOVE_SPEED
-	#JUMP CONTROLS
-	if Input.is_action_pressed("up"+state["id"]) && state["grounded"]:
-		state["velocity"].y = -JUMP_MULT*GRAVITY
-		if is_colliding() && test_move(Vector2(0,1)):
-			state["velocity"].y -= GRAVITY*5
+		if state["action"] == "idle":
+			state["sprite"].play("walk")
+	state["sprite"].set_flip_h(state["facing"].x+1)
 	#PHYSICS
 	if !is_colliding():
 		state["velocity"].y += GRAVITY
