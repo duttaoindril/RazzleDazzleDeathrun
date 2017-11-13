@@ -1,8 +1,9 @@
 extends Node
-
+#SETUP
 var state
 var presets
-
+#TODO
+# - Figure out when to play sounds
 func _ready():
 	state = {"tree": get_tree(),
 	"preset": 0,
@@ -36,12 +37,14 @@ func _ready():
 	"mapHeight": get_viewport().get_rect().size[1]/get_node("Layer0Map").get_cell_size()[1],
 	"layer0": get_node("Layer0Map"),
 	"bg": get_node("BG"),
-	"music": get_node("Music"),
+	"music": get_node("BGMusic"),
+	"subg": get_node("SubBGMusic"),
 	"fx": get_node("FX")}
 	presets = {0: {
 		"timeLength": 2,
 		"survivorTimeoutWin": false,
 		"bgs": [0],
+		"bgMusic": [0, 1, 2],
 		"survivor": {
 			"tileposition": Vector2(7, 16),
 			"worldposition": getPosFromIdx(Vector2(7, 16)),
@@ -58,6 +61,7 @@ func _ready():
 		"timeLength": 5,
 		"survivorTimeoutWin": true,
 		"bgs": [0],
+		"bgMusic": [0, 1, 2],
 		"survivor": {
 			"tileposition": Vector2(7, 16),
 			"worldposition": getPosFromIdx(Vector2(7, 16)),
