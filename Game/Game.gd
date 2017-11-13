@@ -150,17 +150,19 @@ func giveSignal(sgnl): #Handle Tie Scores
 	clear()
 	state["startTime"] = int(OS.get_ticks_msec())
 	var wonPlayer = 1;
+	var addOn = "WON against"
 	if state["playerScores"][1] > state["playerScores"][0]:
 		wonPlayer = 2;
+	elif state["playerScores"][1] == state["playerScores"][0]:
+		addOn = "Tied with"
 	var lostPlayer = int(!bool(wonPlayer-1))+1;
-	state["endtext"].set_text("You two played a total of "+str(state["roundTotal"])+" Rounds! Player "+str(wonPlayer)+" won with a score of "+str(state["playerScores"][wonPlayer-1])+" vs Player "+str(lostPlayer)+"'s score "+str(state["playerScores"][lostPlayer-1])+".");
-	var addOn = " Also... "
+	state["endtext"].set_text("You two played a total of "+str(state["roundTotal"]-1)+" Rounds! Player "+str(wonPlayer)+" with a score of "+str(state["playerScores"][wonPlayer-1])+", "+addOn+" Player "+str(lostPlayer)+"'s score of "+str(state["playerScores"][lostPlayer-1])+".");
+	addOn = " Also... "
 	if state["playerScores"][wonPlayer+1] < state["playerScores"][lostPlayer+1]:
-		addOn = " However! "
+		addOn = " HOWEVER! "
 		wonPlayer = lostPlayer
 	lostPlayer = int(!bool(wonPlayer-1))+1;
-	state["endtext"].set_text(state["endtext"].get_text()+addOn+"Player "+str(wonPlayer)+" had the highscore of "+str(state["playerScores"][wonPlayer+1])+" rounds, while player "+str(lostPlayer)+" had a highscore of "+str(state["playerScores"][lostPlayer+1])+" rounds.")
-	print(state["endtext"].get_text())
+	state["endtext"].set_text(state["endtext"].get_text()+addOn+"Player "+str(wonPlayer)+" had a highscore of "+str(state["playerScores"][wonPlayer+1])+" rounds, while player "+str(lostPlayer)+" had a highscore of "+str(state["playerScores"][lostPlayer+1])+" rounds.")
 	act("popup", ["endpopup"])
 	act("show", ["endtext", "endpopup", "splash"])
 	state["signal"] = sgnl;
@@ -183,8 +185,8 @@ func _input(event):
 			act("hide", ["deathkillsplash"])
 		elif state["switchsplash"].is_visible():
 			state["startTime"] = int(OS.get_ticks_msec()/1000) + presets[state["preset"]]["timeLength"]
-			add_child(preload("res://Player/Player.tscn").instance().init("Player "+str(state["survivorId"]), presets[state["preset"]]["survivor"]))
-			add_child(preload("res://Death/Death.tscn").instance().init("Death "+str(state["deathId"]), presets[state["preset"]]["death"]))
+			add_child(preload("res://Survivor/Survivor.tscn").instance().init("Player "+str(state["survivorId"]), presets[state["preset"]]["survivor"]))
+			add_child(preload("res://Death/Death.tscn").instance().init("Player "+str(state["deathId"]), presets[state["preset"]]["death"]))
 			act("hide", ["switchsplash"])
 	elif event.is_action_pressed("borderless"):
 		OS.set_borderless_window(!OS.get_borderless_window())

@@ -18,14 +18,17 @@ func _ready():
 	state["game"] = get_parent()
 	state["id"] = get_name()[get_name().length()-1]
 	state["otherId"] = str(int(!(int(get_name()[get_name().length()-1])-1))+1)
-	state["grounded"] = false
-	state["velocity"] = Vector2()
-	state["sprite"] = get_node("PlayerSprite")
-	state["body"] = get_node("PlayerBody")
-	state["name"] = get_node("PlayerName")
 	state["action"] = "idle"
+	state["position"] = get_pos()
+	state["velocity"] = Vector2()
+	state["grounded"] = false
+	state["feet"] = get_node("PlayerBottom")
+	state["body"] = get_node("PlayerBody")
+	state["sprite"] = get_node("PlayerSprite")
+	state["name"] = get_node("PlayerName")
 	state["name"].set_text(get_name())
 	set_fixed_process(true)
+	set_process_input(true)
 #Initializes the Player with correct properties
 func init(name, set):
 	preset = set
@@ -57,6 +60,15 @@ func _fixed_process(delta):
 		var n = get_collision_normal()
 		state["velocity"] = n.slide(state["velocity"])
 	move(state["velocity"])
+#HANDLE JUMPING OR ACTION
+func _input(event): #shooting, attacking and jumping
+	if event.is_action_pressed("action"+state["id"]) && state["grounded"]: #JUMP
+		state["action"] = "jump"
+		state["sprite"].play("jump")
+		state["sound"].play("jump")
+		state["velocity"].y = GRAVITY * -JUMP_MULT
+		if is_colliding() && test_move(Vector2(0,1)):
+			state["velocity"].y -= GRAVITY * 5
 #DEATH HANDLING
 func death():
 	get_parent().playerBeat(int(state["id"]), int(state["otherId"]))

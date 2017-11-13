@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=1]
+[gd_scene load_steps=20 format=1]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Sprites/Idle/idling1.png" type="Texture" id=2]
@@ -56,6 +56,11 @@ animations = [ {
 "speed": 15.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
 [node name="Player" type="KinematicBody2D"]
 
 input/pickable = false
@@ -71,13 +76,31 @@ script/script = ExtResource( 1 )
 
 frames = SubResource( 2 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="PlayerBody" type="CollisionShape2D" parent="."]
 
 transform/scale = Vector2( 4, 5.1 )
 shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="PlayerBottom" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 4.5, 0, 0, 3.82308, 0, 17.7 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBottom"]
+
+transform/pos = Vector2( 0, 17.7 )
+transform/scale = Vector2( 4.5, 3.82308 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -94,6 +117,7 @@ margin/right = 90.0
 margin/bottom = 70.0
 custom_fonts/font = ExtResource( 16 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Player X"
 align = 1
 valign = 1
 percent_visible = 1.0
