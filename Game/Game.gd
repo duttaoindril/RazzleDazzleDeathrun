@@ -100,7 +100,7 @@ func _fixed_process(delta):
 	state["roundtime"].set_text("%02d:%02d" % [int(seconds/60), int(seconds%60)])
 	if seconds < 0:
 		roundEnd(presets[state["preset"]]["survivorTimeoutWin"], false)
-	
+
 func roundEnd(survivorWin, survivorKilled):
 	#Begin Round Cleanup; Hide everything, Reset Time, Delete all temporary bodies
 	handleEndSplash(survivorWin, survivorKilled)
