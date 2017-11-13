@@ -80,6 +80,7 @@ func _ready():
 	state["subg"].play("start")
 	state["music"].play("bg1")
 	setUp()
+	OS.set_window_maximized(true)
 	set_fixed_process(true)
 	set_process_input(true)
 
