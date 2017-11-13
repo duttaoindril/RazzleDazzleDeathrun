@@ -4,32 +4,40 @@ const MOVE_SPEED = 1
 const GRAVITY = .2
 const DAMPEN = 0.8
 const JUMP_MULT = 30
-var state
+var preset
+var state = {}
 #TODO
+# - Handle Tie Scores
 # - Implement Animations
 # - Area Detection
 # - Jumping
-# - Death Switching
 # - Death Controls
 # - Win Detection
+# - Preset
 func _ready():
-	state = {
-		"id": get_name()[get_name().length()-1],
-		"otherId": str(int(!(int(get_name()[get_name().length()-1])-1))+1),
-		"name": get_name(),
-		"grounded": false,
-		"velocity": Vector2(),
-		"facing": Vector2(1,0),
-		"sprite": get_node("PlayerSprite"),
-		"body": get_node("PlayerBody"),
-		"action": "idle"
-	}
+	state["game"] = get_parent()
+	state["id"] = get_name()[get_name().length()-1]
+	state["otherId"] = str(int(!(int(get_name()[get_name().length()-1])-1))+1)
+	state["grounded"] = false
+	state["velocity"] = Vector2()
+	state["sprite"] = get_node("PlayerSprite")
+	state["body"] = get_node("PlayerBody")
+	state["name"] = get_node("PlayerName")
+	state["action"] = "idle"
+	state["name"].set_text(get_name())
 	set_fixed_process(true)
+#Initializes the Player with correct properties
+func init(name, set):
+	preset = set
+	set_name(name)
+	set_pos(preset["worldposition"])
+	state["facing"] = preset["facing"]
+	return self
 #RUNS 60HZ
 func _fixed_process(delta):
 	#LEFT AND RIGHT CONTROLS
 	if Input.is_action_pressed("left"+state["id"]):
-		state["velocity"].x -= MOVE_SPEED 
+		state["velocity"].x -= MOVE_SPEED
 	elif Input.is_action_pressed("right"+state["id"]):
 		state["velocity"].x += MOVE_SPEED
 	#JUMP CONTROLS
