@@ -44,7 +44,7 @@ func _ready():
 		"timeLength": 2,
 		"survivorTimeoutWin": false,
 		"bgs": [0],
-		"bgMusic": [0, 1, 2],
+		"bgMusic": [1, 2, 3],
 		"survivor": {
 			"tileposition": Vector2(7, 16),
 			"worldposition": getPosFromIdx(Vector2(7, 16)),
@@ -61,7 +61,7 @@ func _ready():
 		"timeLength": 5,
 		"survivorTimeoutWin": true,
 		"bgs": [0],
-		"bgMusic": [0, 1, 2],
+		"bgMusic": [1, 2, 3],
 		"survivor": {
 			"tileposition": Vector2(7, 16),
 			"worldposition": getPosFromIdx(Vector2(7, 16)),
@@ -77,6 +77,8 @@ func _ready():
 	}}
 	act("hide", ["deathwinsplash", "deathkillsplash", "survivorwinsplash", "endpopup"])
 	act("show", ["splash", "survivorsplash", "deathsplash", "switchsplash"])
+	state["subg"].play("start")
+	state["music"].play("bg1")
 	setUp()
 	set_fixed_process(true)
 	set_process_input(true)
@@ -98,7 +100,7 @@ func _fixed_process(delta):
 func roundEnd(survivorWin, survivorKilled):
 	#Begin Round Cleanup; Hide everything, Reset Time, Delete all temporary bodies
 	handleEndSplash(survivorWin, survivorKilled)
-	state["startTime"] = int(OS.get_ticks_msec())
+	stopTimer()
 	clear()
 	#Get the current survivorId and deathId; Print Round Details; Move to Next Round; Add the High Score for the Last Round
 	print("Round "+str(state["round"])+" Ended; Preset was "+str(state["preset"])+"; Survivor is Player "+str(state["survivorId"])+", Death is Player "+str(state["deathId"])+", Survivor Win: "+str(survivorWin)+", Survivor Killed: "+str(survivorKilled)+".")
@@ -152,7 +154,7 @@ func switchSplashSwitch():
 
 func giveSignal(sgnl): #Handle Tie Scores
 	clear()
-	state["startTime"] = int(OS.get_ticks_msec())
+	stopTimer()
 	var wonPlayer = 1;
 	var addOn = "WON against"
 	if state["playerScores"][1] > state["playerScores"][0]:
@@ -188,7 +190,7 @@ func _input(event):
 		elif state["deathkillsplash"].is_visible():
 			act("hide", ["deathkillsplash"])
 		elif state["switchsplash"].is_visible():
-			state["startTime"] = int(OS.get_ticks_msec()/1000) + presets[state["preset"]]["timeLength"]
+			startTimer()
 			add_child(preload("res://Survivor/Survivor.tscn").instance().init("Player "+str(state["survivorId"]), presets[state["preset"]]["survivor"]))
 			add_child(preload("res://Death/Death.tscn").instance().init("Player "+str(state["deathId"]), presets[state["preset"]]["death"]))
 			act("hide", ["switchsplash"])
@@ -201,10 +203,15 @@ func _input(event):
 	elif event.is_action_pressed("quit"):
 		giveSignal("quit")
 
-func reset():
-	clear()
-	setUp()
-	act("show", ["switchsplash"])
+func startTimer():
+	state["startTime"] = int(OS.get_ticks_msec()/1000) + presets[state["preset"]]["timeLength"]
+	state["subg"].play("ticking")
+	state["music"].play("bg"+str(presets[state["preset"]]["bgMusic"][int(rand_range(0, presets[state["preset"]]["bgMusic"].size()))]))
+
+func stopTimer():
+	state["startTime"] = int(OS.get_ticks_msec())
+	state["subg"].stop_all()
+#	state["music"].stop_all()
 
 func handleSignal():
 	act(state["signal"], ["tree"])
@@ -220,6 +227,11 @@ func getPosFromIdx(idx):
 
 func getIdxFromPos(pos):
 	return state["layer0"].world_to_map(pos)
+
+func reset():
+	clear()
+	setUp()
+	act("show", ["switchsplash"])
 
 func act(funct, args):
 	for arg in args:
