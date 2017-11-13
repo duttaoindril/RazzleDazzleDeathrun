@@ -1,14 +1,18 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://Death/Death.gd" type="Script" id=1]
+[ext_resource path="res://Death/Sprites/Idle/idling1.png" type="Texture" id=2]
+[ext_resource path="res://Death/Sprites/Idle/idling2.png" type="Texture" id=3]
+[ext_resource path="res://Death/Sprites/Idle/idling3.png" type="Texture" id=4]
+[ext_resource path="res://Death/Sprites/Idle/idling4.png" type="Texture" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [  ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
-"name": "default",
-"speed": 5.0
+"name": "idle",
+"speed": 6.0
 } ]
 
 [node name="Death" type="KinematicBody2D"]
@@ -22,6 +26,8 @@ script/script = ExtResource( 1 )
 [node name="DeathSprite" type="AnimatedSprite" parent="."]
 
 frames = SubResource( 1 )
-animation = "default"
+animation = "idle"
+frame = 1
+playing = true
 
 

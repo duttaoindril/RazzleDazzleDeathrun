@@ -229,6 +229,7 @@ func getIdxFromPos(pos):
 	return state["layer0"].world_to_map(pos)
 
 func reset():
+	stopTimer()
 	clear()
 	setUp()
 	act("show", ["switchsplash"])
