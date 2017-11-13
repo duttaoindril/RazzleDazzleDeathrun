@@ -1,3 +1,4 @@
+
 extends Node
 #SETUP
 var state
@@ -5,6 +6,9 @@ var presets
 #TODO
 # - Figure out when to play sounds
 func _ready():
+	if OS.get_name() == "OSX":
+		OS.set_borderless_window(false)
+		OS.set_window_maximized(true)
 	state = {"tree": get_tree(),
 	"preset": 0,
 	"round": 1,
@@ -194,8 +198,15 @@ func _input(event):
 			add_child(preload("res://Survivor/Survivor.tscn").instance().init("Player "+str(state["survivorId"]), presets[state["preset"]]["survivor"]))
 			add_child(preload("res://Death/Death.tscn").instance().init("Player "+str(state["deathId"]), presets[state["preset"]]["death"]))
 			act("hide", ["switchsplash"])
-	elif event.is_action_pressed("borderless"):
+	elif event.is_action_pressed("toggleMaximize"):
+		if OS.is_window_maximized():
+			var screen = OS.get_current_screen()
+			var screenSize = OS.get_screen_size(screen)
+			OS.set_window_size(Vector2(state["width"], state["height"]))
+			OS.set_window_position(Vector2((screenSize.x-state["width"])/2, (screenSize.y-state["height"])/2))
+			OS.set_current_screen(screen)
 		OS.set_borderless_window(!OS.get_borderless_window())
+		OS.set_window_maximized(!OS.is_window_maximized())
 	elif event.is_action_pressed("restart"):
 		reset()
 	elif event.is_action_pressed("reload"):
