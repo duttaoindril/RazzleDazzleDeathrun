@@ -9,12 +9,12 @@
 [ext_resource path="res://Survivor/Sprites/Move/move2.png" type="Texture" id=7]
 [ext_resource path="res://Survivor/Sprites/Move/move3.png" type="Texture" id=8]
 [ext_resource path="res://Survivor/Sprites/Move/move4.png" type="Texture" id=9]
-[ext_resource path="res://Survivor/Sprites/Jump/jump2.png" type="Texture" id=10]
-[ext_resource path="res://Survivor/Sprites/Jump/jump3.png" type="Texture" id=11]
-[ext_resource path="res://Survivor/Sprites/Jump/jump4.png" type="Texture" id=12]
-[ext_resource path="res://Survivor/Sprites/Jump/jump5.png" type="Texture" id=13]
-[ext_resource path="res://Survivor/Sprites/Idle/idle1.png" type="Texture" id=14]
-[ext_resource path="res://Survivor/Sprites/Jump/jump1.png" type="Texture" id=15]
+[ext_resource path="res://Survivor/Sprites/Jump/jump1.png" type="Texture" id=10]
+[ext_resource path="res://Survivor/Sprites/Jump/jump4.png" type="Texture" id=11]
+[ext_resource path="res://Survivor/Sprites/Idle/idle1.png" type="Texture" id=12]
+[ext_resource path="res://Survivor/Sprites/Jump/jump2.png" type="Texture" id=13]
+[ext_resource path="res://Survivor/Sprites/Jump/jump5.png" type="Texture" id=14]
+[ext_resource path="res://Survivor/Sprites/Jump/jump3.png" type="Texture" id=15]
 [ext_resource path="res://Assets/sounds/soundFX/jump_sound.smp" type="Sample" id=16]
 [ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=17]
 
@@ -23,7 +23,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
@@ -38,36 +38,36 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
-"name": "jump",
+"name": "fall",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
-"loop": false,
-"name": "land",
-"speed": 13.0
-}, {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 13 ) ],
 "loop": false,
 "name": "launch",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 15 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 14 ), ExtResource( 12 ) ],
+"loop": false,
+"name": "land",
+"speed": 13.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 15 ) ],
 "loop": true,
-"name": "fall",
+"name": "jump",
 "speed": 10.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.2305, 4.97294 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
 extents = Vector2( 12.9753, 5.07045 )
 
-[sub_resource type="SampleLibrary" id=2]
+[sub_resource type="SampleLibrary" id=5]
 
 samples/jump = {
 "db": -15.0,
@@ -92,9 +92,8 @@ __meta__ = {
 
 [node name="SurvivorSprite" type="AnimatedSprite" parent="."]
 
-frames = SubResource( 3 )
+frames = SubResource( 2 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="SurvivorBody" type="CollisionShape2D" parent="."]
@@ -107,7 +106,7 @@ _update_shape_index = 0
 [node name="SurvivorJump" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 4.15993, 0, 0, 7.21189, -1.49012e-06, 15.5 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -119,14 +118,14 @@ angular_damp = 1.0
 
 transform/pos = Vector2( -1.49012e-06, 15.5 )
 transform/scale = Vector2( 4.15993, 7.21189 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SurvivorCore" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 4.00762, 0, 0, 10.2555, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -137,14 +136,14 @@ angular_damp = 1.0
 [node name="CoreShape" type="CollisionShape2D" parent="SurvivorCore"]
 
 transform/scale = Vector2( 4.00762, 10.2555 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SurvivorTop" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 4.00763, 0, 0, 0.125424, 0, -51 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -156,14 +155,14 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 0, -51 )
 transform/scale = Vector2( 4.00763, 0.125424 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SurvivorBottom" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 4.00762, 0, 0, 0.125425, 0, 51 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -175,14 +174,14 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 0, 51 )
 transform/scale = Vector2( 4.00762, 0.125425 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SurvivorLeft" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( -1.75179e-07, 4.00763, -0.123909, -5.41624e-09, -40, -4.44089e-15 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -195,14 +194,14 @@ angular_damp = 1.0
 transform/pos = Vector2( -40, -4.44089e-15 )
 transform/rot = -90.0
 transform/scale = Vector2( 4.00763, 0.123909 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SurvivorRight" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( -1.75179e-07, 4.00763, -0.123909, -5.41624e-09, 40, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -215,14 +214,14 @@ angular_damp = 1.0
 transform/pos = Vector2( 40, 0 )
 transform/rot = -90.0
 transform/scale = Vector2( 4.00763, 0.123909 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
 [node name="FX" type="SamplePlayer" parent="."]
 
 config/polyphony = 1
-config/samples = SubResource( 2 )
+config/samples = SubResource( 5 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0

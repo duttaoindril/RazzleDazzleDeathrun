@@ -62,7 +62,7 @@ func _fixed_process(delta):
 	for direction in state["directions"]:
 		var checkATile = state["game"].getIdxFromPos(get_pos())+state["facings"][state["directions"].find(direction)]+state["facingsRotation"][state["directions"].find(direction)+2]
 		var checkBTile = state["game"].getIdxFromPos(get_pos())+state["facings"][state["directions"].find(direction)]+state["facingsRotation"][state["directions"].find(direction)]
-		print(is_colliding()," ",direction, " A: ", checkATile, state["position"].distance_to(state["game"].getPosFromIdx(checkATile)), state["game"].getIdxFromPos(get_pos())+state["facings"][state["directions"].find(direction)], " B: ", checkBTile, state["position"].distance_to(state["game"].getPosFromIdx(checkBTile)))
+		if direction == "feet": print(state[direction].overlaps_body(state["map0"])) #," ",direction, " A: ", checkATile, state["position"].distance_to(state["game"].getPosFromIdx(checkATile)), state["game"].getIdxFromPos(get_pos())+state["facings"][state["directions"].find(direction)], " B: ", checkBTile, state["position"].distance_to(state["game"].getPosFromIdx(checkBTile)))
 		state[direction+"Tile"] = state["game"].getTile(state["game"].getIdxFromPos(state["position"])+state["facings"][state["directions"].find(direction)], state["directions"].find(direction)) if state[direction].get_overlapping_bodies().has(state["map0"]) && state["game"].hasTile(state["game"].getIdxFromPos(get_pos())+state["facings"][state["directions"].find(direction)]) else ["", false]
 		checkDeathDirectional(direction)
 #		if state[direction].get_overlapping_bodies().has(state["map0"]) && state["game"].hasTile(state["game"].getIdxFromPos(get_pos())+state["facings"][state["directions"].find(direction)]):
