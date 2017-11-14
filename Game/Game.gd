@@ -45,7 +45,7 @@ func _ready():
 	"subg": get_node("SubBGMusic"),
 	"fx": get_node("FX")}
 	presets = {0: {
-		"timeLength": 2,
+		"timeLength": 60,
 		"survivorTimeoutWin": false,
 		"bgs": [0],
 		"bgMusic": [1, 2, 3],
@@ -62,7 +62,7 @@ func _ready():
 			"facing": Vector2(-1, 0)
 		}
 	}, 1: {
-		"timeLength": 5,
+		"timeLength": 60,
 		"survivorTimeoutWin": true,
 		"bgs": [0],
 		"bgMusic": [1, 2, 3],
@@ -227,6 +227,26 @@ func stopTimer():
 func handleSignal():
 	act(state["signal"], ["tree"])
 
+func hasTile(pos):
+	return state["layer0"].get_cell(pos.x, pos.y) != -1
+
+func getTile(pos, dir):
+	var ts = state["layer0"].get_tileset()
+	var cellId = state["layer0"].get_cell(pos.x, pos.y)
+	var cellName = ts.tile_get_name(state["layer0"].get_cell(pos.x, pos.y))
+	var temp = ""
+	if state["layer0"].is_cell_transposed(pos.x, pos.y):
+		cellName = cellName.substr(1, cellName.length()).insert(3, cellName[0])
+	if state["layer0"].is_cell_x_flipped(pos.x, pos.y):
+		temp = cellName[1]
+		cellName[1] = cellName[3]
+		cellName[3] = temp
+	if state["layer0"].is_cell_y_flipped(pos.x, pos.y):
+		temp = cellName[0]
+		cellName[0] = cellName[2]
+		cellName[2] = temp
+	return [cellName, int(cellName[dir]) == 1]
+
 func getPosFromIdxCenter(idx, center):
 	var add = Vector2(0, 0)
 	if center:
@@ -244,6 +264,9 @@ func reset():
 	clear()
 	setUp()
 	act("show", ["switchsplash"])
+
+func get(s):
+	return state[s]
 
 func act(funct, args):
 	for arg in args:
