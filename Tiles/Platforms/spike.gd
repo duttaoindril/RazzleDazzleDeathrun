@@ -4,11 +4,12 @@ extends Sprite
 # var a = 2
 # var b = "textvar"
 
+var playerDetection
+
 func _ready():
+	print("SPIKE IS INITIALIZED")
+	playerDetection = get_node("Area2D")
 	set_fixed_process(true)
 
-
-func _on_Area2D_body_enter(body):
-	if (body.get_node().get_Name()== "Player"):
-		body.death()
-
+func _fixed_process(delta):
+	print(playerDetection.get_overlapping_bodies())

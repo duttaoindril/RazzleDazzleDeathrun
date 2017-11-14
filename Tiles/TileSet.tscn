@@ -3,16 +3,12 @@
 [ext_resource path="res://Tiles/Platforms/Block.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Tiles/Platforms/Spike.tscn" type="PackedScene" id=2]
 
-
-
-
-
 [node name="Node2D" type="Node2D"]
 
-[node name="0000block" parent="." instance=ExtResource( 1 )]
+[node name="00001block0000" parent="." instance=ExtResource( 1 )]
 
-[node name="0111spike" parent="." instance=ExtResource( 2 )]
+[node name="00101spike0111" parent="." instance=ExtResource( 2 )]
 
-transform/pos = Vector2( -78.1499, -1.07544 )
+transform/pos = Vector2( 72, 0 )
 
 
