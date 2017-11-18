@@ -103,9 +103,9 @@ func _fixed_process(delta):
 
 func roundEnd(survivorWin, survivorKilled):
 	#Begin Round Cleanup; Hide everything, Reset Time, Delete all temporary bodies
+	clear()
 	handleEndSplash(survivorWin, survivorKilled)
 	stopTimer()
-	clear()
 	#Get the current survivorId and deathId; Print Round Details; Move to Next Round; Add the High Score for the Last Round
 	print("Round "+str(state["round"])+" Ended; Preset was "+str(state["preset"])+"; Survivor is Player "+str(state["survivorId"])+", Death is Player "+str(state["deathId"])+", Survivor Win: "+str(survivorWin)+", Survivor Killed: "+str(survivorKilled)+".")
 	state["round"] += 1
@@ -177,6 +177,69 @@ func giveSignal(sgnl): #Handle Tie Scores
 	act("show", ["endtext", "endpopup", "splash"])
 	state["signal"] = sgnl;
 
+func startTimer():
+	state["startTime"] = int(OS.get_ticks_msec()/1000) + presets[state["preset"]]["timeLength"]
+	state["subg"].play("ticking")
+	state["music"].play("bg"+str(presets[state["preset"]]["bgMusic"][int(rand_range(0, presets[state["preset"]]["bgMusic"].size()))]))
+
+func stopTimer():
+	state["startTime"] = int(OS.get_ticks_msec())
+	state["subg"].stop_all()
+#	state["music"].stop_all()
+
+func handleSignal():
+	act(state["signal"], ["tree"])
+
+func getTile(pos):
+	return state["layer0"].get_cell(pos.x, pos.y)
+
+func hasTile(pos):
+	return getTile(pos) != -1
+
+func getTileName(pos):
+	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
+
+func getTileKill(pos, dir):
+	if !hasTile(pos): return ["", false, pos, dir]#, [false, false, false]]
+	var cellName = getTileName(pos)
+	var temp = ""
+	if state["layer0"].is_cell_transposed(pos.x, pos.y):
+		cellName = cellName.substr(1, cellName.length()).insert(3, cellName[0])
+	if state["layer0"].is_cell_x_flipped(pos.x, pos.y):
+		temp = cellName[1]
+		cellName[1] = cellName[3]
+		cellName[3] = temp
+	if state["layer0"].is_cell_y_flipped(pos.x, pos.y):
+		temp = cellName[0]
+		cellName[0] = cellName[2]
+		cellName[2] = temp
+	return [cellName, int(cellName[dir]) == 1, pos, dir]#, [state["layer0"].is_cell_transposed(pos.x, pos.y), state["layer0"].is_cell_x_flipped(pos.x, pos.y), state["layer0"].is_cell_y_flipped(pos.x, pos.y)]]
+
+func getIdxFromPos(pos):
+	return state["layer0"].world_to_map(pos)
+
+func getPosFromIdx(idx):
+	return getPosFromIdxCenter(idx, true)
+
+func getPosFromIdxCenter(idx, center):
+	var add = Vector2(0, 0)
+	if center:
+		add = Vector2(state["tileSize"]/2, state["tileSize"]/2)
+	return state["layer0"].map_to_world(idx) + add
+
+func reset():
+	stopTimer()
+	clear()
+	setUp()
+	act("show", ["switchsplash"])
+
+func get(s):
+	return state[s]
+
+func act(funct, args):
+	for arg in args:
+		state[arg].call(funct)
+
 func _input(event):
 	if event.is_action_pressed("action"):
 		if state["endpopup"].is_visible():
@@ -213,61 +276,3 @@ func _input(event):
 		giveSignal("reload_current_scene")
 	elif event.is_action_pressed("quit"):
 		giveSignal("quit")
-
-func startTimer():
-	state["startTime"] = int(OS.get_ticks_msec()/1000) + presets[state["preset"]]["timeLength"]
-	state["subg"].play("ticking")
-	state["music"].play("bg"+str(presets[state["preset"]]["bgMusic"][int(rand_range(0, presets[state["preset"]]["bgMusic"].size()))]))
-
-func stopTimer():
-	state["startTime"] = int(OS.get_ticks_msec())
-	state["subg"].stop_all()
-#	state["music"].stop_all()
-
-func handleSignal():
-	act(state["signal"], ["tree"])
-
-func hasTile(pos):
-	return state["layer0"].get_cell(pos.x, pos.y) != -1
-
-func getTile(pos, dir):
-	var ts = state["layer0"].get_tileset()
-	var cellId = state["layer0"].get_cell(pos.x, pos.y)
-	var cellName = ts.tile_get_name(state["layer0"].get_cell(pos.x, pos.y))
-	var temp = ""
-	if state["layer0"].is_cell_transposed(pos.x, pos.y):
-		cellName = cellName.substr(1, cellName.length()).insert(3, cellName[0])
-	if state["layer0"].is_cell_x_flipped(pos.x, pos.y):
-		temp = cellName[1]
-		cellName[1] = cellName[3]
-		cellName[3] = temp
-	if state["layer0"].is_cell_y_flipped(pos.x, pos.y):
-		temp = cellName[0]
-		cellName[0] = cellName[2]
-		cellName[2] = temp
-	return [cellName, int(cellName[dir]) == 1]
-
-func getPosFromIdxCenter(idx, center):
-	var add = Vector2(0, 0)
-	if center:
-		add = Vector2(state["tileSize"]/2, state["tileSize"]/2)
-	return state["layer0"].map_to_world(idx) + add
-
-func getPosFromIdx(idx):
-	return getPosFromIdxCenter(idx, true)
-
-func getIdxFromPos(pos):
-	return state["layer0"].world_to_map(pos)
-
-func reset():
-	stopTimer()
-	clear()
-	setUp()
-	act("show", ["switchsplash"])
-
-func get(s):
-	return state[s]
-
-func act(funct, args):
-	for arg in args:
-		state[arg].call(funct)

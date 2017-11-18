@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=1]
+[gd_scene load_steps=35 format=1]
 
 [ext_resource path="res://Survivor/Survivor.gd" type="Script" id=1]
 [ext_resource path="res://Survivor/Sprites/Idle/idling1.png" type="Texture" id=2]
@@ -9,14 +9,26 @@
 [ext_resource path="res://Survivor/Sprites/Move/move2.png" type="Texture" id=7]
 [ext_resource path="res://Survivor/Sprites/Move/move3.png" type="Texture" id=8]
 [ext_resource path="res://Survivor/Sprites/Move/move4.png" type="Texture" id=9]
-[ext_resource path="res://Survivor/Sprites/Jump/jump1.png" type="Texture" id=10]
-[ext_resource path="res://Survivor/Sprites/Jump/jump4.png" type="Texture" id=11]
-[ext_resource path="res://Survivor/Sprites/Idle/idle1.png" type="Texture" id=12]
-[ext_resource path="res://Survivor/Sprites/Jump/jump2.png" type="Texture" id=13]
-[ext_resource path="res://Survivor/Sprites/Jump/jump5.png" type="Texture" id=14]
-[ext_resource path="res://Survivor/Sprites/Jump/jump3.png" type="Texture" id=15]
-[ext_resource path="res://Assets/sounds/soundFX/jump_sound.smp" type="Sample" id=16]
-[ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=17]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump1.png" type="Texture" id=10]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump2.png" type="Texture" id=11]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump3.png" type="Texture" id=12]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump4.png" type="Texture" id=13]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch1.png" type="Texture" id=14]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch2.png" type="Texture" id=15]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch3.png" type="Texture" id=16]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch4.png" type="Texture" id=17]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch5.png" type="Texture" id=18]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch6.png" type="Texture" id=19]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch7.png" type="Texture" id=20]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch8.png" type="Texture" id=21]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch9.png" type="Texture" id=22]
+[ext_resource path="res://Survivor/Sprites/Jump/land/land3.png" type="Texture" id=23]
+[ext_resource path="res://Survivor/Sprites/Jump/land/land4.png" type="Texture" id=24]
+[ext_resource path="res://Survivor/Sprites/Jump/land/land5.png" type="Texture" id=25]
+[ext_resource path="res://Survivor/Sprites/Jump/fall/fall1.png" type="Texture" id=26]
+[ext_resource path="res://Survivor/Sprites/Jump/fall/fall2.png" type="Texture" id=27]
+[ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=28]
+[ext_resource path="res://Assets/sounds/soundFX/jump_sound.smp" type="Sample" id=29]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -36,25 +48,25 @@ animations = [ {
 "name": "move",
 "speed": 9.0
 }, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
-"loop": true,
-"name": "fall",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 13 ) ],
-"loop": false,
-"name": "launch",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 11 ), ExtResource( 14 ), ExtResource( 12 ) ],
-"loop": false,
-"name": "land",
-"speed": 13.0
-}, {
-"frames": [ ExtResource( 13 ), ExtResource( 15 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
 "loop": true,
 "name": "jump",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
+"loop": false,
+"name": "launch",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ) ],
+"loop": false,
+"name": "land",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "fall",
+"speed": 8.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -73,14 +85,14 @@ samples/jump = {
 "db": -15.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 16 )
+"sample": ExtResource( 29 )
 }
 
 [node name="Survivor" type="KinematicBody2D"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 4, 0, 0, 5.1, 0, 0 )
+shapes/0/transform = Matrix32( 4, 0, 0, 4.94757, 0, 1.55178 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -93,15 +105,23 @@ __meta__ = {
 [node name="SurvivorSprite" type="AnimatedSprite" parent="."]
 
 frames = SubResource( 2 )
-animation = "idle"
+animation = "land"
+frame = 2
 playing = true
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SurvivorBody" type="CollisionShape2D" parent="."]
 
-transform/scale = Vector2( 4, 5.1 )
+transform/pos = Vector2( 0, 1.55178 )
+transform/scale = Vector2( 4, 4.94757 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SurvivorJump" type="Area2D" parent="."]
 
@@ -113,6 +133,9 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="JumpShape" type="CollisionShape2D" parent="SurvivorJump"]
 
@@ -121,27 +144,39 @@ transform/scale = Vector2( 4.15993, 7.21189 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SurvivorCore" type="Area2D" parent="."]
 
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 4.00762, 0, 0, 10.2555, 0, 0 )
+shapes/0/transform = Matrix32( 2.19191, 0, 0, 7.08647, 0, 0.500004 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CoreShape" type="CollisionShape2D" parent="SurvivorCore"]
 
-transform/scale = Vector2( 4.00762, 10.2555 )
+transform/pos = Vector2( 0, 0.500004 )
+transform/scale = Vector2( 2.19191, 7.08647 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SurvivorTop" type="Area2D" parent="."]
 
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 4.00763, 0, 0, 0.125424, 0, -51 )
@@ -150,6 +185,9 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="TopShape" type="CollisionShape2D" parent="SurvivorTop"]
 
@@ -158,6 +196,9 @@ transform/scale = Vector2( 4.00763, 0.125424 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SurvivorBottom" type="Area2D" parent="."]
 
@@ -169,6 +210,9 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BottomShape" type="CollisionShape2D" parent="SurvivorBottom"]
 
@@ -177,9 +221,13 @@ transform/scale = Vector2( 4.00762, 0.125425 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SurvivorLeft" type="Area2D" parent="."]
 
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( -1.75179e-07, 4.00763, -0.123909, -5.41624e-09, -40, -4.44089e-15 )
@@ -188,6 +236,9 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="LeftShape" type="CollisionShape2D" parent="SurvivorLeft"]
 
@@ -197,9 +248,13 @@ transform/scale = Vector2( 4.00763, 0.123909 )
 shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SurvivorRight" type="Area2D" parent="."]
 
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( -1.75179e-07, 4.00763, -0.123909, -5.41624e-09, 40, 0 )
@@ -208,6 +263,9 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="RightShape" type="CollisionShape2D" parent="SurvivorRight"]
 
@@ -217,6 +275,32 @@ transform/scale = Vector2( 4.00763, 0.123909 )
 shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SurvivorName" type="Label" parent="."]
+
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -30.0
+margin/top = 30.0
+margin/right = 90.0
+margin/bottom = 70.0
+custom_fonts/font = ExtResource( 28 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Player X"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="FX" type="SamplePlayer" parent="."]
 
@@ -235,24 +319,6 @@ default/reverb_room = 2
 default/reverb_send = 0.0
 default/chorus_send = 0.0
 
-[node name="SurvivorName" type="Label" parent="."]
-
-rect/scale = Vector2( 0.5, 0.5 )
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -30.0
-margin/top = 30.0
-margin/right = 90.0
-margin/bottom = 70.0
-custom_fonts/font = ExtResource( 17 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "Player X"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
+[connection signal="body_enter" from="SurvivorJump" to="." method="_on_SurvivorJump_body_enter"]
 
 
