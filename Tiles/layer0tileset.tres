@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=45 format=1]
+[gd_resource type="TileSet" load_steps=51 format=1]
 
 [ext_resource path="res://Tiles/Block/Block.png" type="Texture" id=1]
 [ext_resource path="res://Tiles/Spike/spikeDown.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Tiles/Spike/spikeUp.png" type="Texture" id=4]
 [ext_resource path="res://Tiles/Spike/spikeRight.png" type="Texture" id=5]
 [ext_resource path="res://Tiles/Platform/Platform.png" type="Texture" id=6]
+[ext_resource path="res://Tiles/Bat/bat1.png" type="Texture" id=7]
+[ext_resource path="res://Tiles/Bat/bat2.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -192,10 +194,70 @@ points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 custom_solver_bias = 0.0
 points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
-[sub_resource type="RectangleShape2D" id=39]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
+
+[sub_resource type="CanvasItemShader" id=39]
+
+_code = {
+"fragment": "uniform texture f1;
+uniform texture f2;
+uniform float speed = .2;
+color cor = tex(f1, UV);
+float time = mod(TIME*speed, 1);
+if(time < .15) {
+	//if(rand_range(0, 10) < 2) {
+	cor = tex(f2, UV);
+	//}
+} else {
+	cor = tex(f1, UV);
+}
+COLOR = cor;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[sub_resource type="CanvasItemMaterial" id=40]
+
+shader/shader = SubResource( 39 )
+shader/shading_mode = 0
+shader_param/f1 = ExtResource( 7 )
+shader_param/f2 = ExtResource( 8 )
+shader_param/speed = 0.2
+
+[sub_resource type="CanvasItemShader" id=41]
+
+_code = {
+"fragment": "uniform texture f1;
+uniform texture f2;
+uniform float speed = .01;
+color cor = tex(f1, UV);
+float time = mod(TIME*speed, 1);
+if(time > .5) {
+	cor = tex(f2, UV);
+} else {
+	cor = tex(f1, UV);
+}
+COLOR = cor;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[sub_resource type="CanvasItemMaterial" id=42]
+
+shader/shader = SubResource( 41 )
+shader/shading_mode = 0
+shader_param/f1 = ExtResource( 7 )
+shader_param/f2 = ExtResource( 8 )
+shader_param/speed = 0.2
 
 [resource]
 
@@ -262,7 +324,31 @@ extents = Vector2( 10, 10 )
 5/occluder_offset = Vector2( 30, 30 )
 5/navigation_offset = Vector2( 30, 30 )
 5/shape_offset = Vector2( 30, 30 )
-5/shapes = [ SubResource( 39 ) ]
+5/shapes = [ SubResource( 1 ) ]
 5/one_way_collision_direction = Vector2( 0, 0 )
 5/one_way_collision_max_depth = 0.0
+6/name = "BatA1000"
+6/texture = ExtResource( 7 )
+6/tex_offset = Vector2( 0, 0 )
+6/material = SubResource( 40 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 0, 0, 60, 60 )
+6/occluder_offset = Vector2( 30, 30 )
+6/navigation_offset = Vector2( 30, 30 )
+6/shape_offset = Vector2( 0, 0 )
+6/shapes = [  ]
+6/one_way_collision_direction = Vector2( 0, 0 )
+6/one_way_collision_max_depth = 0.0
+7/name = "BatB1000"
+7/texture = ExtResource( 7 )
+7/tex_offset = Vector2( 0, 0 )
+7/material = SubResource( 42 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 0, 0, 60, 60 )
+7/occluder_offset = Vector2( 30, 30 )
+7/navigation_offset = Vector2( 30, 30 )
+7/shape_offset = Vector2( 0, 0 )
+7/shapes = [  ]
+7/one_way_collision_direction = Vector2( 0, 0 )
+7/one_way_collision_max_depth = 0.0
 

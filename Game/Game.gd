@@ -21,6 +21,7 @@ func _ready():
 	"startTime": int(OS.get_ticks_msec()),
 	"endpopup": get_node("endPopup"),
 	"endtext": .get_node("endPopup").get_node("endText"),
+	"goal": get_node("Goal"),
 	"splash": get_node("Splashscreen"),
 	"deathsplash": get_node("DeathSplashscreen"),
 	"survivorsplash": get_node("SurvivorSplashscreen"),
@@ -50,16 +51,14 @@ func _ready():
 		"bgs": [0],
 		"bgMusic": [1, 2, 3],
 		"survivor": {
-			"tileposition": Vector2(7, 16),
-			"worldposition": getPosFromIdx(Vector2(7, 16)),
-			"wincondition": [],
-			"facing": Vector2(1, 0)
+			"position": getPosFromIdx(Vector2(7, 16)),
+			"wincondition": [28, 31, 14, 16],
+			"facing": Vector2(-1, 0)
 		},
 		"death": {
-			"tileposition": Vector2(29, 2),
-			"worldposition": getPosFromIdx(Vector2(29, 2)),
+			"position": getPosFromIdx(Vector2(29, 3)),
 			"static": true,
-			"facing": Vector2(-1, 0)
+			"facing": Vector2(1, 0)
 		}
 	}, 1: {
 		"timeLength": 60,
@@ -67,19 +66,17 @@ func _ready():
 		"bgs": [0],
 		"bgMusic": [1, 2, 3],
 		"survivor": {
-			"tileposition": Vector2(7, 16),
-			"worldposition": getPosFromIdx(Vector2(7, 16)),
-			"wincondition": [],
-			"facing": Vector2(1, 0)
+			"position": getPosFromIdx(Vector2(7, 16)),
+			"wincondition": [28, 31, 14, 16],
+			"facing": Vector2(-1, 0)
 		},
 		"death": {
-			"tileposition": Vector2(29, 2),
-			"worldposition": getPosFromIdx(Vector2(29, 2)),
+			"position": getPosFromIdx(Vector2(29, 3)),
 			"static": true,
-			"facing": Vector2(-1, 0)
+			"facing": Vector2(1, 0)
 		}
 	}}
-	act("hide", ["deathwinsplash", "deathkillsplash", "survivorwinsplash", "endpopup"])
+	act("hide", ["deathwinsplash", "deathkillsplash", "survivorwinsplash", "endpopup", "goal"])
 	act("show", ["splash", "survivorsplash", "deathsplash", "switchsplash"])
 	state["subg"].play("start")
 	state["music"].play("bg1")
@@ -94,6 +91,10 @@ func setUp():
 	if bool(int(rand_range(0, 2))) && lastPreset == state["preset"]: state["preset"] = int(rand_range(0, presets.size())) #50% chance to reroll preset if last and new presets are the same
 	state["bg"].set_frame(presets[state["preset"]]["bgs"][int(rand_range(0, presets[state["preset"]]["bgs"].size()))])
 	state["bg"].set_flip_h(bool(int(rand_range(0, 2))))
+	act("hide", ["goal"])
+	if presets[state["preset"]]["survivor"].has("wincondition"):
+		setPosCenter("goal", getPosFromIdxAlt(getXCenterFromRange(presets[state["preset"]]["survivor"]["wincondition"])))
+		act("show", ["goal"])
 
 func _fixed_process(delta):
 	var seconds = state["startTime"]-int(OS.get_ticks_msec()/1000)
@@ -190,6 +191,9 @@ func stopTimer():
 func handleSignal():
 	act(state["signal"], ["tree"])
 
+func setPosCenter(node, pos):
+	state[node].set_pos(Vector2(pos.x-(state[node].get_size().x*state[node].get_scale().x)/2, pos.y-(state[node].get_size().y*state[node].get_scale().y)/2))
+
 func getTile(pos):
 	return state["layer0"].get_cell(pos.x, pos.y)
 
@@ -215,8 +219,20 @@ func getTileKill(pos, dir):
 		cellName[2] = temp
 	return [cellName, int(cellName[dir]) == 1, pos, dir]#, [state["layer0"].is_cell_transposed(pos.x, pos.y), state["layer0"].is_cell_x_flipped(pos.x, pos.y), state["layer0"].is_cell_y_flipped(pos.x, pos.y)]]
 
+func getXCenterFromRange(rnge):
+	return Vector2(float(rnge[0]+rnge[1])/2, rnge[2])
+
+func getYCenterFromRange(rnge):
+	return Vector2(rnge[0], float(rnge[2]+rnge[3])/2)
+
+func getCenterFromRange(rnge):
+	return Vector2(float(rnge[0]+rnge[1])/2, float(rnge[2]+rnge[3])/2)
+
 func getIdxFromPos(pos):
 	return state["layer0"].world_to_map(pos)
+
+func getPosFromIdxAlt(pos):
+	return Vector2(pos.x*60+30, pos.y*60+30)
 
 func getPosFromIdx(idx):
 	return getPosFromIdxCenter(idx, true)

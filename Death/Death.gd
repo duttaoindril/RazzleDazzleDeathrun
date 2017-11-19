@@ -16,5 +16,5 @@ func _ready():
 func init(name, set):
 	set_name(name)
 	preset = set
-	set_pos(preset["worldposition"])
+	set_pos(preset["position"])
 	return self

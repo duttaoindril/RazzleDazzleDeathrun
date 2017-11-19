@@ -27,6 +27,7 @@ script/script = ExtResource( 1 )
 
 frames = SubResource( 1 )
 animation = "idle"
+frame = 2
 playing = true
 
 

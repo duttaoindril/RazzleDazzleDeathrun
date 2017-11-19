@@ -8,12 +8,7 @@ var preset
 var state = {}
 #TODO ----------------------------------------------------------------------------------------------
 # - Handle Tie Scores
-# - Implement Animations
-# - Area Detection
-# - Jumping
-# - Death Controls
 # - Win Detection
-# - Preset
 #ON INSTANCE RUN ----------------------------------------------------------------------------------------------
 func _ready():
 	state["game"] = get_parent()
@@ -52,7 +47,7 @@ func _ready():
 func init(name, set):
 	preset = set
 	set_name(name)
-	set_pos(preset["worldposition"])
+	set_pos(preset["position"])
 	state["facing"] = preset["facing"]
 	return self
 #RUNS 60HZ ----------------------------------------------------------------------------------------------
@@ -121,6 +116,7 @@ func updateState(input):
 	if state["fallThrough"] && dirTouch("head"): state["fallThrough"] = false
 	state["body"].set_trigger(state["fallThrough"])
 	checkDeath()
+	if checkWin(): win()
 func pressed(dir):
 	return pressedI(state["input"], dir)
 func pressedI(input, dir):
@@ -174,6 +170,11 @@ func dirTileInv(dir):
 	return inv
 func checkTiles(dir):
 	return [dirTile(dir)+dir2facerm(dir, 2), dirTile(dir)+dir2facer(dir)]
+#WIN HANDLING & HELPERS ----------------------------------------------------------------------------------------------
+func checkWin():
+	return getPosIdx().x > preset["wincondition"][0] && getPosIdx().x < preset["wincondition"][1] && getPosIdx().y >= preset["wincondition"][2] && getPosIdx().y <= preset["wincondition"][3]
+func win():
+	state["game"].roundEnd(true, false)
 #DEATH HANDLING & HELPERS ----------------------------------------------------------------------------------------------
 func _on_SurvivorJump_body_enter(body):
 	var checks = checkTiles("feet")
@@ -214,7 +215,7 @@ func v2A(v):
 func pos2Idx(pos):
 	return state["game"].getIdxFromPos(pos)
 func idx2Pos(pos):
-	return Vector2(pos.x*60+30, pos.y*60+30)
+	return state["game"].getPosFromIdxAlt(pos)
 func pos2Dis(posA, posB):
 	return [sqrt(pow(posA.x-posB.x,2)+pow(posA.y-posB.y,2)),abs(posA.x-posB.x),abs(posA.y-posB.y)]
 func pidx2Dis(posA, idxB):
