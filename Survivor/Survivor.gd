@@ -6,43 +6,33 @@ const DAMPEN = 0.8
 const JUMP_MULT = 25
 var preset
 var state = {}
-#TODO ----------------------------------------------------------------------------------------------
-# - Handle Tie Scores
-# - Win Detection
-#ON INSTANCE RUN ----------------------------------------------------------------------------------------------
+#ON INSTANCE RUN ---------------------------------------------------------------------------------------------
 func _ready():
-	state["game"] = get_parent()
-	state["map0"] = state["game"].get("layer0")
-	state["name"] = get_node("SurvivorName")
-	state["id"] = get_name()[get_name().length()-1]
-	state["otherId"] = str(int(!(int(get_name()[get_name().length()-1])-1))+1)
-	state["action"] = "idle"
-	state["grounded"] = false
-	state["position"] = get_pos()
-	state["velocity"] = Vector2()
-	state["fallThrough"] = false
-	state["sprite"] = get_node("SurvivorSprite")
-	state["body"] = get_node("SurvivorBody")
-	state["head"] = get_node("SurvivorTop")
-	state["right"] = get_node("SurvivorRight")
-	state["feet"] = get_node("SurvivorBottom")
-	state["left"] = get_node("SurvivorLeft")
-	state["core"] = get_node("SurvivorCore")
-	state["jump"] = get_node("SurvivorJump")
-	state["directions"] = ["head", "right", "feet", "left", "core", "grounded", "core"]
-#	state["directionDistances"] = [66, 66, 66, 66, 50, 8, 6, 11, 6, 0]
-	state["facings"] = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, 0)]
-	state["facingsRotation"] = [Vector2(-1, 0), Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
-	state["coreTile"] = ["", false]
-	state["headTile"] = ["", false]
-	state["leftTile"] = ["", false]
-	state["rightTile"] = ["", false]
-	state["feetTile"] = ["", false]
-	state["checkTile"] = ["", false]
-	state["sound"] = get_node("FX")
-	state["name"].set_text(get_name())
-	set_fixed_process(true)
-	set_process_input(true)
+		state["game"] = get_parent()
+		state["map0"] = state["game"].get("layer0")
+		state["name"] = get_node("SurvivorName")
+		state["id"] = get_name()[get_name().length()-1]
+		state["otherId"] = str(int(!(int(get_name()[get_name().length()-1])-1))+1)
+		state["action"] = "idle"
+		state["grounded"] = false
+		state["position"] = get_pos()
+		state["velocity"] = Vector2()
+		state["fallThrough"] = false
+		state["sprite"] = get_node("SurvivorSprite")
+		state["body"] = get_node("SurvivorBody")
+		state["head"] = get_node("SurvivorTop")
+		state["right"] = get_node("SurvivorRight")
+		state["feet"] = get_node("SurvivorBottom")
+		state["left"] = get_node("SurvivorLeft")
+		state["core"] = get_node("SurvivorCore")
+		state["jump"] = get_node("SurvivorJump")
+		state["directions"] = ["head", "right", "feet", "left", "core", "grounded", "core"]
+		state["facings"] = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, 0)]
+		state["facingsRotation"] = [Vector2(-1, 0), Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
+		state["sound"] = get_node("FX")
+		state["name"].set_text(get_name())
+		set_fixed_process(true)
+		set_process_input(true)
 #INITIALIZATION ----------------------------------------------------------------------------------------------
 func init(name, set):
 	preset = set
@@ -51,7 +41,7 @@ func init(name, set):
 	state["facing"] = preset["facing"]
 	return self
 #RUNS 60HZ ----------------------------------------------------------------------------------------------
-func _fixed_process(delta):
+func _fixed_process(DELTA):
 	updateState(Input) #UPDATE DATA AND CHECK IF DEAD OR NOT
 	#AIM UP AND DOWN DIRECTION CONTROLS
 	if pressed("up"): state["facing"].y = 1
@@ -83,7 +73,7 @@ func _fixed_process(delta):
 	#PHYSICS
 	if !is_colliding(): state["velocity"].y += GRAVITY
 	else: state["velocity"].y = 0
-	state["velocity"] += state["velocity"] * delta
+	state["velocity"] += state["velocity"]*DELTA
 	state["velocity"].x *= DAMPEN
 	move(state["velocity"])
 	if is_colliding(): state["velocity"] = get_collision_normal().slide(state["velocity"])
@@ -102,12 +92,6 @@ func _input(event): #jumping and falling through
 		state["sprite"].play("fall")
 		state["velocity"].y = 0.01
 		state["fallThrough"] = true
-	elif pressedR(event, "suicide"): death()
-#ANIMATION FINISH HANDLING ----------------------------------------------------------------------------------------------
-func isFrame(string):
-	return getSpriteFrame() == string
-func getSpriteFrame():
-	return state["sprite"].get_animation()+str(state["sprite"].get_frame())
 #STATE HANDLING & HELPERS ----------------------------------------------------------------------------------------------
 func updateState(input):
 	state["input"] = input
@@ -128,7 +112,7 @@ func isJumping():
 func isFloatingLR():
 	return !(!state["velocity"].y == 0 && !state["leftOrRight"])
 func moveLR():
-	return pressed("left") || pressed("right")
+	return pressed("right") || pressed("left")
 func handleMove(right):
 	right = 1 if right else -1
 	state["leftOrRight"] = true
@@ -136,6 +120,10 @@ func handleMove(right):
 	state["velocity"].x += MOVE_SPEED*right
 	if state["action"] == "idle":
 		state["sprite"].play("move")
+func isFrame(string):
+	return getSpriteFrame() == string
+func getSpriteFrame():
+	return state["sprite"].get_animation()+str(state["sprite"].get_frame())
 #MAP HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
 func getPosIdx():
 	return pos2Idx(state["position"])
@@ -172,7 +160,7 @@ func checkTiles(dir):
 	return [dirTile(dir)+dir2facerm(dir, 2), dirTile(dir)+dir2facer(dir)]
 #WIN HANDLING & HELPERS ----------------------------------------------------------------------------------------------
 func checkWin():
-	return getPosIdx().x > preset["wincondition"][0] && getPosIdx().x < preset["wincondition"][1] && getPosIdx().y >= preset["wincondition"][2] && getPosIdx().y <= preset["wincondition"][3]
+	return getPosIdx().x > preset["wincondition"][0] && getPosIdx().x < preset["wincondition"][1] && getPosIdx().y > preset["wincondition"][2] && getPosIdx().y <= preset["wincondition"][3]
 func win():
 	state["game"].roundEnd(true, false)
 #DEATH HANDLING & HELPERS ----------------------------------------------------------------------------------------------
@@ -187,6 +175,7 @@ func checkDeath():
 	if !get_viewport_rect().has_point(state["position"]): death()
 	for i in range(0, 5): if dirTouch(state["directions"][i]): checkDeathDirs(killTiles(state["directions"][i]))
 func death():
+	state["game"].fx("crush")
 	state["game"].roundEnd(false, true)
 func idxKill(idx, dir):
 	return state["game"].getTileKill(idx, dirFind(dir))

@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=1]
+
+[ext_resource path="res://Projectiles/Bolt/Bolt.gd" type="Script" id=1]
+[ext_resource path="res://Projectiles/Bolt/Sprites/bolt1.png" type="Texture" id=2]
+[ext_resource path="res://Projectiles/Bolt/Sprites/bolt2.png" type="Texture" id=3]
+[ext_resource path="res://Projectiles/Bolt/Sprites/bolt3.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="Bolt" type="KinematicBody2D"]
+
+input/pickable = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+
+[node name="BoltSprite" type="AnimatedSprite" parent="."]
+
+frames = SubResource( 1 )
+animation = "default"
+frame = 2
+playing = true
+
+[node name="BoltBody" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 0.15, 0, 0, 0.15, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="BodyShape" type="CollisionShape2D" parent="BoltBody"]
+
+transform/scale = Vector2( 0.15, 0.15 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+

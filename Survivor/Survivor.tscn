@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=1]
+[gd_scene load_steps=36 format=1]
 
 [ext_resource path="res://Survivor/Survivor.gd" type="Script" id=1]
 [ext_resource path="res://Survivor/Sprites/Idle/idling1.png" type="Texture" id=2]
@@ -9,26 +9,27 @@
 [ext_resource path="res://Survivor/Sprites/Move/move2.png" type="Texture" id=7]
 [ext_resource path="res://Survivor/Sprites/Move/move3.png" type="Texture" id=8]
 [ext_resource path="res://Survivor/Sprites/Move/move4.png" type="Texture" id=9]
-[ext_resource path="res://Survivor/Sprites/Jump/jump/jump1.png" type="Texture" id=10]
-[ext_resource path="res://Survivor/Sprites/Jump/jump/jump2.png" type="Texture" id=11]
-[ext_resource path="res://Survivor/Sprites/Jump/jump/jump3.png" type="Texture" id=12]
-[ext_resource path="res://Survivor/Sprites/Jump/jump/jump4.png" type="Texture" id=13]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch1.png" type="Texture" id=14]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch2.png" type="Texture" id=15]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch3.png" type="Texture" id=16]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch4.png" type="Texture" id=17]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch5.png" type="Texture" id=18]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch6.png" type="Texture" id=19]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch7.png" type="Texture" id=20]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch8.png" type="Texture" id=21]
-[ext_resource path="res://Survivor/Sprites/Jump/launch/launch9.png" type="Texture" id=22]
-[ext_resource path="res://Survivor/Sprites/Jump/land/land3.png" type="Texture" id=23]
-[ext_resource path="res://Survivor/Sprites/Jump/land/land4.png" type="Texture" id=24]
-[ext_resource path="res://Survivor/Sprites/Jump/land/land5.png" type="Texture" id=25]
-[ext_resource path="res://Survivor/Sprites/Jump/fall/fall1.png" type="Texture" id=26]
-[ext_resource path="res://Survivor/Sprites/Jump/fall/fall2.png" type="Texture" id=27]
+[ext_resource path="res://Survivor/Sprites/Jump/fall/fall1.png" type="Texture" id=10]
+[ext_resource path="res://Survivor/Sprites/Jump/fall/fall2.png" type="Texture" id=11]
+[ext_resource path="res://Survivor/Sprites/Jump/land/land3.png" type="Texture" id=12]
+[ext_resource path="res://Survivor/Sprites/Jump/land/land4.png" type="Texture" id=13]
+[ext_resource path="res://Survivor/Sprites/Jump/land/land5.png" type="Texture" id=14]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch1.png" type="Texture" id=15]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch2.png" type="Texture" id=16]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch3.png" type="Texture" id=17]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch4.png" type="Texture" id=18]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch5.png" type="Texture" id=19]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch6.png" type="Texture" id=20]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch7.png" type="Texture" id=21]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch8.png" type="Texture" id=22]
+[ext_resource path="res://Survivor/Sprites/Jump/launch/launch9.png" type="Texture" id=23]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump1.png" type="Texture" id=24]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump2.png" type="Texture" id=25]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump3.png" type="Texture" id=26]
+[ext_resource path="res://Survivor/Sprites/Jump/jump/jump4.png" type="Texture" id=27]
 [ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=28]
-[ext_resource path="res://Assets/sounds/soundFX/jump_sound.smp" type="Sample" id=29]
+[ext_resource path="res://Assets/sounds/soundFX/crush.smp" type="Sample" id=29]
+[ext_resource path="res://Assets/sounds/soundFX/jump_sound.smp" type="Sample" id=30]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -48,25 +49,25 @@ animations = [ {
 "name": "move",
 "speed": 9.0
 }, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
-"name": "jump",
-"speed": 10.0
+"name": "fall",
+"speed": 8.0
 }, {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
-"loop": false,
-"name": "launch",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": false,
 "name": "land",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ) ],
+"loop": false,
+"name": "launch",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": true,
-"name": "fall",
-"speed": 8.0
+"name": "jump",
+"speed": 10.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -81,11 +82,17 @@ extents = Vector2( 12.9753, 5.07045 )
 
 [sub_resource type="SampleLibrary" id=5]
 
+samples/crushed = {
+"db": 5.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 29 )
+}
 samples/jump = {
 "db": -15.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 29 )
+"sample": ExtResource( 30 )
 }
 
 [node name="Survivor" type="KinematicBody2D"]

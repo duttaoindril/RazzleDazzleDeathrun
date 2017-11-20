@@ -57,25 +57,36 @@ func _ready():
 		},
 		"death": {
 			"position": getPosFromIdx(Vector2(29, 3)),
-			"static": true,
-			"facing": Vector2(1, 0)
-		}
-	}, 1: {
-		"timeLength": 60,
-		"survivorTimeoutWin": true,
-		"bgs": [0],
-		"bgMusic": [1, 2, 3],
-		"survivor": {
-			"position": getPosFromIdx(Vector2(7, 16)),
-			"wincondition": [28, 31, 14, 16],
-			"facing": Vector2(-1, 0)
-		},
-		"death": {
-			"position": getPosFromIdx(Vector2(29, 3)),
-			"static": true,
-			"facing": Vector2(1, 0)
+			"facing": Vector2(-1, 0),
+			"canTurnX": false,
+			"canTurnY": false,
+#			"static": true,
+			"teleportRange": [3, 2, 3, 2, true, true],
+			"upFunc": ["teleportUp", "na"],
+			"downFunc": ["teleportDown", "na"],
+			"leftFunc": ["teleportLeft", "na"],
+			"rightFunc": ["teleportRight", "na"],
+			"actionFunc": ["shoot", "na"],
+			"actionReloadMax": secToStep(1.5),
+			"moveReloadMax": secToStep(.5),
 		}
 	}}
+#	, 1: {
+#		"timeLength": 60,
+#		"survivorTimeoutWin": true,
+#		"bgs": [0],
+#		"bgMusic": [1, 2, 3],
+#		"survivor": {
+#			"position": getPosFromIdx(Vector2(7, 16)),
+#			"wincondition": [28, 31, 14, 16],
+#			"facing": Vector2(-1, 0)
+#		},
+#		"death": {
+#			"position": getPosFromIdx(Vector2(29, 3)),
+#			"static": true,
+#			"facing": Vector2(-1, 0)
+#		}
+#	}}
 	act("hide", ["deathwinsplash", "deathkillsplash", "survivorwinsplash", "endpopup", "goal"])
 	act("show", ["splash", "survivorsplash", "deathsplash", "switchsplash"])
 	state["subg"].play("start")
@@ -188,6 +199,9 @@ func stopTimer():
 	state["subg"].stop_all()
 #	state["music"].stop_all()
 
+func secToStep(s):
+	return int((s*1000)/14.5)
+
 func handleSignal():
 	act(state["signal"], ["tree"])
 
@@ -202,6 +216,9 @@ func hasTile(pos):
 
 func getTileName(pos):
 	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
+
+func hasTileName(pos, name):
+	return getTileName(pos).to_lower().find(name) != -1
 
 func getTileKill(pos, dir):
 	if !hasTile(pos): return ["", false, pos, dir]#, [false, false, false]]
@@ -252,6 +269,9 @@ func reset():
 func get(s):
 	return state[s]
 
+func fx(sound):
+	state["fx"].play(sound)
+
 func act(funct, args):
 	for arg in args:
 		state[arg].call(funct)
@@ -292,3 +312,8 @@ func _input(event):
 		giveSignal("reload_current_scene")
 	elif event.is_action_pressed("quit"):
 		giveSignal("quit")
+	elif event.is_action_pressed("suicide"):
+		roundEnd(false, true)
+
+func na():
+	pass
