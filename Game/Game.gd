@@ -10,6 +10,7 @@ func _ready():
 		OS.set_borderless_window(false)
 		OS.set_window_maximized(true)
 	state = {"tree": get_tree(),
+	"facings": [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, 0)],
 	"preset": 0,
 	"round": 1,
 	"roundTotal": 1,
@@ -215,7 +216,11 @@ func hasTile(pos):
 	return getTile(pos) != -1
 
 func moveRange(rnge, dir, dist):
-	pass
+	var memory = []
+	for x in range(rnge[0],rnge[1]):
+		for y in range(rnge[2],rnge[3]):
+			memory[x][y] = moveTile(Vector2(x+(state["facing"][dir]*dist),y+(state["facing"][dir])*dist),Vector2(x,y))
+	return memory
 #	[x1, x2, y1, y2], 0, 1
 	
 func moveTile(newPos, pos): #Vector2 form please
