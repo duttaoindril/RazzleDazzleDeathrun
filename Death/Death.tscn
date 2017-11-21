@@ -10,18 +10,18 @@
 [ext_resource path="res://Death/Sprites/Idle/death idling7.png" type="Texture" id=8]
 [ext_resource path="res://Death/Sprites/Move/p2move2.png" type="Texture" id=9]
 [ext_resource path="res://Death/Sprites/Move/p2move3.png" type="Texture" id=10]
-[ext_resource path="res://Death/Sprites/Action/P2motion1.png" type="Texture" id=11]
-[ext_resource path="res://Death/Sprites/Action/P2motion8.png" type="Texture" id=12]
-[ext_resource path="res://Death/Sprites/Action/P2motion7.png" type="Texture" id=13]
-[ext_resource path="res://Death/Sprites/Action/P2motion4.png" type="Texture" id=14]
-[ext_resource path="res://Death/Sprites/Action/P2motion3.png" type="Texture" id=15]
-[ext_resource path="res://Death/Sprites/Action/P2motion2.png" type="Texture" id=16]
-[ext_resource path="res://Death/Sprites/Action/P2motion9.png" type="Texture" id=17]
-[ext_resource path="res://Death/Sprites/Action/P2motion5.png" type="Texture" id=18]
-[ext_resource path="res://Death/Sprites/Action/P2motion6.png" type="Texture" id=19]
-[ext_resource path="res://Death/Sprites/Shoot/shoot1.png" type="Texture" id=20]
-[ext_resource path="res://Death/Sprites/Shoot/shoot2.png" type="Texture" id=21]
-[ext_resource path="res://Death/Sprites/Shoot/shoot3.png" type="Texture" id=22]
+[ext_resource path="res://Death/Sprites/Shoot/shoot1.png" type="Texture" id=11]
+[ext_resource path="res://Death/Sprites/Shoot/shoot2.png" type="Texture" id=12]
+[ext_resource path="res://Death/Sprites/Shoot/shoot3.png" type="Texture" id=13]
+[ext_resource path="res://Death/Sprites/Action/P2motion1.png" type="Texture" id=14]
+[ext_resource path="res://Death/Sprites/Action/P2motion8.png" type="Texture" id=15]
+[ext_resource path="res://Death/Sprites/Action/P2motion7.png" type="Texture" id=16]
+[ext_resource path="res://Death/Sprites/Action/P2motion4.png" type="Texture" id=17]
+[ext_resource path="res://Death/Sprites/Action/P2motion3.png" type="Texture" id=18]
+[ext_resource path="res://Death/Sprites/Action/P2motion2.png" type="Texture" id=19]
+[ext_resource path="res://Death/Sprites/Action/P2motion9.png" type="Texture" id=20]
+[ext_resource path="res://Death/Sprites/Action/P2motion5.png" type="Texture" id=21]
+[ext_resource path="res://Death/Sprites/Action/P2motion6.png" type="Texture" id=22]
 [ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -42,20 +42,20 @@ animations = [ {
 "name": "move",
 "speed": 6.0
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": false,
+"name": "shoot",
+"speed": 13.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
 "loop": false,
 "name": "actionDown",
 "speed": 8.5
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 16 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 17 ) ],
+"frames": [ ExtResource( 14 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 17 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 16 ), ExtResource( 15 ), ExtResource( 20 ) ],
 "loop": false,
 "name": "actionUp",
 "speed": 10.5
-}, {
-"frames": [ ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
-"loop": false,
-"name": "shoot",
-"speed": 13.0
 } ]
 
 [sub_resource type="SampleLibrary" id=3]

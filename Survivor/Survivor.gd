@@ -9,7 +9,7 @@ var state = {}
 #ON INSTANCE RUN ---------------------------------------------------------------------------------------------
 func _ready():
 		state["game"] = get_parent()
-		state["map0"] = state["game"].get("layer0")
+		state["map0"] = state["game"].s("layer0")
 		state["name"] = get_node("SurvivorName")
 		state["id"] = get_name()[get_name().length()-1]
 		state["otherId"] = str(int(!(int(get_name()[get_name().length()-1])-1))+1)
