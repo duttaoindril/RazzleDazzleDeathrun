@@ -1,15 +1,18 @@
-
 extends Node
-#SETUP
+#SETUP/Global/Constants
 var state
 var presets
 #TODO
-# - Figure out when to play sounds
+# - Add in all Tiles
+# - Create all preset functions
+# - Add all Death functions
+# - Design all presets
+#ON INSTANCE RUN ---------------------------------------------------------------------------------------------
 func _ready():
 	if OS.get_name() == "OSX":
 		OS.set_borderless_window(false)
 		OS.set_window_maximized(true)
-	state = {"tree": get_tree(),
+	state = {"tree": get_tree(), #	0 - up; 1 - right; 2 - down; 3 - left
 	"preset": 0,
 	"round": 1,
 	"roundTotal": 1,
@@ -62,11 +65,11 @@ func _ready():
 			"canTurnY": false,
 #			"static": true,
 			"teleportRange": [3, 2, 3, 2, true, true],
-			"upFunc": ["teleportUp", "na"],
-			"downFunc": ["teleportDown", "na"],
-			"leftFunc": ["teleportLeft", "na"],
-			"rightFunc": ["teleportRight", "na"],
-			"actionFunc": ["shoot", "na"],
+			"upFunc": ["controlSawUp", "na"],
+			"downFunc": ["controlSawDown", "na"],
+			"leftFunc": ["controlSawLeft", "na"],
+			"rightFunc": ["controlSawRight", "na"],
+			"actionFunc": ["na", "na"],
 			"actionReloadMax": secToStep(1.5),
 			"moveReloadMax": secToStep(.5),
 		}
@@ -94,196 +97,13 @@ func _ready():
 	setUp()
 	set_fixed_process(true)
 	set_process_input(true)
-
-func setUp():
-	randomize() #New Randomgeneration Seed
-	var lastPreset = state["preset"] #Store Last Preset
-	state["preset"] = int(rand_range(0, presets.size())) #Get New Preset
-	if bool(int(rand_range(0, 2))) && lastPreset == state["preset"]: state["preset"] = int(rand_range(0, presets.size())) #50% chance to reroll preset if last and new presets are the same
-	state["bg"].set_frame(presets[state["preset"]]["bgs"][int(rand_range(0, presets[state["preset"]]["bgs"].size()))])
-	state["bg"].set_flip_h(bool(int(rand_range(0, 2))))
-	act("hide", ["goal"])
-	if presets[state["preset"]]["survivor"].has("wincondition"):
-		setPosCenter("goal", getPosFromIdxAlt(getXCenterFromRange(presets[state["preset"]]["survivor"]["wincondition"])))
-		act("show", ["goal"])
-
+#RUNS 60HZ ----------------------------------------------------------------------------------------------
 func _fixed_process(delta):
 	var seconds = state["startTime"]-int(OS.get_ticks_msec()/1000)
 	state["roundtime"].set_text("%02d:%02d" % [int(seconds/60), int(seconds%60)])
 	if seconds < 0:
 		roundEnd(presets[state["preset"]]["survivorTimeoutWin"], false)
-
-func roundEnd(survivorWin, survivorKilled):
-	#Begin Round Cleanup; Hide everything, Reset Time, Delete all temporary bodies
-	clear()
-	handleEndSplash(survivorWin, survivorKilled)
-	stopTimer()
-	#Get the current survivorId and deathId; Print Round Details; Move to Next Round; Add the High Score for the Last Round
-	print("Round "+str(state["round"])+" Ended; Preset was "+str(state["preset"])+"; Survivor is Player "+str(state["survivorId"])+", Death is Player "+str(state["deathId"])+", Survivor Win: "+str(survivorWin)+", Survivor Killed: "+str(survivorKilled)+".")
-	state["round"] += 1
-	state["roundTotal"] += 1
-	addHighScore(state["survivorId"], survivorKilled)
-	if survivorWin: #The Survivor Won, add score to survivor, set up new round
-		addPoint(state["survivorId"])
-	else: #The Survivor died or ran outta time, add score to death, set up new round
-		addPoint(state["deathId"])
-	if survivorKilled: #The Survivor Died, add score to death, switch everything around, set up new round
-		switchSplashSwitch()
-		state["player2Death"] = !state["player2Death"]
-		state["survivorId"] = 2-int(state["player2Death"])
-		state["deathId"] = 1+int(state["player2Death"])
-		state["round"] = 1
-	state["roundscore"].set_text("Round "+str(state["round"])+" - Player "+str(state["deathId"])+" is Death")
-	setUp()
-	act("show", ["switchsplash"])
-
-func clear():
-	for child in get_children():
-		if child.is_type("KinematicBody2D") || child.is_type("RigidBody2D"):
-			child.set_name("A")
-			child.queue_free()
-
-func addPoint(id):
-	state["playerScores"][int(id)-1] += 1
-	state["score"+str(id)].set_text("Player "+str(id)+" Score: "+str(state["playerScores"][int(id)-1]))
-
-func handleEndSplash(sw, sk):
-	if sw:
-		state["survivorwinsplash"].set_flip_h(!bool(state["player2Death"]))
-		act("show", ["survivorwinsplash"])
-	elif sk:
-		state["deathkillsplash"].set_flip_h(bool(state["player2Death"]))
-		act("show", ["deathkillsplash"])
-	else:
-		state["deathwinsplash"].set_flip_h(bool(state["player2Death"]))
-		act("show", ["deathwinsplash"])
-
-func addHighScore(id, sk):
-	if state["round"] > 1 && !sk && state["round"]-1 > state["playerScores"][1+int(id)]:
-		state["playerScores"][1+int(id)] = state["round"]-1
-		state["maxscore"+str(id)].set_text("Max Rounds Survived: "+str(state["playerScores"][1+int(id)]))
-
-func switchSplashSwitch():
-	state["switchsplash"].set_flip_h(!state["switchsplash"].is_flipped_h())
-	state["switchsplash"].get_node("VSA2").set_hidden(!state["switchsplash"].get_node("VSA2").is_hidden())
-	state["switchsplash"].get_node("VSB2").set_hidden(!state["switchsplash"].get_node("VSB2").is_hidden())
-
-func giveSignal(sgnl): #Handle Tie Scores
-	clear()
-	stopTimer()
-	var wonPlayer = 1;
-	var addOn = "WON against"
-	if state["playerScores"][1] > state["playerScores"][0]:
-		wonPlayer = 2;
-	elif state["playerScores"][1] == state["playerScores"][0]:
-		addOn = "Tied with"
-	var lostPlayer = int(!bool(wonPlayer-1))+1;
-	state["endtext"].set_text("You two played a total of "+str(state["roundTotal"]-1)+" Rounds! Player "+str(wonPlayer)+" with a score of "+str(state["playerScores"][wonPlayer-1])+", "+addOn+" Player "+str(lostPlayer)+"'s score of "+str(state["playerScores"][lostPlayer-1])+".");
-	addOn = " Also... "
-	if state["playerScores"][wonPlayer+1] < state["playerScores"][lostPlayer+1]:
-		addOn = " HOWEVER! "
-		wonPlayer = lostPlayer
-	lostPlayer = int(!bool(wonPlayer-1))+1;
-	state["endtext"].set_text(state["endtext"].get_text()+addOn+"Player "+str(wonPlayer)+" had a highscore of "+str(state["playerScores"][wonPlayer+1])+" rounds, while player "+str(lostPlayer)+" had a highscore of "+str(state["playerScores"][lostPlayer+1])+" rounds.")
-	act("popup", ["endpopup"])
-	act("show", ["endtext", "endpopup", "splash"])
-	state["signal"] = sgnl;
-
-func startTimer():
-	state["startTime"] = int(OS.get_ticks_msec()/1000) + presets[state["preset"]]["timeLength"]
-	state["subg"].play("ticking")
-	state["music"].play("bg"+str(presets[state["preset"]]["bgMusic"][int(rand_range(0, presets[state["preset"]]["bgMusic"].size()))]))
-
-func stopTimer():
-	state["startTime"] = int(OS.get_ticks_msec())
-	state["subg"].stop_all()
-#	state["music"].stop_all()
-
-func secToStep(s):
-	return int((s*1000)/14.5)
-
-func handleSignal():
-	act(state["signal"], ["tree"])
-
-func setPosCenter(node, pos):
-	state[node].set_pos(Vector2(pos.x-(state[node].get_size().x*state[node].get_scale().x)/2, pos.y-(state[node].get_size().y*state[node].get_scale().y)/2))
-
-func getTile(pos):
-	return state["layer0"].get_cell(pos.x, pos.y)
-
-func hasTile(pos):
-	return getTile(pos) != -1
-
-func moveRange(rnge, dir, dist):
-	pass
-#	[x1, x2, y1, y2], 0, 1
-	
-func moveTile(newPos, pos): #Vector2 form please
-	state["layer0"].set_cellv(newPos,state["layer0"].get_cellv(pos))
-	state["layer0"].set_cellv(pos,-1)
-
-func getTileName(pos):
-	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
-
-func hasTileName(pos, name):
-	return getTileName(pos).to_lower().find(name) != -1
-
-func getTileKill(pos, dir):
-	if !hasTile(pos): return ["", false, pos, dir]#, [false, false, false]]
-	var cellName = getTileName(pos)
-	var temp = ""
-	if state["layer0"].is_cell_transposed(pos.x, pos.y):
-		cellName = cellName.substr(1, cellName.length()).insert(3, cellName[0])
-	if state["layer0"].is_cell_x_flipped(pos.x, pos.y):
-		temp = cellName[1]
-		cellName[1] = cellName[3]
-		cellName[3] = temp
-	if state["layer0"].is_cell_y_flipped(pos.x, pos.y):
-		temp = cellName[0]
-		cellName[0] = cellName[2]
-		cellName[2] = temp
-	return [cellName, int(cellName[dir]) == 1, pos, dir]#, [state["layer0"].is_cell_transposed(pos.x, pos.y), state["layer0"].is_cell_x_flipped(pos.x, pos.y), state["layer0"].is_cell_y_flipped(pos.x, pos.y)]]
-
-func getXCenterFromRange(rnge):
-	return Vector2(float(rnge[0]+rnge[1])/2, rnge[2])
-
-func getYCenterFromRange(rnge):
-	return Vector2(rnge[0], float(rnge[2]+rnge[3])/2)
-
-func getCenterFromRange(rnge):
-	return Vector2(float(rnge[0]+rnge[1])/2, float(rnge[2]+rnge[3])/2)
-
-func getIdxFromPos(pos):
-	return state["layer0"].world_to_map(pos)
-
-func getPosFromIdxAlt(pos):
-	return Vector2(pos.x*60+30, pos.y*60+30)
-
-func getPosFromIdx(idx):
-	return getPosFromIdxCenter(idx, true)
-
-func getPosFromIdxCenter(idx, center):
-	var add = Vector2(0, 0)
-	if center:
-		add = Vector2(state["tileSize"]/2, state["tileSize"]/2)
-	return state["layer0"].map_to_world(idx) + add
-
-func reset():
-	stopTimer()
-	clear()
-	setUp()
-	act("show", ["switchsplash"])
-
-func get(s):
-	return state[s]
-
-func fx(sound):
-	state["fx"].play(sound)
-
-func act(funct, args):
-	for arg in args:
-		state[arg].call(funct)
-
+#HANDLE MISC KEY ACTIONS ----------------------------------------------------------------------------------------------
 func _input(event):
 	if event.is_action_pressed("action"):
 		if state["endpopup"].is_visible():
@@ -322,6 +142,158 @@ func _input(event):
 		giveSignal("quit")
 	elif event.is_action_pressed("suicide"):
 		roundEnd(false, true)
-
-func na():
+#INITIALIZATION OF ROUND ----------------------------------------------------------------------------------------------
+func setUp():
+	randomize() #New Randomgeneration Seed
+	var lastPreset = state["preset"] #Store Last Preset
+	state["preset"] = int(rand_range(0, presets.size())) #Get New Preset
+	if bool(int(rand_range(0, 2))) && lastPreset == state["preset"]: state["preset"] = int(rand_range(0, presets.size())) #50% chance to reroll preset if last and new presets are the same
+	state["bg"].set_frame(presets[state["preset"]]["bgs"][int(rand_range(0, presets[state["preset"]]["bgs"].size()))])
+	state["bg"].set_flip_h(bool(int(rand_range(0, 2))))
+	act("hide", ["goal"])
+	if presets[state["preset"]]["survivor"].has("wincondition"):
+		setPosCenter("goal", getPosFromIdxAlt(getXCenterFromRange(presets[state["preset"]]["survivor"]["wincondition"])))
+		act("show", ["goal"])
+#HANDLE ROUND END ----------------------------------------------------------------------------------------------
+func roundEnd(survivorWin, survivorKilled):
+	#Begin Round Cleanup; Hide everything, Reset Time, Delete all temporary bodies
+	clear()
+	handleEndSplash(survivorWin, survivorKilled)
+	stopTimer()
+	#Get the current survivorId and deathId; Print Round Details; Move to Next Round; Add the High Score for the Last Round
+	print("Round "+str(state["round"])+" Ended; Preset was "+str(state["preset"])+"; Survivor is Player "+str(state["survivorId"])+", Death is Player "+str(state["deathId"])+", Survivor Win: "+str(survivorWin)+", Survivor Killed: "+str(survivorKilled)+".")
+	state["round"] += 1
+	state["roundTotal"] += 1
+	addHighScore(state["survivorId"], survivorKilled)
+	if survivorWin: #The Survivor Won, add score to survivor, set up new round
+		addPoint(state["survivorId"])
+	else: #The Survivor died or ran outta time, add score to death, set up new round
+		addPoint(state["deathId"])
+	if survivorKilled: #The Survivor Died, add score to death, switch everything around, set up new round
+		switchSplashSwitch()
+		state["player2Death"] = !state["player2Death"]
+		state["survivorId"] = 2-int(state["player2Death"])
+		state["deathId"] = 1+int(state["player2Death"])
+		state["round"] = 1
+	state["roundscore"].set_text("Round "+str(state["round"])+" - Player "+str(state["deathId"])+" is Death")
+	setUp()
+	act("show", ["switchsplash"])
+#ROUND ENDING HELPERS ----------------------------------------------------------------------------------------------
+func clear():
+	for child in get_children():
+		if child.is_type("KinematicBody2D") || child.is_type("RigidBody2D"):
+			child.set_name("A")
+			child.queue_free()
+func addPoint(id):
+	state["playerScores"][int(id)-1] += 1
+	state["score"+str(id)].set_text("Player "+str(id)+" Score: "+str(state["playerScores"][int(id)-1]))
+func addHighScore(id, sk):
+	if state["round"] > 1 && !sk && state["round"]-1 > state["playerScores"][1+int(id)]:
+		state["playerScores"][1+int(id)] = state["round"]-1
+		state["maxscore"+str(id)].set_text("Max Rounds Survived: "+str(state["playerScores"][1+int(id)]))
+func startTimer():
+	state["startTime"] = int(OS.get_ticks_msec()/1000) + presets[state["preset"]]["timeLength"]
+	state["subg"].play("ticking")
+	state["music"].play("bg"+str(presets[state["preset"]]["bgMusic"][int(rand_range(0, presets[state["preset"]]["bgMusic"].size()))]))
+func stopTimer():
+	state["startTime"] = int(OS.get_ticks_msec())
+	state["subg"].stop_all()
+#	state["music"].stop_all()
+func handleEndSplash(sw, sk):
+	if sw:
+		state["survivorwinsplash"].set_flip_h(!bool(state["player2Death"]))
+		act("show", ["survivorwinsplash"])
+	elif sk:
+		state["deathkillsplash"].set_flip_h(bool(state["player2Death"]))
+		act("show", ["deathkillsplash"])
+	else:
+		state["deathwinsplash"].set_flip_h(bool(state["player2Death"]))
+		act("show", ["deathwinsplash"])
+func switchSplashSwitch():
+	state["switchsplash"].set_flip_h(!state["switchsplash"].is_flipped_h())
+	state["switchsplash"].get_node("VSA2").set_hidden(!state["switchsplash"].get_node("VSA2").is_hidden())
+	state["switchsplash"].get_node("VSB2").set_hidden(!state["switchsplash"].get_node("VSB2").is_hidden())
+#TIMER HANDLING HELPERS ----------------------------------------------------------------------------------------------
+func handleSignal():
+	act(state["signal"], ["tree"])
+func giveSignal(sgnl): #Handle Tie Scores
+	clear()
+	stopTimer()
+	var wonPlayer = 1;
+	var addOn = "WON against"
+	if state["playerScores"][1] > state["playerScores"][0]:
+		wonPlayer = 2;
+	elif state["playerScores"][1] == state["playerScores"][0]:
+		addOn = "Tied with"
+	var lostPlayer = int(!bool(wonPlayer-1))+1;
+	state["endtext"].set_text("You two played a total of "+str(state["roundTotal"]-1)+" Rounds! Player "+str(wonPlayer)+" with a score of "+str(state["playerScores"][wonPlayer-1])+", "+addOn+" Player "+str(lostPlayer)+"'s score of "+str(state["playerScores"][lostPlayer-1])+".");
+	addOn = " Also... "
+	if state["playerScores"][wonPlayer+1] < state["playerScores"][lostPlayer+1]:
+		addOn = " HOWEVER! "
+		wonPlayer = lostPlayer
+	lostPlayer = int(!bool(wonPlayer-1))+1;
+	state["endtext"].set_text(state["endtext"].get_text()+addOn+"Player "+str(wonPlayer)+" had a highscore of "+str(state["playerScores"][wonPlayer+1])+" rounds, while player "+str(lostPlayer)+" had a highscore of "+str(state["playerScores"][lostPlayer+1])+" rounds.")
+	act("popup", ["endpopup"])
+	act("show", ["endtext", "endpopup", "splash"])
+	state["signal"] = sgnl;
+#TILE/MAP HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
+func getTile(pos):
+	return state["layer0"].get_cell(pos.x, pos.y)
+func hasTile(pos):
+	return getTile(pos) != -1
+func moveTile(newPos, pos):
+	var temp = getTile(newPos)
+	state["layer0"].set_cellv(newPos,getTile(pos))
+	state["layer0"].set_cellv(pos,-1)
+	return temp
+func moveRange(rnge, dir, dist): #[x1, x2, y1, y2], 0, 1
 	pass
+func getTileName(pos):
+	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
+func hasTileName(pos, name):
+	return getTileName(pos).to_lower().find(name) != -1
+func getTileKill(pos, dir):
+	if !hasTile(pos): return ["", false, pos, dir]#, [false, false, false]]
+	var cellName = getTileName(pos)
+	var temp = ""
+	if state["layer0"].is_cell_transposed(pos.x, pos.y):
+		cellName = cellName.substr(1, cellName.length()).insert(3, cellName[0])
+	if state["layer0"].is_cell_x_flipped(pos.x, pos.y):
+		temp = cellName[1]
+		cellName[1] = cellName[3]
+		cellName[3] = temp
+	if state["layer0"].is_cell_y_flipped(pos.x, pos.y):
+		temp = cellName[0]
+		cellName[0] = cellName[2]
+		cellName[2] = temp
+	return [cellName, int(cellName[dir]) == 1, pos, dir]#, [state["layer0"].is_cell_transposed(pos.x, pos.y), state["layer0"].is_cell_x_flipped(pos.x, pos.y), state["layer0"].is_cell_y_flipped(pos.x, pos.y)]]
+#TILEMAP MATH HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
+func setPosCenter(node, pos):
+	state[node].set_pos(Vector2(pos.x-(state[node].get_size().x*state[node].get_scale().x)/2, pos.y-(state[node].get_size().y*state[node].get_scale().y)/2))
+func getXCenterFromRange(rnge):
+	return Vector2(float(rnge[0]+rnge[1])/2, rnge[2])
+func getYCenterFromRange(rnge):
+	return Vector2(rnge[0], float(rnge[2]+rnge[3])/2)
+func getCenterFromRange(rnge):
+	return Vector2(float(rnge[0]+rnge[1])/2, float(rnge[2]+rnge[3])/2)
+func getIdxFromPos(pos):
+	return state["layer0"].world_to_map(pos)
+func getPosFromIdxAlt(pos):
+	return Vector2(pos.x*60+30, pos.y*60+30)
+func getPosFromIdx(idx):
+	return getPosFromIdxCenter(idx, true)
+func getPosFromIdxCenter(idx, center):
+	var add = Vector2(0, 0)
+	if center:
+		add = Vector2(state["tileSize"]/2, state["tileSize"]/2)
+	return state["layer0"].map_to_world(idx) + add
+#GENERAL/PRESET HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
+func reset():
+	stopTimer()
+	clear()
+	setUp()
+	act("show", ["switchsplash"])
+func secToStep(s): return int((s*1000)/14.5)
+func s(s): return state[s]
+func act(funct, args): for arg in args: state[arg].call(funct)
+func na(): pass

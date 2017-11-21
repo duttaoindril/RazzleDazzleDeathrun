@@ -139,6 +139,14 @@ func teleportDown():
 	teleport(idx(), state["facings"][2], preset["teleportRange"][2], preset["teleportRange"][4], preset["teleportRange"][5])
 func teleportLeft():
 	teleport(idx(), state["facings"][3], preset["teleportRange"][3], preset["teleportRange"][4], preset["teleportRange"][5])
+func controlSawUp():
+	teleport(idx(), state["facings"][0], preset["teleportRange"][0], preset["teleportRange"][4], preset["teleportRange"][5])
+func controlSawRight():
+	teleport(idx(), state["facings"][1], preset["teleportRange"][1], preset["teleportRange"][4], preset["teleportRange"][5])
+func controlSawDown():
+	teleport(idx(), state["facings"][2], preset["teleportRange"][2], preset["teleportRange"][4], preset["teleportRange"][5])
+func controlSawLeft():
+	teleport(idx(), state["facings"][3], preset["teleportRange"][3], preset["teleportRange"][4], preset["teleportRange"][5])
 #ALL POSSIBLE PRESET FUNCTION RESOLUTIONS ----------------------------------------------------------------------------------------------
 func shootBolt():
 	var bolt = preload("res://Projectiles/Bolt/Bolt.tscn").instance()
