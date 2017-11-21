@@ -54,6 +54,7 @@ func _ready():
 		"survivorTimeoutWin": false,
 		"bgs": [0],
 		"bgMusic": [1, 2, 3],
+		"init": "addSaw",
 		"survivor": {
 			"position": getPosFromIdx(Vector2(7, 16)),
 			"wincondition": [28, 31, 14, 16],
@@ -66,6 +67,8 @@ func _ready():
 			"canTurnY": false,
 #			"static": true,
 			"teleportRange": [3, 2, 3, 2, true, true],
+			"actionReloadMax": secToStep(1.5),
+#			"moveReloadMax": secToStep(.5),
 			"upFunc": ["controlSawUp", "na"],
 			"downFunc": ["controlSawDown", "na"],
 			"leftFunc": ["controlSawLeft", "na"],
@@ -73,6 +76,9 @@ func _ready():
 			"actionFunc": ["shoot", "na"],
 			"actionReloadMax": secToStep(.7),
 			"moveReloadMax": secToStep(.5),
+			"saw": {
+				"position": getPosFromIdx(Vector2(16, 16)),
+			}
 		}
 	}}
 #	, 1: {
@@ -155,6 +161,8 @@ func setUp():
 	if presets[state["preset"]]["survivor"].has("wincondition"):
 		setPosCenter("goal", getPosFromIdxAlt(getXCenterFromRange(presets[state["preset"]]["survivor"]["wincondition"])))
 		act("show", ["goal"])
+	if presets[state["preset"]].has("init"):
+		call(presets[state["preset"]]["init"])
 #HANDLE ROUND END ----------------------------------------------------------------------------------------------
 func roundEnd(survivorWin, survivorKilled):
 	#Begin Round Cleanup; Hide everything, Reset Time, Delete all temporary bodies
@@ -253,6 +261,8 @@ func moveRange(rnge, dir, dist):
 		for y in range(rnge[2],rnge[3]):
 			memory[x][y] = moveTile(Vector2(x+(state["facing"][dir]*dist),y+(state["facing"][dir])*dist),Vector2(x,y))
 	return memory
+func copyRange(rnge, dir):
+	return moveRange(rnge, dir, 0)
 #	[x1, x2, y1, y2], 0, 1
 func getTileName(pos):
 	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
@@ -294,11 +304,14 @@ func getPosFromIdxCenter(idx, center):
 		add = Vector2(state["tileSize"]/2, state["tileSize"]/2)
 	return state["layer0"].map_to_world(idx) + add
 #GENERAL/PRESET HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
+func addSaw():
+	add_child(preload("res://Projectiles/Saw/Saw.tscn").instance().init("Player "+str(state["deathId"]), presets[state["preset"]]["death"]["saw"]))
 func reset():
 	stopTimer()
 	clear()
 	setUp()
 	act("show", ["switchsplash"])
+func fx(sound): state["fx"].play(sound)
 func secToStep(s): return int((s*1000)/14.5)
 func fx(sound): state["fx"].play(sound)
 func s(s): return state[s]
