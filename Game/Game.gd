@@ -317,3 +317,9 @@ func _input(event):
 
 func na():
 	pass
+	
+
+func moveTile(newPos, pos): #Vector2 form please
+	state["layer0"].set_cellv(newPos,state["layer0"].get_cellv(pos))
+	state["layer0"].set_cellv(pos,-1)
+	
