@@ -70,8 +70,8 @@ func _ready():
 			"downFunc": ["controlSawDown", "na"],
 			"leftFunc": ["controlSawLeft", "na"],
 			"rightFunc": ["controlSawRight", "na"],
-			"actionFunc": ["na", "na"],
-			"actionReloadMax": secToStep(1.5),
+			"actionFunc": ["shoot", "na"],
+			"actionReloadMax": secToStep(.7),
 			"moveReloadMax": secToStep(.5),
 		}
 	}}
@@ -300,6 +300,7 @@ func reset():
 	setUp()
 	act("show", ["switchsplash"])
 func secToStep(s): return int((s*1000)/14.5)
+func fx(sound): state["fx"].play(sound)
 func s(s): return state[s]
 func act(funct, args): for arg in args: state[arg].call(funct)
 func na(): pass
