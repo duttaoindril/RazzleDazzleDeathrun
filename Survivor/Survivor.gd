@@ -172,8 +172,10 @@ func _on_SurvivorJump_body_enter(body):
 			print("Killed Manually")
 			death()
 func checkDeath():
-	if !get_viewport_rect().has_point(state["position"]): death()
-	for i in range(0, 5): if dirTouch(state["directions"][i]): checkDeathDirs(killTiles(state["directions"][i]))
+	if !get_viewport_rect().has_point(state["position"]):
+		print("Killed Out Of Bounds")
+		death()
+	for i in range(0, 5): if dirTouch(state["directions"][i]): checkDeathDirs(killTiles(state["directions"][i]), i)
 func death():
 	state["game"].fx("crush")
 	state["game"].roundEnd(false, true)
@@ -185,19 +187,21 @@ func killTiles(dir):
 	var i = 0 if posIdxDis(checkTiles(dir)[0])[0] < posIdxDis(checkTiles(dir)[1])[0] else 1
 	var check = [dirKill(dir), checkTiles(dir)[i]]
 	var dist = posIdxDis(check[1])
-	if dist[(0 if v2A(dir2face(dir))[0] == 0 else 1)+1] < 50 && !state["game"].hasTile(dirTile(dir)):
-		if dir == "head" && !isJumping(): check.pop_back()
-		else:
-			check[1] = idxKill(check[1], dir)
-			dLog(check, dir, dist, true)
+	var dictIdx = v2A(dir2face(dir))[0]
+	if dist[(0 if dictIdx == 0 else 1)+1] < 50 && dist[(1 if dictIdx == 0 else 0)+1] < 58 && !state["game"].hasTile(dirTile(dir)):
+		check[1] = idxKill(check[1], dir)
+		dLog(check, dir, dist, true)
 	else: check.pop_back()
 	return check
-func checkDeathDirs(checks):
+func checkDeathDirs(checks, i):
 	for check in checks:
-		if check[1]:
+		if check[1] && (i != 0 || i == 0 && isJumping()):
+			dLogB(check, state["directions"][i], posIdxDis(check[2]), true)
 			death()
+func dLogB(check, dir, dist, killing):
+	print(("~~~KILLING!!---@" if killing else ""),dir,"-",dirTouch(dir),": Distance: ",dist," | Check: ",check," | Jumping: ",str(isJumping())," | isDirTile: True")
 func dLog(check, dir, dist, killing):
-	if idxKill(check[1][2], dir)[1]: print(("~~~KILLING!!---@" if killing else ""),dir,"-",dirTouch(dir),": Distance: ",dist," | Check: ",check[1]," | Jumping: ",str(isJumping())," | NoDirTile: ",check[0][1])#," | Distance: ",dist," | Distance Check: ",distanceCheck," -> ",distanceCheck + distanceCheckPlus)
+	if idxKill(check[1][2], dir)[1]: print(("~~~KILLING!!---@" if killing else ""),dir,"-",dirTouch(dir),": Distance: ",dist," | Check: ",check[1]," | Jumping: ",str(isJumping())," | NoDirTile: ",check[0][1])
 #HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
 func v2A(v):
 	return [v.x, v.y]

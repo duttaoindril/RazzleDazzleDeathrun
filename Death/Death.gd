@@ -152,7 +152,6 @@ func removeGround():
 	state["map0"].set_cell(tilePos.x, tilePos.y, -1)
 func teleport(pos, dir, rng, far, bat):
 	var tilePos = pos+dir*(rng+1)
-	print(tilePos)
 	if get_viewport_rect().has_point(idx2Pos(tilePos)) && state["game"].hasTile(tilePos+2*state["facings"][2]) && !state["game"].hasTile(tilePos) && !state["game"].hasTile(tilePos+state["facings"][2]) && !state["game"].getTileKill(tilePos+2*state["facings"][2], 2)[1] && !state["game"].getTileKill(tilePos+state["facings"][0], 0)[1] && (!bat || bat && state["game"].hasTileName(tilePos+3*state["facings"][2], "bat")):
 		set_pos(idx2Pos(tilePos))
 	elif get_viewport_rect().has_point(idx2Pos(tilePos)) && far:

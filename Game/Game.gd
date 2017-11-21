@@ -214,6 +214,14 @@ func getTile(pos):
 func hasTile(pos):
 	return getTile(pos) != -1
 
+func moveRange(rnge, dir, dist):
+	pass
+#	[x1, x2, y1, y2], 0, 1
+	
+func moveTile(newPos, pos): #Vector2 form please
+	state["layer0"].set_cellv(newPos,state["layer0"].get_cellv(pos))
+	state["layer0"].set_cellv(pos,-1)
+
 func getTileName(pos):
 	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
 
@@ -317,9 +325,3 @@ func _input(event):
 
 func na():
 	pass
-	
-
-func moveTile(newPos, pos): #Vector2 form please
-	state["layer0"].set_cellv(newPos,state["layer0"].get_cellv(pos))
-	state["layer0"].set_cellv(pos,-1)
-	
