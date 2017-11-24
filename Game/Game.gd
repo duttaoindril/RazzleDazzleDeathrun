@@ -56,8 +56,8 @@ func _ready():
 		"bgMusic": [1, 2, 3],
 		"init": "addSaw",
 		"survivor": {
-			"position": getPosFromIdx(Vector2(7, 16)),
-			"wincondition": [28, 31, 14, 16],
+			"position": getPosFromIdx(Vector2(2, 8)),
+			"wincondition": [28, 31, 6, 8],
 			"facing": Vector2(-1, 0)
 		},
 		"death": {
@@ -66,18 +66,18 @@ func _ready():
 			"canTurnX": false,
 			"canTurnY": false,
 #			"static": true,
-			"teleportRange": [3, 2, 3, 2, true, true],
+			"teleportRange": [1, 2, 1, 2, true, true],
 			"actionReloadMax": secToStep(1.5),
 #			"moveReloadMax": secToStep(.5),
 			"upFunc": ["controlSawUp", "na"],
+			"rightFunc": ["controlSawRight", "na"],
 			"downFunc": ["controlSawDown", "na"],
 			"leftFunc": ["controlSawLeft", "na"],
-			"rightFunc": ["controlSawRight", "na"],
-			"actionFunc": ["shoot", "na"],
+			"actionFunc": ["na", "na"],
 			"actionReloadMax": secToStep(.7),
 			"moveReloadMax": secToStep(.5),
 			"saw": {
-				"position": getPosFromIdx(Vector2(16, 16)),
+				"position": getPosFromIdx(Vector2(16, 15)),
 			}
 		}
 	}}
@@ -131,6 +131,8 @@ func _input(event):
 			startTimer()
 			add_child(preload("res://Survivor/Survivor.tscn").instance().init("Player "+str(state["survivorId"]), presets[state["preset"]]["survivor"]))
 			add_child(preload("res://Death/Death.tscn").instance().init("Player "+str(state["deathId"]), presets[state["preset"]]["death"]))
+			if presets[state["preset"]].has("init"):
+				call(presets[state["preset"]]["init"])
 			act("hide", ["switchsplash"])
 	elif event.is_action_pressed("toggleMaximize"):
 		if OS.is_window_maximized():
@@ -161,8 +163,6 @@ func setUp():
 	if presets[state["preset"]]["survivor"].has("wincondition"):
 		setPosCenter("goal", getPosFromIdxAlt(getXCenterFromRange(presets[state["preset"]]["survivor"]["wincondition"])))
 		act("show", ["goal"])
-	if presets[state["preset"]].has("init"):
-		call(presets[state["preset"]]["init"])
 #HANDLE ROUND END ----------------------------------------------------------------------------------------------
 func roundEnd(survivorWin, survivorKilled):
 	#Begin Round Cleanup; Hide everything, Reset Time, Delete all temporary bodies
@@ -305,13 +305,12 @@ func getPosFromIdxCenter(idx, center):
 	return state["layer0"].map_to_world(idx) + add
 #GENERAL/PRESET HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
 func addSaw():
-	add_child(preload("res://Projectiles/Saw/Saw.tscn").instance().init("Player "+str(state["deathId"]), presets[state["preset"]]["death"]["saw"]))
+	add_child(preload("res://Projectiles/Saw/Saw.tscn").instance().init("Player "+str(state["deathId"])+"'s Saw", presets[state["preset"]]["death"]["saw"], state["deathId"]))
 func reset():
 	stopTimer()
 	clear()
 	setUp()
 	act("show", ["switchsplash"])
-func fx(sound): state["fx"].play(sound)
 func secToStep(s): return int((s*1000)/14.5)
 func fx(sound): state["fx"].play(sound)
 func s(s): return state[s]

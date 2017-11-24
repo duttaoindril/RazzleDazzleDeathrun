@@ -117,7 +117,7 @@ func _input(i):
 				state["moveReloadBar"].show()
 			call(preset["rightFunc"][0])
 	elif state["action"] == "idle":
-		state["sprite"].play("idle")
+		anim("idle")
 	#ACTION DIRECTION CONTROLS
 	if pressed(i, "action"):
 		if preset.has("delayReloadMax") && state["delayReload"] == 0 && preset["actionFunc"][0] != "na":
@@ -130,7 +130,7 @@ func _input(i):
 #ALL POSSIBLE PRESET FUNCTIONS ----------------------------------------------------------------------------------------------
 func shoot():
 	state["action"] = "shoot"
-	state["sprite"].play("shoot")
+	anim("shoot")
 func teleportUp():
 	teleport(idx(), state["facings"][0], preset["teleportRange"][0], preset["teleportRange"][4], preset["teleportRange"][5])
 func teleportRight():
@@ -140,13 +140,13 @@ func teleportDown():
 func teleportLeft():
 	teleport(idx(), state["facings"][3], preset["teleportRange"][3], preset["teleportRange"][4], preset["teleportRange"][5])
 func controlSawUp():
-	teleport(idx(), state["facings"][0], preset["teleportRange"][0], preset["teleportRange"][4], preset["teleportRange"][5])
+	anim("actionUp")
 func controlSawRight():
-	teleport(idx(), state["facings"][1], preset["teleportRange"][1], preset["teleportRange"][4], preset["teleportRange"][5])
+	anim("actionRight")
 func controlSawDown():
-	teleport(idx(), state["facings"][2], preset["teleportRange"][2], preset["teleportRange"][4], preset["teleportRange"][5])
+	anim("actionDown")
 func controlSawLeft():
-	teleport(idx(), state["facings"][3], preset["teleportRange"][3], preset["teleportRange"][4], preset["teleportRange"][5])
+	anim("actionLeft")
 #ALL POSSIBLE PRESET FUNCTION RESOLUTIONS ----------------------------------------------------------------------------------------------
 func shootBolt():
 	var bolt = preload("res://Projectiles/Bolt/Bolt.tscn").instance()
@@ -161,12 +161,16 @@ func removeGround():
 func teleport(pos, dir, rng, far, bat):
 	var tilePos = pos+dir*(rng+1)
 	if get_viewport_rect().has_point(idx2Pos(tilePos)) && state["game"].hasTile(tilePos+2*state["facings"][2]) && !state["game"].hasTile(tilePos) && !state["game"].hasTile(tilePos+state["facings"][2]) && !state["game"].getTileKill(tilePos+2*state["facings"][2], 2)[1] && !state["game"].getTileKill(tilePos+state["facings"][0], 0)[1] && (!bat || bat && state["game"].hasTileName(tilePos+3*state["facings"][2], "bat")):
+		state["action"] = "tele"
+		anim("teleport")
 		set_pos(idx2Pos(tilePos))
 	elif get_viewport_rect().has_point(idx2Pos(tilePos)) && far:
 		teleport(tilePos, dir, rng, far, bat)
 	else:
 		state["moveReloadBar"].hide()
 		state["moveReload"] = 0
+func controlSaw(dir):
+	state["game"].get_node("Player "+str(state["id"])+"'s Saw").call(dir)
 #HELPERS ----------------------------------------------------------------------------------------------
 func pressed(i, dir):
 	return i.is_action_pressed(dir+state["id"])
@@ -180,11 +184,17 @@ func idx2Pos(pos):
 	return state["game"].getPosFromIdx(pos)
 func isFrame(string):
 	return getSpriteFrame() == string
+func anim(s):
+	state["sprite"].play(s)
 func getSpriteFrame():
 	return state["sprite"].get_animation()+str(state["sprite"].get_frame())
 func _on_DeathSprite_finished():
-	state["sprite"].play("idle")#"idleUp" if state["facing"].y == 1 else "idle")
-	state["action"] = "idle"
+	if state["action"] == "tele":
+		state["action"]
+		
+	else:
+		anim("idle")#"idleUp" if state["facing"].y == 1 else "idle")
+		state["action"] = "idle"
 func act(funct, args):
 	for arg in args:
 		state[arg].call(funct)
