@@ -268,6 +268,18 @@ func getTileName(pos):
 	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
 func hasTileName(pos, name):
 	return getTileName(pos).to_lower().find(name) != -1
+func detectTiles(rnge): #Finds if there are any tiles in the general vicinity
+	for x in range(rnge[0],rnge[1]):
+		for y in range (rnge[2],rnge[3]):
+			if(getIdxFromPos(Vector2(x,y)) > -1):
+				return true
+	return false
+func detectTileName(rnge,name): #Finds a specific tile
+	for x in range(rnge[0],rnge[1]):
+		for y in range(rnge[2],rnge[3]):
+			if (getTileName(Vector2(x,y)).find(name) > -1):
+				return true
+	return false
 func getTileKill(pos, dir):
 	if !hasTile(pos): return ["", false, pos, dir]#, [false, false, false]]
 	var cellName = getTileName(pos)
@@ -313,7 +325,6 @@ func reset():
 	act("show", ["switchsplash"])
 func fx(sound): state["fx"].play(sound)
 func secToStep(s): return int((s*1000)/14.5)
-func fx(sound): state["fx"].play(sound)
 func s(s): return state[s]
 func act(funct, args): for arg in args: state[arg].call(funct)
 func na(): pass
