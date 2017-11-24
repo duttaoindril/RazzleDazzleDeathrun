@@ -77,7 +77,7 @@ func _ready():
 			"actionReloadMax": secToStep(.7),
 			"moveReloadMax": secToStep(.5),
 			"saw": {
-				"position": getPosFromIdx(Vector2(16, 15)),
+				"position": getPosFromIdx(Vector2(14, 16)),
 			}
 		}
 	}}
@@ -256,10 +256,10 @@ func moveTile(newPos, pos):
 	state["layer0"].set_cellv(pos,-1)
 	return temp
 func moveRange(rnge, dir, dist):
-	var memory = []
-	for x in range(rnge[0],rnge[1]):
-		for y in range(rnge[2],rnge[3]):
-			memory[x][y] = moveTile(Vector2(x+(state["facing"][dir]*dist),y+(state["facing"][dir])*dist),Vector2(x,y))
+	var memory = {}
+	for x in range(rnge[0],rnge[1]+1):
+		for y in range(rnge[2],rnge[3]+1):
+			memory[Vector2(x,y)] = moveTile(Vector2(x+(state["facing"][dir].x)*dist,y+(state["facing"][dir].y)*dist),Vector2(x,y))
 	return memory
 func copyRange(rnge, dir):
 	return moveRange(rnge, dir, 0)
@@ -324,6 +324,7 @@ func reset():
 	setUp()
 	act("show", ["switchsplash"])
 func secToStep(s): return int((s*1000)/14.5)
+func fx(sound): state["fx"].play(sound)
 func s(s): return state[s]
 func act(funct, args): for arg in args: state[arg].call(funct)
 func na(): pass

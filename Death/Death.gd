@@ -89,6 +89,7 @@ func _input(i):
 				state["moveReload"] = preset["moveReloadMax"]
 				state["moveReloadBar"].show()
 			call(preset["upFunc"][0])
+			state["game"].call(preset["upFunc"][1])
 	elif pressed(i, "down"):
 		if preset["canTurnY"]:
 			state["facing"].y = -1
@@ -97,6 +98,7 @@ func _input(i):
 				state["moveReload"] = preset["moveReloadMax"]
 				state["moveReloadBar"].show()
 			call(preset["downFunc"][0])
+			state["game"].call(preset["downFunc"][1])
 	else:
 		state["facing"].y = 0
 	#LEFT AND RIGHT DIRECTION CONTROLS
@@ -108,6 +110,7 @@ func _input(i):
 				state["moveReload"] = preset["moveReloadMax"]
 				state["moveReloadBar"].show()
 			call(preset["leftFunc"][0])
+			state["game"].call(preset["leftFunc"][1])
 	elif pressed(i, "right"):
 		if preset["canTurnX"]:
 			state["facing"].x = 1
@@ -116,6 +119,7 @@ func _input(i):
 				state["moveReload"] = preset["moveReloadMax"]
 				state["moveReloadBar"].show()
 			call(preset["rightFunc"][0])
+			state["game"].call(preset["rightFunc"][1])
 	elif state["action"] == "idle":
 		anim("idle")
 	#ACTION DIRECTION CONTROLS
@@ -127,6 +131,7 @@ func _input(i):
 				state["actionReload"] = preset["actionReloadMax"]
 				state["actionReloadBar"].show()
 			call(preset["actionFunc"][0])
+			state["game"].call(preset["actionFunc"][1])
 #ALL POSSIBLE PRESET FUNCTIONS ----------------------------------------------------------------------------------------------
 func shoot():
 	state["action"] = "shoot"
@@ -190,8 +195,7 @@ func getSpriteFrame():
 	return state["sprite"].get_animation()+str(state["sprite"].get_frame())
 func _on_DeathSprite_finished():
 	if state["action"] == "tele":
-		state["action"]
-		
+		state["action"] = "teleout"
 	else:
 		anim("idle")#"idleUp" if state["facing"].y == 1 else "idle")
 		state["action"] = "idle"
