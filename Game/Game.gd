@@ -13,7 +13,7 @@ func _ready():
 		OS.set_borderless_window(false)
 		OS.set_window_maximized(true)
 	state = {"tree": get_tree(),
-	"facings": [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, 0)],
+	"facing": [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, 0)],
 	"preset": 0,
 	"round": 1,
 	"roundTotal": 1,
@@ -69,15 +69,15 @@ func _ready():
 			"teleportRange": [1, 2, 1, 2, true, true],
 			"actionReloadMax": secToStep(1.5),
 #			"moveReloadMax": secToStep(.5),
-			"upFunc": ["controlSawUp", "na"],
-			"rightFunc": ["controlSawRight", "na"],
-			"downFunc": ["controlSawDown", "na"],
-			"leftFunc": ["controlSawLeft", "na"],
+			"upFunc": ["controlSawUp", "moveGapUp"],
+			"rightFunc": ["controlSawRight", "moveGapUp"],
+			"downFunc": ["controlSawDown", "moveGapUp"],
+			"leftFunc": ["controlSawLeft", "moveGapUp"],
 			"actionFunc": ["na", "na"],
 			"actionReloadMax": secToStep(.7),
 			"moveReloadMax": secToStep(.5),
 			"saw": {
-				"position": getPosFromIdx(Vector2(16, 15)),
+				"position": getPosFromIdx(Vector2(11, 16)),
 			}
 		}
 	}}
@@ -101,6 +101,7 @@ func _ready():
 	act("show", ["splash", "survivorsplash", "deathsplash", "switchsplash"])
 	state["subg"].play("start")
 	state["music"].play("bg1")
+	moveGapDown([14,16,6,11])
 	setUp()
 	set_fixed_process(true)
 	set_process_input(true)
@@ -251,18 +252,35 @@ func getTile(pos):
 func hasTile(pos):
 	return getTile(pos) != -1
 func moveTile(newPos, pos):
-	var temp = getTile(newPos)
+#	var temp = getTile(newPos)
 	state["layer0"].set_cellv(newPos,getTile(pos))
 	state["layer0"].set_cellv(pos,-1)
-	return temp
+#	return temp
+func setTile(newPos,pos):
+	state["layer0"].set_cellv(newPos,getTile(pos))
+func setCell(x,y,memory):
+	state["layer0"].set_cell(x,y,memory)
 func moveRange(rnge, dir, dist):
-	var memory = []
-	for x in range(rnge[0],rnge[1]):
-		for y in range(rnge[2],rnge[3]):
-			memory[x][y] = moveTile(Vector2(x+(state["facing"][dir]*dist),y+(state["facing"][dir])*dist),Vector2(x,y))
+#	for x in range(rnge[0],rnge[1]+1):
+#		for y in range(rnge[2],rnge[3]+1):
+#			cutRange(Vector2(x+(state["facing"][dir].x)*dist,y+(state["facing"][dir]).y)*dist,Vector2(x,y))
+	pasteRange(Vector2(rnge[0]+state["facing"][dir].x*dist,rnge[2]+state["facing"][dir].y*dist),cutRange(rnge))
+func copyRange(rnge):
+	var memory = {}
+	for x in range(rnge[0],rnge[1]+1):
+		for y in range(rnge[2],rnge[3]+1):
+			memory[Vector2(x-rnge[0],y-rnge[2])] = getTile(Vector2(x,y))
 	return memory
-func copyRange(rnge, dir):
-	return moveRange(rnge, dir, 0)
+func cutTile(pos):
+	var mem = getTile(pos)
+	setCell(pos.x,pos.y,-1)
+	return mem
+func cutRange(rnge):
+	var memory = {}
+	for x in range(rnge[0],rnge[1]+1):
+		for y in range(rnge[2],rnge[3]+1):
+			memory[Vector2(x-rnge[0],y-rnge[2])] = cutTile(Vector2(x,y))
+	return memory
 #	[x1, x2, y1, y2], 0, 1
 func getTileName(pos):
 	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
@@ -280,6 +298,25 @@ func detectTileName(rnge,name): #Finds a specific tile
 			if (getTileName(Vector2(x,y)).find(name) > -1):
 				return true
 	return false
+func pasteRange(pos,memory):
+	for key in memory:
+		setCell(key.x+pos.x,key.y+pos.y,memory[key])
+func moveGapUp(rnge):
+	#var rang = [14,16,6,11]
+	#var copy = [14,16,12,12]
+	if detectTileName(rnge,"spike"):
+		var old = copyRange([rnge[0],rnge[1],rnge[3]+1,rnge[3]+1])
+		moveRange(rnge,0,1)
+		#setTile(Vector2(15,11),Vector2(15,16))
+		pasteRange(Vector2(rnge[0],rnge[3]),old)
+func moveGapDown(rnge):
+	#var rang = [14,16,6,11]
+	#var copy = [14,16,5,5]
+	if detectTileName(rnge,"spike"):
+		var old = copyRange([rnge[0],rnge[1],rnge[2]-1,rnge[2]-1])
+		moveRange(rnge,2,1)
+		#setTile(Vector2(15,6),Vector2(15,5))
+		pasteRange(Vector2(rnge[0],rnge[2]),old)
 func getTileKill(pos, dir):
 	if !hasTile(pos): return ["", false, pos, dir]#, [false, false, false]]
 	var cellName = getTileName(pos)
@@ -324,6 +361,7 @@ func reset():
 	setUp()
 	act("show", ["switchsplash"])
 func secToStep(s): return int((s*1000)/14.5)
+func fx(sound): state["fx"].play(sound)
 func s(s): return state[s]
 func act(funct, args): for arg in args: state[arg].call(funct)
 func na(): pass
