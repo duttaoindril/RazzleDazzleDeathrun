@@ -55,10 +55,12 @@ func _ready():
 	"patterns": [[[[20, 20, 8, 16], 5, 1, 1, 4], [[4, 18, 1, 15], 4, .15]],
 				 [[[0, 3, 9, 17], 4, 1], [[28, 31, 9, 17], 4, 1]],
 				 [[[0, 3, 9, 17], 4, 1], [[1, 2, 10, 16], 7, 1], [[1, 2, 10, 10], 6, 1], [[28, 31, 9, 17], 4, 1], [[29, 30, 10, 16], 7, 1], [[29, 30, 10, 10], 6, 1], [[5, 26, 16, 16], 5, .2]]],
-	"customs": ["((0, 0):4), ((0, 1):2), ((0, 10):0), ((0, 11):2), ((0, 12):-1), ((0, 13):-1), ((0, 14):-1), ((0, 15):-1), ((0, 16):0), ((0, 17):4), ((0, 2):-1), ((0, 3):-1), ((0, 4):-1), ((0, 5):-1), ((0, 6):0), ((0, 7):2), ((0, 8):-1), ((0, 9):-1), ((1, 0):4), ((1, 1):4), ((1, 10):0), ((1, 11):4), ((1, 12):4), ((1, 13):4), ((1, 14):4), ((1, 15):4), ((1, 16):4), ((1, 17):4), ((1, 2):4), ((1, 3):4), ((1, 4):4), ((1, 5):4), ((1, 6):4), ((1, 7):2), ((1, 8):-1), ((1, 9):-1), ((2, 0):4), ((2, 1):2), ((2, 10):0), ((2, 11):2), ((2, 12):-1), ((2, 13):-1), ((2, 14):-1), ((2, 15):-1), ((2, 16):0), ((2, 17):4), ((2, 2):-1), ((2, 3):-1), ((2, 4):-1), ((2, 5):-1), ((2, 6):0), ((2, 7):2), ((2, 8):-1), ((2, 9):-1)",
-				"((0, 0):-1)"]}
+	"customs": ["((0, 0):2), ((0, 1):-1), ((0, 10):0), ((0, 11):2), ((0, 12):-1), ((0, 13):-1), ((0, 14):-1), ((0, 15):-1), ((0, 16):-1), ((0, 17):0), ((0, 2):-1), ((0, 3):-1), ((0, 4):-1), ((0, 5):0), ((0, 6):2), ((0, 7):-1), ((0, 8):-1), ((0, 9):-1), ((1, 0):4), ((1, 1):4), ((1, 10):0), ((1, 11):4), ((1, 12):4), ((1, 13):4), ((1, 14):4), ((1, 15):4), ((1, 16):4), ((1, 17):4), ((1, 2):4), ((1, 3):4), ((1, 4):4), ((1, 5):4), ((1, 6):2), ((1, 7):-1), ((1, 8):-1), ((1, 9):-1), ((2, 0):2), ((2, 1):-1), ((2, 10):0), ((2, 11):2), ((2, 12):-1), ((2, 13):-1), ((2, 14):-1), ((2, 15):-1), ((2, 16):-1), ((2, 17):0), ((2, 2):-1), ((2, 3):-1), ((2, 4):-1), ((2, 5):0), ((2, 6):2), ((2, 7):-1), ((2, 8):-1), ((2, 9):-1)",
+				"((0, 0):-1)"],
+	"presetDatas": [[22, 24, 5, 11],
+					""]}
 	presets = [{ # Gap up and down preset
-		"prstData": [22, 24, 6, 11],
+		"prstData": 0,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0], 
@@ -92,7 +94,7 @@ func _ready():
 			"moveReloadMax": secToStep(1.5),
 		}
 	}, { # Gap move up and down and shuts preset
-		"prstData": [22, 24, 6, 11],
+		"prstData": 0,
 		"timeLength": 60,
 		"survivorTimeoutWin": false, 
 		"bgs": [0], 
@@ -127,7 +129,7 @@ func _ready():
 			"actionReloadMax": secToStep(3),
 		}
 	}, { # Gap at the bottom and shuts preset
-		"prstData": [22, 24, 6, 11],
+		"prstData": 0,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0], 
@@ -162,7 +164,7 @@ func _ready():
 			"actionReloadMax": secToStep(3), 
 		}
 	}, { # Saw Level
-		"prstData": "",
+		"prstData": 1,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0],
@@ -197,7 +199,7 @@ func _ready():
 			"saw": {"position": getPosFromIdx(Vector2(26, 16))}
 		}
 	}, { # Deadlier Saw Level
-		"prstData": "",
+		"prstData": 1,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0],
@@ -295,8 +297,8 @@ func setUp():
 	state["bg"].set_frame(presets[state["preset"]]["bgs"][randI(0, presets[state["preset"]]["bgs"].size())])
 	state["bg"].set_flip_h(flpCoin())
 	act("hide", ["goal"])
-#	print(copyRange([22, 24, 0, 17])) # - Use to get the mem for any drawn tiles
-	state["presetData"] = presets[state["preset"]]["prstData"]
+#	print(copyRange([8, 10, 0, 17])) # - Use to get the mem for any drawn tiles
+	state["presetData"] = state["presetDatas"][presets[state["preset"]]["prstData"]]
 	generateMap(state["layer0"], presets[state["preset"]]["map"])
 #HANDLE ROUND END ----------------------------------------------------------------------------------------------
 func roundEnd(survivorWin, survivorKilled):
