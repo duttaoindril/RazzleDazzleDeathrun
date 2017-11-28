@@ -1,23 +1,30 @@
-[gd_resource type="TileSet" load_steps=51 format=1]
+[gd_resource type="TileSet" load_steps=63 format=1]
 
-[ext_resource path="res://Tiles/Block/Block.png" type="Texture" id=1]
-[ext_resource path="res://Tiles/Spike/spikeDown.png" type="Texture" id=2]
-[ext_resource path="res://Tiles/Spike/spikeLeft.png" type="Texture" id=3]
-[ext_resource path="res://Tiles/Spike/spikeUp.png" type="Texture" id=4]
-[ext_resource path="res://Tiles/Spike/spikeRight.png" type="Texture" id=5]
-[ext_resource path="res://Tiles/Platform/Platform.png" type="Texture" id=6]
-[ext_resource path="res://Tiles/Bat/bat1.png" type="Texture" id=7]
-[ext_resource path="res://Tiles/Bat/bat2.png" type="Texture" id=8]
+[ext_resource path="res://Tiles/Spike/spikeUp.png" type="Texture" id=1]
+[ext_resource path="res://Tiles/Spike/spikeRight.png" type="Texture" id=2]
+[ext_resource path="res://Tiles/Bat/bat1.png" type="Texture" id=3]
+[ext_resource path="res://Tiles/Bat/bat2.png" type="Texture" id=4]
+[ext_resource path="res://Tiles/Spike/spikeDown.png" type="Texture" id=5]
+[ext_resource path="res://Tiles/Spike/spikeLeft.png" type="Texture" id=6]
+[ext_resource path="res://Tiles/Block/Block.png" type="Texture" id=7]
+[ext_resource path="res://Tiles/Platform/Platform.png" type="Texture" id=8]
+[ext_resource path="res://Tiles/Magma/Sprites/lavatile1.png" type="Texture" id=9]
+[ext_resource path="res://Tiles/Magma/Sprites/lavatile2.png" type="Texture" id=10]
+[ext_resource path="res://Tiles/Magma/Sprites/lavatile3.png" type="Texture" id=11]
+[ext_resource path="res://Tiles/Magma/Sprites/lavatile4.png" type="Texture" id=12]
+[ext_resource path="res://Tiles/Magma/Sprites/lavatile5.png" type="Texture" id=13]
+[ext_resource path="res://Tiles/Magma/Sprites/lavaxy.png" type="Texture" id=14]
+[ext_resource path="res://Tiles/Log/Sprites/log.png" type="Texture" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
+extents = Vector2( 10, 8.5 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="ConvexPolygonShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 8.5 )
+points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 
@@ -54,15 +61,15 @@ points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 custom_solver_bias = 0.0
 points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
-[sub_resource type="ConvexPolygonShape2D" id=10]
-
-custom_solver_bias = 0.0
-points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
-
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=10]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 8.5 )
+
+[sub_resource type="ConvexPolygonShape2D" id=11]
+
+custom_solver_bias = 0.0
+points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
 [sub_resource type="ConvexPolygonShape2D" id=12]
 
@@ -99,20 +106,39 @@ points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 custom_solver_bias = 0.0
 points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
-[sub_resource type="ConvexPolygonShape2D" id=19]
+[sub_resource type="CanvasItemShader" id=19]
 
-custom_solver_bias = 0.0
-points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
+_code = {
+"fragment": "uniform texture f1;
+uniform texture f2;
+uniform float speed = .01;
+color cor = tex(f1, UV);
+float time = mod(TIME*speed, 1);
+if(time > .5) {
+	cor = tex(f2, UV);
+} else {
+	cor = tex(f1, UV);
+}
+COLOR = cor;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
 
-[sub_resource type="RectangleShape2D" id=20]
+[sub_resource type="CanvasItemMaterial" id=20]
+
+shader/shader = SubResource( 19 )
+shader/shading_mode = 0
+shader_param/f1 = ExtResource( 3 )
+shader_param/f2 = ExtResource( 4 )
+shader_param/speed = 0.2
+
+[sub_resource type="RectangleShape2D" id=21]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 8.5 )
-
-[sub_resource type="ConvexPolygonShape2D" id=21]
-
-custom_solver_bias = 0.0
-points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
 [sub_resource type="ConvexPolygonShape2D" id=22]
 
@@ -149,15 +175,15 @@ points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 custom_solver_bias = 0.0
 points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
-[sub_resource type="RectangleShape2D" id=29]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 8.5 )
-
-[sub_resource type="ConvexPolygonShape2D" id=30]
+[sub_resource type="ConvexPolygonShape2D" id=29]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
+
+[sub_resource type="RectangleShape2D" id=30]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 8.5 )
 
 [sub_resource type="ConvexPolygonShape2D" id=31]
 
@@ -194,12 +220,82 @@ points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 custom_solver_bias = 0.0
 points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
 
-[sub_resource type="RectangleShape2D" id=38]
+[sub_resource type="ConvexPolygonShape2D" id=38]
+
+custom_solver_bias = 0.0
+points = Vector2Array( 0, -10, 8.66025, 5, -8.66025, 5 )
+
+[sub_resource type="RectangleShape2D" id=39]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="CanvasItemShader" id=39]
+[sub_resource type="RectangleShape2D" id=40]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="CanvasItemShader" id=41]
+
+_code = {
+"fragment": "uniform texture f1;
+uniform texture f2;
+uniform texture f3;
+uniform texture f4;
+uniform texture f5;
+color cor = tex(f1, UV);
+float time = mod(TIME, 1);
+if(time < .2) {
+	cor = tex(f1, UV);
+} else {
+	if(time < .4) {
+		cor = tex(f2, UV);
+	} else {
+		if(time < .6) {
+			cor = tex(f3, UV);
+		} else {
+			if(time < .8) {
+				cor = tex(f4, UV);
+			} else {
+				cor = tex(f5, UV);
+			}
+		}
+	}
+}
+COLOR = cor;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[sub_resource type="CanvasItemMaterial" id=42]
+
+shader/shader = SubResource( 41 )
+shader/shading_mode = 0
+shader_param/f1 = ExtResource( 9 )
+shader_param/f2 = ExtResource( 10 )
+shader_param/f3 = ExtResource( 11 )
+shader_param/f4 = ExtResource( 12 )
+shader_param/f5 = ExtResource( 13 )
+
+[sub_resource type="RectangleShape2D" id=43]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=44]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="CircleShape2D" id=45]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
+[sub_resource type="CanvasItemShader" id=46]
 
 _code = {
 "fragment": "uniform texture f1;
@@ -222,46 +318,17 @@ COLOR = cor;",
 "vertex_ofs": 0
 }
 
-[sub_resource type="CanvasItemMaterial" id=40]
+[sub_resource type="CanvasItemMaterial" id=47]
 
-shader/shader = SubResource( 39 )
+shader/shader = SubResource( 46 )
 shader/shading_mode = 0
-shader_param/f1 = ExtResource( 7 )
-shader_param/f2 = ExtResource( 8 )
-shader_param/speed = 0.2
-
-[sub_resource type="CanvasItemShader" id=41]
-
-_code = {
-"fragment": "uniform texture f1;
-uniform texture f2;
-uniform float speed = .01;
-color cor = tex(f1, UV);
-float time = mod(TIME*speed, 1);
-if(time > .5) {
-	cor = tex(f2, UV);
-} else {
-	cor = tex(f1, UV);
-}
-COLOR = cor;",
-"fragment_ofs": 0,
-"light": "",
-"light_ofs": 0,
-"vertex": "",
-"vertex_ofs": 0
-}
-
-[sub_resource type="CanvasItemMaterial" id=42]
-
-shader/shader = SubResource( 41 )
-shader/shading_mode = 0
-shader_param/f1 = ExtResource( 7 )
-shader_param/f2 = ExtResource( 8 )
+shader_param/f1 = ExtResource( 3 )
+shader_param/f2 = ExtResource( 4 )
 shader_param/speed = 0.2
 
 [resource]
 
-0/name = "00001block0000"
+0/name = "00101spike0x1x"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
@@ -269,10 +336,10 @@ shader_param/speed = 0.2
 0/occluder_offset = Vector2( 30, 30 )
 0/navigation_offset = Vector2( 30, 30 )
 0/shape_offset = Vector2( 30, 30 )
-0/shapes = [ SubResource( 1 ) ]
+0/shapes = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ]
 0/one_way_collision_direction = Vector2( 0, 0 )
 0/one_way_collision_max_depth = 0.0
-1/name = "10001spike1x0x"
+1/name = "00011spikex0x1"
 1/texture = ExtResource( 2 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
@@ -280,75 +347,109 @@ shader_param/speed = 0.2
 1/occluder_offset = Vector2( 30, 30 )
 1/navigation_offset = Vector2( 30, 30 )
 1/shape_offset = Vector2( 30, 30 )
-1/shapes = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ]
+1/shapes = [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ]
 1/one_way_collision_direction = Vector2( 0, 0 )
 1/one_way_collision_max_depth = 0.0
-2/name = "01001spikex1x0"
-2/texture = ExtResource( 3 )
+2/name = "10001spike1x0x"
+2/texture = ExtResource( 5 )
 2/tex_offset = Vector2( 0, 0 )
 2/modulate = Color( 1, 1, 1, 1 )
 2/region = Rect2( 0, 0, 60, 60 )
 2/occluder_offset = Vector2( 30, 30 )
 2/navigation_offset = Vector2( 30, 30 )
 2/shape_offset = Vector2( 30, 30 )
-2/shapes = [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ]
+2/shapes = [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ]
 2/one_way_collision_direction = Vector2( 0, 0 )
 2/one_way_collision_max_depth = 0.0
-3/name = "00101spike0x1x"
-3/texture = ExtResource( 4 )
+3/name = "01001spikex1x0"
+3/texture = ExtResource( 6 )
 3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 0, 0, 60, 60 )
 3/occluder_offset = Vector2( 30, 30 )
 3/navigation_offset = Vector2( 30, 30 )
 3/shape_offset = Vector2( 30, 30 )
-3/shapes = [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ]
+3/shapes = [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ]
 3/one_way_collision_direction = Vector2( 0, 0 )
 3/one_way_collision_max_depth = 0.0
-4/name = "00011spikex0x1"
-4/texture = ExtResource( 5 )
+4/name = "00001block0000"
+4/texture = ExtResource( 7 )
 4/tex_offset = Vector2( 0, 0 )
 4/modulate = Color( 1, 1, 1, 1 )
 4/region = Rect2( 0, 0, 60, 60 )
 4/occluder_offset = Vector2( 30, 30 )
 4/navigation_offset = Vector2( 30, 30 )
 4/shape_offset = Vector2( 30, 30 )
-4/shapes = [ SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ) ]
+4/shapes = [ SubResource( 39 ) ]
 4/one_way_collision_direction = Vector2( 0, 0 )
 4/one_way_collision_max_depth = 0.0
 5/name = "00000platform0000"
-5/texture = ExtResource( 6 )
+5/texture = ExtResource( 8 )
 5/tex_offset = Vector2( 0, 0 )
 5/modulate = Color( 1, 1, 1, 1 )
 5/region = Rect2( 0, 0, 60, 60 )
 5/occluder_offset = Vector2( 30, 30 )
 5/navigation_offset = Vector2( 30, 30 )
 5/shape_offset = Vector2( 30, 30 )
-5/shapes = [ SubResource( 38 ) ]
+5/shapes = [ SubResource( 40 ) ]
 5/one_way_collision_direction = Vector2( 0, 0 )
 5/one_way_collision_max_depth = 0.0
-6/name = "BatA1000"
-6/texture = ExtResource( 7 )
+6/name = "11111magma0111"
+6/texture = ExtResource( 9 )
 6/tex_offset = Vector2( 0, 0 )
-6/material = SubResource( 40 )
+6/material = SubResource( 42 )
 6/modulate = Color( 1, 1, 1, 1 )
 6/region = Rect2( 0, 0, 60, 60 )
 6/occluder_offset = Vector2( 30, 30 )
 6/navigation_offset = Vector2( 30, 30 )
-6/shape_offset = Vector2( 0, 0 )
-6/shapes = [  ]
+6/shape_offset = Vector2( 30, 30 )
+6/shapes = [ SubResource( 43 ) ]
 6/one_way_collision_direction = Vector2( 0, 0 )
 6/one_way_collision_max_depth = 0.0
-7/name = "BatB1000"
-7/texture = ExtResource( 7 )
+7/name = "11111m0gma1111"
+7/texture = ExtResource( 14 )
 7/tex_offset = Vector2( 0, 0 )
-7/material = SubResource( 42 )
 7/modulate = Color( 1, 1, 1, 1 )
 7/region = Rect2( 0, 0, 60, 60 )
 7/occluder_offset = Vector2( 30, 30 )
 7/navigation_offset = Vector2( 30, 30 )
-7/shape_offset = Vector2( 0, 0 )
-7/shapes = [  ]
+7/shape_offset = Vector2( 30, 30 )
+7/shapes = [ SubResource( 44 ) ]
 7/one_way_collision_direction = Vector2( 0, 0 )
 7/one_way_collision_max_depth = 0.0
+8/name = "11111log0x1x"
+8/texture = ExtResource( 15 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 0, 0, 60, 60 )
+8/occluder_offset = Vector2( 30, 30 )
+8/navigation_offset = Vector2( 30, 30 )
+8/shape_offset = Vector2( 30, 30 )
+8/shapes = [ SubResource( 45 ) ]
+8/one_way_collision_direction = Vector2( 0, 0 )
+8/one_way_collision_max_depth = 0.0
+9/name = "BatA1000"
+9/texture = ExtResource( 3 )
+9/tex_offset = Vector2( 0, 0 )
+9/material = SubResource( 47 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( 0, 0, 60, 60 )
+9/occluder_offset = Vector2( 30, 30 )
+9/navigation_offset = Vector2( 30, 30 )
+9/shape_offset = Vector2( 0, 0 )
+9/shapes = [  ]
+9/one_way_collision_direction = Vector2( 0, 0 )
+9/one_way_collision_max_depth = 0.0
+10/name = "BatB1000"
+10/texture = ExtResource( 3 )
+10/tex_offset = Vector2( 0, 0 )
+10/material = SubResource( 20 )
+10/modulate = Color( 1, 1, 1, 1 )
+10/region = Rect2( 0, 0, 60, 60 )
+10/occluder_offset = Vector2( 30, 30 )
+10/navigation_offset = Vector2( 30, 30 )
+10/shape_offset = Vector2( 0, 0 )
+10/shapes = [  ]
+10/one_way_collision_direction = Vector2( 0, 0 )
+10/one_way_collision_max_depth = 0.0
 

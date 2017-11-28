@@ -144,9 +144,20 @@ func teleportDown():
 	teleport(idx(), state["facings"][2], preset["teleportRange"][2], preset["teleportRange"][4], preset["teleportRange"][5])
 func teleportLeft():
 	teleport(idx(), state["facings"][3], preset["teleportRange"][3], preset["teleportRange"][4], preset["teleportRange"][5])
+func controlGapUp():
+	pass
+func controlGapRight():
+	pass
+func controlGapDown():
+	pass
+func controlGapLeft():
+	pass
+func controlGapShut():
+	pass
 func controlSawUp():
 	anim("actionUp")
 func controlSawRight():
+	state["action"] = "actionRight"
 	anim("actionRight")
 func controlSawDown():
 	anim("actionDown")
@@ -190,10 +201,16 @@ func idx2Pos(pos):
 func isFrame(string):
 	return getSpriteFrame() == string
 func anim(s):
-	state["sprite"].play(s)
+	if s == "actionRight":
+		state["facing"].x = 1
+		state["sprite"].play("actionLeft")
+	else: state["sprite"].play(s)
 func getSpriteFrame():
 	return state["sprite"].get_animation()+str(state["sprite"].get_frame())
 func _on_DeathSprite_finished():
+	if state["action"] == "actionRight":
+		state["facing"].x = -1
+		state["action"] = "idle"
 	if state["action"] == "tele":
 		state["action"] = "teleout"
 	else:

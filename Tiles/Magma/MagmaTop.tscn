@@ -76,7 +76,6 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 
-visibility/visible = false
 transform/scale = Vector2( 3, 1.5 )
 shape = SubResource( 3 )
 trigger = false

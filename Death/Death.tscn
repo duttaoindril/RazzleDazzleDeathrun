@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=1]
+[gd_scene load_steps=92 format=1]
 
 [ext_resource path="res://Death/Death.gd" type="Script" id=1]
 [ext_resource path="res://Death/Sprites/Idle/death idling1.png" type="Texture" id=2]
@@ -24,72 +24,70 @@
 [ext_resource path="res://Death/Sprites/ActionMain/Action/z (1).png" type="Texture" id=22]
 [ext_resource path="res://Death/Sprites/ActionMain/Action/z (2).png" type="Texture" id=23]
 [ext_resource path="res://Death/Sprites/ActionMain/Action/z (3).png" type="Texture" id=24]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion1.png" type="Texture" id=25]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion2.png" type="Texture" id=26]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion3.png" type="Texture" id=27]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion4.png" type="Texture" id=28]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion5.png" type="Texture" id=29]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion6.png" type="Texture" id=30]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion7.png" type="Texture" id=31]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion8.png" type="Texture" id=32]
-[ext_resource path="res://Death/Sprites/ActionUp/P2motion9.png" type="Texture" id=33]
-[ext_resource path="res://Death/Sprites/Move/p2move1.png" type="Texture" id=34]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft1.png" type="Texture" id=35]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft2.png" type="Texture" id=36]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft3.png" type="Texture" id=37]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft4.png" type="Texture" id=38]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft5.png" type="Texture" id=39]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft6.png" type="Texture" id=40]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft7.png" type="Texture" id=41]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft8.png" type="Texture" id=42]
-[ext_resource path="res://Death/Sprites/ActionLeft/actionleft9.png" type="Texture" id=43]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown1.png" type="Texture" id=44]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown2.png" type="Texture" id=45]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown3.png" type="Texture" id=46]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown4.png" type="Texture" id=47]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown5.png" type="Texture" id=48]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown6.png" type="Texture" id=49]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown7.png" type="Texture" id=50]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown8.png" type="Texture" id=51]
-[ext_resource path="res://Death/Sprites/ActionDown/actiondown9.png" type="Texture" id=52]
-[ext_resource path="res://Death/Sprites/Shoot/shoot1.png" type="Texture" id=53]
-[ext_resource path="res://Death/Sprites/Shoot/shoot2.png" type="Texture" id=54]
-[ext_resource path="res://Death/Sprites/Shoot/shoot3.png" type="Texture" id=55]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownStart/actiondown1.png" type="Texture" id=56]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownStart/actiondown2.png" type="Texture" id=57]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownStart/actiondown3.png" type="Texture" id=58]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft6.png" type="Texture" id=59]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft7.png" type="Texture" id=60]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft8.png" type="Texture" id=61]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft9.png" type="Texture" id=62]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftRpt/actionleft4.png" type="Texture" id=63]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftRpt/actionleft5.png" type="Texture" id=64]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftStart/actionleft1.png" type="Texture" id=65]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftStart/actionleft2.png" type="Texture" id=66]
-[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftStart/actionleft3.png" type="Texture" id=67]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown3.png" type="Texture" id=68]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown4.png" type="Texture" id=69]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown5.png" type="Texture" id=70]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown6.png" type="Texture" id=71]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown7.png" type="Texture" id=72]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown8.png" type="Texture" id=73]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownEnd/actiondown1.png" type="Texture" id=74]
-[ext_resource path="res://Death/Sprites/ActionDown/ActionDownEnd/actiondown2.png" type="Texture" id=75]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainEnd/P2motion7.png" type="Texture" id=76]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainEnd/P2motion8.png" type="Texture" id=77]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainEnd/P2motion9.png" type="Texture" id=78]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion1.png" type="Texture" id=79]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion2.png" type="Texture" id=80]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion3.png" type="Texture" id=81]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion4.png" type="Texture" id=82]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling1.png" type="Texture" id=83]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling2.png" type="Texture" id=84]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling3.png" type="Texture" id=85]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling4.png" type="Texture" id=86]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling5.png" type="Texture" id=87]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling6.png" type="Texture" id=88]
-[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling7.png" type="Texture" id=89]
-[ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=90]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownStart/actiondown1.png" type="Texture" id=25]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownStart/actiondown2.png" type="Texture" id=26]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownStart/actiondown3.png" type="Texture" id=27]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft1.png" type="Texture" id=28]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft2.png" type="Texture" id=29]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft3.png" type="Texture" id=30]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft4.png" type="Texture" id=31]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft5.png" type="Texture" id=32]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft6.png" type="Texture" id=33]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft7.png" type="Texture" id=34]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft8.png" type="Texture" id=35]
+[ext_resource path="res://Death/Sprites/ActionLeft/actionleft9.png" type="Texture" id=36]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion1.png" type="Texture" id=37]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion2.png" type="Texture" id=38]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion3.png" type="Texture" id=39]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion4.png" type="Texture" id=40]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion5.png" type="Texture" id=41]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion7.png" type="Texture" id=42]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion8.png" type="Texture" id=43]
+[ext_resource path="res://Death/Sprites/ActionUp/P2motion9.png" type="Texture" id=44]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftRpt/actionleft4.png" type="Texture" id=45]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftRpt/actionleft5.png" type="Texture" id=46]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftStart/actionleft1.png" type="Texture" id=47]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftStart/actionleft2.png" type="Texture" id=48]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftStart/actionleft3.png" type="Texture" id=49]
+[ext_resource path="res://Death/Sprites/Move/p2move1.png" type="Texture" id=50]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown1.png" type="Texture" id=51]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown2.png" type="Texture" id=52]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown3.png" type="Texture" id=53]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown4.png" type="Texture" id=54]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown5.png" type="Texture" id=55]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown6.png" type="Texture" id=56]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown7.png" type="Texture" id=57]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown8.png" type="Texture" id=58]
+[ext_resource path="res://Death/Sprites/ActionDown/actiondown9.png" type="Texture" id=59]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft6.png" type="Texture" id=60]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft7.png" type="Texture" id=61]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft8.png" type="Texture" id=62]
+[ext_resource path="res://Death/Sprites/ActionLeft/ActionLeftEnd/actionleft9.png" type="Texture" id=63]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown4.png" type="Texture" id=64]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown5.png" type="Texture" id=65]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown6.png" type="Texture" id=66]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown7.png" type="Texture" id=67]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownRpt/actiondown8.png" type="Texture" id=68]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion1.png" type="Texture" id=69]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion2.png" type="Texture" id=70]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion3.png" type="Texture" id=71]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainStart/P2motion4.png" type="Texture" id=72]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling1.png" type="Texture" id=73]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling2.png" type="Texture" id=74]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling3.png" type="Texture" id=75]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling4.png" type="Texture" id=76]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling5.png" type="Texture" id=77]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling6.png" type="Texture" id=78]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainRpt/deathcontrolling7.png" type="Texture" id=79]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownEnd/actiondown1.png" type="Texture" id=80]
+[ext_resource path="res://Death/Sprites/ActionDown/ActionDownEnd/actiondown2.png" type="Texture" id=81]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainEnd/P2motion7.png" type="Texture" id=82]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainEnd/P2motion8.png" type="Texture" id=83]
+[ext_resource path="res://Death/Sprites/ActionMain/ActionMainEnd/P2motion9.png" type="Texture" id=84]
+[ext_resource path="res://Death/Sprites/Shoot/shoot1.png" type="Texture" id=85]
+[ext_resource path="res://Death/Sprites/Shoot/shoot2.png" type="Texture" id=86]
+[ext_resource path="res://Death/Sprites/Shoot/shoot3.png" type="Texture" id=87]
+[ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=88]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -114,75 +112,75 @@ animations = [ {
 "name": "actionMain",
 "speed": 10.5
 }, {
-"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ],
-"loop": false,
-"name": "actionUp",
-"speed": 10.5
-}, {
-"frames": [ ExtResource( 34 ) ],
-"loop": true,
-"name": "moveStart",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ) ],
-"loop": false,
-"name": "actionLeft",
-"speed": 10.5
-}, {
-"frames": [ ExtResource( 44 ), ExtResource( 45 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 52 ) ],
-"loop": false,
-"name": "actionDown",
-"speed": 10.5
-}, {
-"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ) ],
-"loop": false,
-"name": "shoot",
-"speed": 13.0
-}, {
-"frames": [ ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ) ],
+"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": false,
 "name": "actionDownStart",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 59 ), ExtResource( 60 ), ExtResource( 61 ), ExtResource( 62 ) ],
+"frames": [ ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ) ],
 "loop": false,
-"name": "actionLeftEnd",
-"speed": 5.0
+"name": "actionLeft",
+"speed": 10.5
 }, {
-"frames": [ ExtResource( 63 ), ExtResource( 64 ) ],
+"frames": [ ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ) ],
+"loop": false,
+"name": "actionUp",
+"speed": 10.5
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 46 ) ],
 "loop": true,
 "name": "actionLeftRpt",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 65 ), ExtResource( 66 ), ExtResource( 67 ) ],
+"frames": [ ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ) ],
 "loop": false,
 "name": "actionLeftStart",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 68 ), ExtResource( 69 ), ExtResource( 70 ), ExtResource( 71 ), ExtResource( 72 ), ExtResource( 73 ) ],
+"frames": [ ExtResource( 50 ) ],
+"loop": true,
+"name": "moveStart",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 51 ), ExtResource( 52 ), ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 59 ) ],
+"loop": false,
+"name": "actionDown",
+"speed": 10.5
+}, {
+"frames": [ ExtResource( 60 ), ExtResource( 61 ), ExtResource( 62 ), ExtResource( 63 ) ],
+"loop": false,
+"name": "actionLeftEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 64 ), ExtResource( 65 ), ExtResource( 66 ), ExtResource( 67 ), ExtResource( 68 ) ],
 "loop": true,
 "name": "actionDownRpt",
 "speed": 9.0
 }, {
-"frames": [ ExtResource( 74 ), ExtResource( 75 ) ],
-"loop": false,
-"name": "actionDownEnd",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 76 ), ExtResource( 77 ), ExtResource( 78 ) ],
-"loop": false,
-"name": "actionMainEnd",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 79 ), ExtResource( 80 ), ExtResource( 81 ), ExtResource( 82 ) ],
+"frames": [ ExtResource( 69 ), ExtResource( 70 ), ExtResource( 71 ), ExtResource( 72 ) ],
 "loop": false,
 "name": "actionMainStart",
 "speed": 10.5
 }, {
-"frames": [ ExtResource( 83 ), ExtResource( 84 ), ExtResource( 85 ), ExtResource( 86 ), ExtResource( 87 ), ExtResource( 88 ), ExtResource( 89 ) ],
+"frames": [ ExtResource( 73 ), ExtResource( 74 ), ExtResource( 75 ), ExtResource( 76 ), ExtResource( 77 ), ExtResource( 78 ), ExtResource( 79 ) ],
 "loop": true,
 "name": "actionMainRpt",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 80 ), ExtResource( 81 ) ],
+"loop": false,
+"name": "actionDownEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 82 ), ExtResource( 83 ), ExtResource( 84 ) ],
+"loop": false,
+"name": "actionMainEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 85 ), ExtResource( 86 ), ExtResource( 87 ) ],
+"loop": false,
+"name": "shoot",
+"speed": 13.0
 } ]
 
 [sub_resource type="SampleLibrary" id=3]
@@ -233,7 +231,7 @@ margin/left = -25.5
 margin/top = 31.0
 margin/right = 76.5
 margin/bottom = 61.0
-custom_fonts/font = ExtResource( 90 )
+custom_fonts/font = ExtResource( 88 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Player X"
 percent_visible = 1.0

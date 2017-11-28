@@ -4,7 +4,7 @@
 [ext_resource path="res://Projectiles/Saw/Sprites/saw.png" type="Texture" id=2]
 [ext_resource path="res://Assets/fonts/PixelGothic.fnt" type="BitmapFont" id=3]
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.6233, 10 )
@@ -18,12 +18,12 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=4]
 
 custom_solver_bias = 0.0
 radius = 10.0
@@ -31,7 +31,7 @@ radius = 10.0
 [node name="Saw" type="KinematicBody2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 4.75, 0, 0, 4.75, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -47,14 +47,14 @@ animation = "default"
 [node name="SawShape" type="CollisionShape2D" parent="."]
 
 transform/scale = Vector2( 4.75, 4.75 )
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SawJump" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 5.05, 0, 0, 0.01, 0, 48 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -66,14 +66,14 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 0, 48 )
 transform/scale = Vector2( 5.05, 0.01 )
-shape = SubResource( 6 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SawCore" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 0.2, 0, 0, 0.2, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -84,7 +84,7 @@ angular_damp = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SawCore"]
 
 transform/scale = Vector2( 0.2, 0.2 )
-shape = SubResource( 7 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 

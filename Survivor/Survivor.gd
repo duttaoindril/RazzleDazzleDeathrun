@@ -18,6 +18,7 @@ func _ready():
 		state["position"] = get_pos()
 		state["velocity"] = Vector2()
 		state["fallThrough"] = false
+		state["jumpThrough"] = false
 		state["sprite"] = get_node("SurvivorSprite")
 		state["body"] = get_node("SurvivorBody")
 		state["head"] = get_node("SurvivorTop")
@@ -57,7 +58,6 @@ func _fixed_process(DELTA):
 		state["leftOrRight"] = false
 	state["sprite"].set_flip_h(state["facing"].x+1)
 	#JUMP SPRITE MANAGEMENT
-#	print(state["action"]," | ",getSpriteFrame()," | ",state["velocity"].y," | ",state["grounded"]," | ",isJumping())
 	if isFrame("launch8"):
 		state["action"] = "jump"
 		state["sprite"].play("jump")
@@ -76,7 +76,14 @@ func _fixed_process(DELTA):
 	state["velocity"] += state["velocity"]*DELTA
 	state["velocity"].x *= DAMPEN
 	move(state["velocity"])
-	if is_colliding(): state["velocity"] = get_collision_normal().slide(state["velocity"])
+	if is_colliding(): #" | ",!state["grounded"],
+#		print(!state["jumpThrough"]," | ",state["head"].overlaps_body(state["map0"])," | ",state["velocity"].y != 0," | ",state["game"].hasTileName(dirTile("head"), "platform")," | ",state["game"].hasTileName(dirTile("core"), "platform"))
+#		if !state["jumpThrough"] && state["velocity"].y != 0 && state["head"].overlaps_body(state["map0"]) && (state["game"].hasTileName(dirTile("head"), "platform") || state["game"].hasTileName(dirTile("core"), "platform")):
+#			print("No Changing Velocity");
+#			state["jumpThrough"] = true
+#			state["body"].set_trigger(state["jumpThrough"])
+#		else: 
+		state["velocity"] = get_collision_normal().slide(state["velocity"])
 	move(state["velocity"])
 #HANDLE JUMPING OR ACTION ----------------------------------------------------------------------------------------------
 func _input(event): #jumping and falling through
@@ -98,7 +105,8 @@ func updateState(input):
 	state["position"] = get_pos()
 	state["grounded"] = dirTouch("jump")
 	if state["fallThrough"] && dirTouch("head"): state["fallThrough"] = false
-	state["body"].set_trigger(state["fallThrough"])
+#	if state["jumpThrough"] && dirTouch("feet"): state["jumpThrough"] = false
+	state["body"].set_trigger(state["fallThrough"]) # || state["jumpThrough"])
 	checkDeath()
 	if checkWin(): win()
 func pressed(dir):
@@ -124,6 +132,49 @@ func isFrame(string):
 	return getSpriteFrame() == string
 func getSpriteFrame():
 	return state["sprite"].get_animation()+str(state["sprite"].get_frame())
+#WIN HANDLING & HELPERS ----------------------------------------------------------------------------------------------
+func checkWin():
+	return getPosIdx().x > preset["wincondition"][0] && getPosIdx().x < preset["wincondition"][1] && getPosIdx().y > preset["wincondition"][2] && getPosIdx().y <= preset["wincondition"][3]
+func win():
+	state["game"].roundEnd(true, false)
+#DEATH HANDLING & HELPERS ----------------------------------------------------------------------------------------------
+func _on_SurvivorJump_body_enter(body):
+	var checks = checkTiles("feet")
+	for check in checks:
+		if idxKill(check, "feet")[1] && posIdxDis(check) < 50 && !state["game"].hasTile(dirTile("feet")):
+			print("Killed Manually")
+			death()
+func checkDeath():
+	if !get_viewport_rect().has_point(state["position"]):
+		print("Killed Out Of Bounds")
+		death()
+	for i in range(0, 5): if dirTouch(state["directions"][i]): checkDeathDirs(killTiles(state["directions"][i]), i)
+func death():
+	state["game"].fx("crush")
+	state["game"].roundEnd(false, true)
+func idxKill(idx, dir):
+	return state["game"].getTileKill(idx, dirFind(dir))
+func dirKill(dir):
+	return idxKill(dirTile(dir), dir)
+func killTiles(dir):
+	var i = 0 if posIdxDis(checkTiles(dir)[0])[0] < posIdxDis(checkTiles(dir)[1])[0] else 1
+	var check = [dirKill(dir), checkTiles(dir)[i]]
+	var dist = posIdxDis(check[1])
+	var dictIdx = v2A(dir2face(dir))[0] # && dist[(1 if dictIdx == 0 else 0)+1] < 58
+	if dist[(0 if dictIdx == 0 else 1)+1] < 50 && !state["game"].hasTile(dirTile(dir)):
+		check[1] = idxKill(check[1], dir)
+		dLog(check, dir, dist, true)
+	else: check.pop_back()
+	return check
+func checkDeathDirs(checks, i):
+	for check in checks:
+		if check[1] && (i != 0 || i == 0 && isJumping()):
+			dLogB(check, state["directions"][i], posIdxDis(check[2]), true)
+			death()
+func dLogB(check, dir, dist, killing):
+	print(("~~~KILLING!!---@" if killing else ""),dir,"-",dirTouch(dir),": Distance: ",dist," | Check: ",check," | Jumping: ",str(isJumping())," | isDirTile: True")
+func dLog(check, dir, dist, killing):
+	if idxKill(check[1][2], dir)[1]: print(("~~~KILLING!!---@" if killing else ""),dir,"-",dirTouch(dir),": Distance: ",dist," | Check: ",check[1]," | Jumping: ",str(isJumping())," | NoDirTile: ",check[0][1])
 #MAP HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
 func getPosIdx():
 	return pos2Idx(state["position"])
@@ -158,50 +209,6 @@ func dirTileInv(dir):
 	return inv
 func checkTiles(dir):
 	return [dirTile(dir)+dir2facerm(dir, 2), dirTile(dir)+dir2facer(dir)]
-#WIN HANDLING & HELPERS ----------------------------------------------------------------------------------------------
-func checkWin():
-	return getPosIdx().x > preset["wincondition"][0] && getPosIdx().x < preset["wincondition"][1] && getPosIdx().y > preset["wincondition"][2] && getPosIdx().y <= preset["wincondition"][3]
-func win():
-	state["game"].roundEnd(true, false)
-#DEATH HANDLING & HELPERS ----------------------------------------------------------------------------------------------
-func _on_SurvivorJump_body_enter(body):
-	var checks = checkTiles("feet")
-	for check in checks:
-		if check == Vector2(17, 10): print("Body Checking"); #IF THIS DOES NOT PRINT AND YOU GET THROUGH, I HAVE TRIED EVERYTHING, I'M SORRY.
-		if idxKill(check, "feet")[1] && posIdxDis(check) < 50 && !state["game"].hasTile(dirTile("feet")):
-			print("Killed Manually")
-			death()
-func checkDeath():
-	if !get_viewport_rect().has_point(state["position"]):
-		print("Killed Out Of Bounds")
-		death()
-	for i in range(0, 5): if dirTouch(state["directions"][i]): checkDeathDirs(killTiles(state["directions"][i]), i)
-func death():
-	state["game"].fx("crush")
-	state["game"].roundEnd(false, true)
-func idxKill(idx, dir):
-	return state["game"].getTileKill(idx, dirFind(dir))
-func dirKill(dir):
-	return idxKill(dirTile(dir), dir)
-func killTiles(dir):
-	var i = 0 if posIdxDis(checkTiles(dir)[0])[0] < posIdxDis(checkTiles(dir)[1])[0] else 1
-	var check = [dirKill(dir), checkTiles(dir)[i]]
-	var dist = posIdxDis(check[1])
-	var dictIdx = v2A(dir2face(dir))[0]
-	if dist[(0 if dictIdx == 0 else 1)+1] < 50 && dist[(1 if dictIdx == 0 else 0)+1] < 58 && !state["game"].hasTile(dirTile(dir)):
-		check[1] = idxKill(check[1], dir)
-		dLog(check, dir, dist, true)
-	else: check.pop_back()
-	return check
-func checkDeathDirs(checks, i):
-	for check in checks:
-		if check[1] && (i != 0 || i == 0 && isJumping()):
-			dLogB(check, state["directions"][i], posIdxDis(check[2]), true)
-			death()
-func dLogB(check, dir, dist, killing):
-	print(("~~~KILLING!!---@" if killing else ""),dir,"-",dirTouch(dir),": Distance: ",dist," | Check: ",check," | Jumping: ",str(isJumping())," | isDirTile: True")
-func dLog(check, dir, dist, killing):
-	if idxKill(check[1][2], dir)[1]: print(("~~~KILLING!!---@" if killing else ""),dir,"-",dirTouch(dir),": Distance: ",dist," | Check: ",check[1]," | Jumping: ",str(isJumping())," | NoDirTile: ",check[0][1])
 #HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
 func v2A(v):
 	return [v.x, v.y]
