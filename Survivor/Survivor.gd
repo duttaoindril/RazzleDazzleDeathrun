@@ -76,7 +76,7 @@ func _fixed_process(DELTA):
 	state["velocity"] += state["velocity"]*DELTA
 	state["velocity"].x *= DAMPEN
 	move(state["velocity"])
-	if is_colliding(): #" | ",!state["grounded"],
+	if is_colliding(): #" | ",!state["grounded"], # TODO TRY TO ADD JUMP UP TO GO THROUGH PLATFORMS
 #		print(!state["jumpThrough"]," | ",state["head"].overlaps_body(state["map0"])," | ",state["velocity"].y != 0," | ",state["game"].hasTileName(dirTile("head"), "platform")," | ",state["game"].hasTileName(dirTile("core"), "platform"))
 #		if !state["jumpThrough"] && state["velocity"].y != 0 && state["head"].overlaps_body(state["map0"]) && (state["game"].hasTileName(dirTile("head"), "platform") || state["game"].hasTileName(dirTile("core"), "platform")):
 #			print("No Changing Velocity");
@@ -140,6 +140,7 @@ func win():
 	state["game"].roundEnd(true, false)
 #DEATH HANDLING & HELPERS ----------------------------------------------------------------------------------------------
 func _on_SurvivorJump_body_enter(body):
+#	print("Killed Manually") TODO FIX EDGE CASE OF GAP CLOSING/MOVING CAUSING DEATH
 	var checks = checkTiles("feet")
 	for check in checks:
 		if idxKill(check, "feet")[1] && posIdxDis(check) < 50 && !state["game"].hasTile(dirTile("feet")):

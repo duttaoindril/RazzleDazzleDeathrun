@@ -19,8 +19,10 @@ func _ready():
 	state["core"] = get_node("SawCore")
 	state["jump"] = get_node("SawJump")
 	state["name"] = get_node("SawName")
+	state["survivor"] = state["game"].get_node("Player "+str(state["otherId"]))
+	state["death"] = state["game"].get_node("Player "+str(state["id"]))
 	state["name"].set_text(get_name())
-	add_collision_exception_with(state["game"].get_node("Player "+str(state["otherId"])))
+	add_collision_exception_with(state["survivor"])
 	set_fixed_process(true)
 	set_process_input(true)
 #INITIALIZATION ----------------------------------------------------------------------------------------------
@@ -36,19 +38,29 @@ func _fixed_process(delta):
 	state["grounded"] = state["jump"].overlaps_body(state["map0"])
 	if !get_viewport_rect().has_point(get_pos()):
 		reset()
-	for body in state["core"].get_overlapping_bodies():
-		if body.get_name() == "Player "+str(state["otherId"]):
-			body.death()
-			queue_free()
-	#CONTROLS
+	if state["core"].overlaps_body(state["survivor"]):
+		state["survivor"].death()
+		queue_free()
+	#CONTROLS	
 	if Input.is_action_pressed("left"+str(state["id"])):
+		state["facing"].x = -1
 		state["velocity"].x -= MOVE_SPEED 
+		state["sprite"].play("move")
+		state["death"].controlSawLeft()
 	elif Input.is_action_pressed("right"+str(state["id"])):
+		state["facing"].x = 1
 		state["velocity"].x += MOVE_SPEED
+		state["sprite"].play("move")
+		state["death"].controlSawRight()
+	else:
+		state["death"].controlSawIdle()
+		state["sprite"].play("idle")
 	if (Input.is_action_pressed("up"+str(state["id"])) || Input.is_action_pressed("action"+str(state["id"]))) && state["grounded"]:
 		state["velocity"].y = GRAVITY * -25
+		state["death"].controlSawUp()
 		if (is_colliding()) and test_move(Vector2(0,1)):
 			state["velocity"].y -= GRAVITY * 5
+	state["sprite"].set_flip_h(state["facing"].x+1)
 	if !(is_colliding()):
 		state["velocity"].y += GRAVITY
 	else:

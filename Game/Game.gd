@@ -3,8 +3,10 @@ extends Node
 var state
 var presets
 #TODO
-# - Make Teleport/Shoot Down Block Generation Code
+# - ADD MORE PRESETS
 # - CHANGE THIS TO PROPERLY HANDLE ANY AMOUNT OF INITS - ALLOW FOR INITS AT SETUP AND INITS AT SPAWN
+# - FIX EDGE CASE OF GAP CLOSING/MOVING CAUSING DEATH
+# - TRY TO ADD JUMP UP TO GO THROUGH PLATFORMS
 #ON INSTANCE RUN ---------------------------------------------------------------------------------------------
 func _ready():
 	if OS.get_name() == "OSX":
@@ -52,11 +54,11 @@ func _ready():
 	"edges": [[[2, 4, -1], [3, 4, -1], [4, 0, 6, -1], [1, 4, -1]], #All Gap Levels
 			  [[2, 4, -1], [4], [4], [4]], #Saw Level
 			  [[2, 4, -1], [-1], [0, 6], [1, 4, -1]], #Deadlier Saw Level
-			  [[-1], [-1], [-1], [-1]], #Empty sides with deadly floor
+			  [[-1], [-1], [-1], [-1]], #Empty sides with deadlym floor
 			  ],
-	"patterns": [[[[20, 20, 8, 16], 5, 1, 1, 4], [[4, 18, 1, 15], 4, .15]], #All Gap Levels
+	"patterns": [[[[20, 20, 7, 16], 5, 1, 1, 4], [[4, 18, 1, 15], 4, .15]], #All Gap Levels
 				 [[[0, 3, 9, 17], 4, 1], [[28, 31, 9, 17], 4, 1]], #Saw Level
-				 [[[0, 3, 9, 17], 4, 1], [[1, 2, 10, 16], 7, 1], [[1, 2, 10, 10], 6, 1], [[28, 31, 9, 17], 4, 1], [[29, 30, 10, 16], 7, 1], [[29, 30, 10, 10], 6, 1], [[5, 26, 16, 16], 5, .2]], #Deadlier Saw Level
+				 [[[0, 3, 9, 17], 4, 1], [[1, 2, 10, 16], 7, 1], [[1, 2, 10, 10], 6, 1], [[28, 31, 9, 17], 4, 1], [[29, 30, 10, 16], 7, 1], [[29, 30, 10, 10], 6, 1], [[5, 26, 16, 16], 5, .35]], #Deadlier Saw Level
 				 [[[10, 21, 4, 4], 5, .15, 1, 1, 5], [[10, 21, 8, 8], 5, .15, 1, 1, 5], [[10, 21, 12, 12], 5, .15, 1, 1, 5], [[10, 21, 16, 16], 5, .15, 1, 1, 5], [[5, 5, 0, 16], 1, 1, 1, 2], [[26, 26, 0, 16], 3, 1, 1, 2]], #Teleportation Levels
 				 ],
 	"customs": ["((0, 0):-1)", #Erase a block
@@ -100,8 +102,9 @@ func _ready():
 			"rightFunc": ["na", "na"],
 			"downFunc": ["controlGapDown", "controlGapDown"],
 			"leftFunc": ["na", "na"],
+			"animMoveDelay": secToStep(.25),
 			"actionFunc": ["na", "na"],
-			"moveReloadMax": secToStep(1.5),
+			"moveReloadMax": secToStep(.75),
 		}
 	}, { # Gap move up and down and shuts preset
 		"prstData": 1,
@@ -132,10 +135,12 @@ func _ready():
 			"rightFunc": ["na", "na"],
 			"downFunc": ["controlGapDown", "controlGapDown"],
 			"leftFunc": ["na", "na"],
+			"animMoveDelay": secToStep(.25),
 			"actionFunc": ["controlGapShut", "controlGapShut"],
-			"moveReloadMax": secToStep(.5),
-			"delayReloadMax": secToStep(.25),
-			"actionReloadMax": secToStep(3),
+			"animActionDelay": secToStep(.25),
+			"moveReloadMax": secToStep(.75),
+			"delayReloadMax": secToStep(.9),
+			"actionReloadMax": secToStep(1.5),
 		}
 	}, { # Gap at the bottom and shuts preset
 		"prstData": 2,
@@ -166,10 +171,11 @@ func _ready():
 			"rightFunc": ["na", "na"],
 			"downFunc": ["na", "na"],
 			"leftFunc": ["na", "na"], 
+			"animMoveDelay": secToStep(.25),
 			"actionFunc": ["controlGapShut", "controlGapShut"],
-			"moveReloadMax": secToStep(1.5), 
-			"delayReloadMax": secToStep(.25),
-			"actionReloadMax": secToStep(3),
+			"moveReloadMax": secToStep(.75), 
+			"delayReloadMax": secToStep(.9),
+			"actionReloadMax": secToStep(1.5),
 		}
 	}, { # Saw Level
 		"prstData": 0,
@@ -197,10 +203,12 @@ func _ready():
 			"canTurnX": false, 
 			"canTurnY": false, 
 			"static": true,
+			"animHold": true,
+			"canMultitask": true,
 			"upFunc": ["controlSawUp", "na"], 
-			"rightFunc": ["controlSawRight", "na"], 
-			"downFunc": ["controlSawDown", "na"], 
-			"leftFunc": ["controlSawLeft", "na"], 
+			"rightFunc": ["na", "na"], 
+			"downFunc": ["na", "na"], 
+			"leftFunc": ["na", "na"], 
 			"actionFunc": ["na", "na"],
 			"saw": {"position": getPosFromIdx(Vector2(26, 16))}
 		}
@@ -230,10 +238,12 @@ func _ready():
 			"canTurnX": false, 
 			"canTurnY": false, 
 			"static": true,
+			"animHold": true,
+			"canMultitask": true,
 			"upFunc": ["controlSawUp", "na"], 
-			"rightFunc": ["controlSawRight", "na"], 
-			"downFunc": ["controlSawDown", "na"], 
-			"leftFunc": ["controlSawLeft", "na"], 
+			"rightFunc": ["na", "na"], 
+			"downFunc": ["na", "na"], 
+			"leftFunc": ["na", "na"], 
 			"actionFunc": ["na", "na"],
 			"saw": {"position": getPosFromIdx(Vector2(26, 15))}
 		}
@@ -268,7 +278,7 @@ func _ready():
 			"downFunc": ["teleportDown", "na"],
 			"leftFunc": ["teleportLeft", "na"],
 			"actionFunc": ["shoot", "na"],
-			"moveReloadMax": secToStep(.5), 
+			"moveReloadMax": secToStep(.75),
 			"actionReloadMax": secToStep(.75),
 		}
 	}, { #Right Shooter Level
@@ -296,11 +306,11 @@ func _ready():
 			"static": true,
 			"teleportRange": [26, 3, true, "bat"],
 			"upFunc": ["teleportUp", "na"],
-			"rightFunc": ["teleportRight", "na"],
+			"rightFunc": ["na", "na"],
 			"downFunc": ["teleportDown", "na"],
-			"leftFunc": ["teleportLeft", "na"],
+			"leftFunc": ["na", "na"],
 			"actionFunc": ["shoot", "na"],
-			"moveReloadMax": secToStep(.5), 
+			"moveReloadMax": secToStep(.75),
 			"actionReloadMax": secToStep(.75),
 		}
 	}, { #Left Shooter Level
@@ -328,11 +338,11 @@ func _ready():
 			"static": true,
 			"teleportRange": [26, 3, true, "bat"],
 			"upFunc": ["teleportUp", "na"],
-			"rightFunc": ["teleportRight", "na"],
+			"rightFunc": ["na", "na"],
 			"downFunc": ["teleportDown", "na"],
-			"leftFunc": ["teleportLeft", "na"],
+			"leftFunc": ["na", "na"],
 			"actionFunc": ["shoot", "na"],
-			"moveReloadMax": secToStep(.5), 
+			"moveReloadMax": secToStep(.75),
 			"actionReloadMax": secToStep(.75),
 		}
 	}]
@@ -340,6 +350,7 @@ func _ready():
 	act("show", ["splash", "survivorsplash", "deathsplash", "switchsplash"])
 	state["subg"].play("start")
 	state["music"].play("bg1")
+#	print(copyRange([5, 26, 17, 17])) # - Use to get the mem for any drawn tiles
 	setUp()
 	set_fixed_process(true)
 	set_process_input(true)
@@ -399,8 +410,8 @@ func setUp():
 	state["bg"].set_frame(presets[state["preset"]]["bgs"][randI(0, presets[state["preset"]]["bgs"].size())])
 	state["bg"].set_flip_h(flpCoin())
 	act("hide", ["goal"])
-	print(copyRange([5, 26, 17, 17])) # - Use to get the mem for any drawn tiles
 	state["presetData"] = state["presetDatas"][presets[state["preset"]]["prstData"]]
+	state["gapClose"] = false
 	generateMap(state["layer0"], presets[state["preset"]]["map"])
 #HANDLE ROUND END ----------------------------------------------------------------------------------------------
 func roundEnd(survivorWin, survivorKilled):
@@ -516,9 +527,6 @@ func handleDeath(pos, prst):
 	fillRanges([[[pos.x-2, pos.x+2, pos.y-3, pos.y+1], presets[state["preset"]]["death"]["deathPlatform"]],
 				[[pos.x-1, pos.x+1, pos.y-2, pos.y], -1]])
 func handleDeathTeleport(map, prst, death, pos):
-#	rnge, idx, prob, xSkip, ySkip, quota
-#	"teleportRange": [1, 3, true, "bat"]
-#	"teleTiles": [[29, 29, 4, 16], [2, 2, 4, 16]]
 	for teleRange in prst["teleTiles"]:
 		fillCustom([teleRange, death["deathPlatform"], 1, death["teleportRange"][0]+1, death["teleportRange"][1]+1])
 		fillCustom([attributeRange(Vector2(teleRange[0], teleRange[2]+1), teleRange), nameToTileId("bat")[randI(0, nameToTileId("bat").size())], 1, death["teleportRange"][0]+1, death["teleportRange"][1]+1])
@@ -617,6 +625,8 @@ func detectTileName(rnge, name): #Finds a specific tile
 	return false
 func detectTiles(rnge): #Finds if there are any tiles in the general vicinity
 	return detectTileName(rnge, "0")
+func canSlideTiles(rnge, dir, dist, check):
+	return canMove(getSlideAreaToDestroy(rnge, dir, dist, dirDistToVec2(Vector2(rnge[0], rnge[2]), dir, dist)), check)
 func slideTiles(rnge, dir, dist, check):
 	var oldPos = Vector2(rnge[0], rnge[2])
 	var newPos = dirDistToVec2(oldPos, dir, dist)
@@ -627,6 +637,8 @@ func slideTiles(rnge, dir, dist, check):
 		pasteRange(areaDestroyMem, Vector2(rnge[1]-dist+1 if dir.x == -1 else rnge[0], rnge[3]-dist+1 if dir.y == -1 else rnge[2]))
 		return newPos
 	return oldPos
+func canMoveGap(dir):
+	return canSlideTiles(state["presetData"], dir, 1, "spike")
 func moveGap(dir):
 	state["presetData"] = attributeRange(slideTiles(state["presetData"], dir, 1, "spike"), state["presetData"])
 func shutGap():
