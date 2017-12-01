@@ -49,18 +49,30 @@ func _ready():
 	"subg": get_node("SubBGMusic"), 
 	"fx": get_node("FX"),
 	"presetData": "",
-	"edges": [[[2, 4, -1], [3, 4, -1], [4, 0, 6, -1], [1, 4, -1]],
-			  [[2, 4, -1], [4], [4], [4]],
-			  [[2, 4, -1], [-1], [0, 6], [1, 4, -1]]],
-	"patterns": [[[[20, 20, 8, 16], 5, 1, 1, 4], [[4, 18, 1, 15], 4, .15]],
-				 [[[0, 3, 9, 17], 4, 1], [[28, 31, 9, 17], 4, 1]],
-				 [[[0, 3, 9, 17], 4, 1], [[1, 2, 10, 16], 7, 1], [[1, 2, 10, 10], 6, 1], [[28, 31, 9, 17], 4, 1], [[29, 30, 10, 16], 7, 1], [[29, 30, 10, 10], 6, 1], [[5, 26, 16, 16], 5, .2]]],
-	"customs": ["((0, 0):2), ((0, 1):-1), ((0, 10):0), ((0, 11):2), ((0, 12):-1), ((0, 13):-1), ((0, 14):-1), ((0, 15):-1), ((0, 16):-1), ((0, 17):0), ((0, 2):-1), ((0, 3):-1), ((0, 4):-1), ((0, 5):0), ((0, 6):2), ((0, 7):-1), ((0, 8):-1), ((0, 9):-1), ((1, 0):4), ((1, 1):4), ((1, 10):0), ((1, 11):4), ((1, 12):4), ((1, 13):4), ((1, 14):4), ((1, 15):4), ((1, 16):4), ((1, 17):4), ((1, 2):4), ((1, 3):4), ((1, 4):4), ((1, 5):4), ((1, 6):2), ((1, 7):-1), ((1, 8):-1), ((1, 9):-1), ((2, 0):2), ((2, 1):-1), ((2, 10):0), ((2, 11):2), ((2, 12):-1), ((2, 13):-1), ((2, 14):-1), ((2, 15):-1), ((2, 16):-1), ((2, 17):0), ((2, 2):-1), ((2, 3):-1), ((2, 4):-1), ((2, 5):0), ((2, 6):2), ((2, 7):-1), ((2, 8):-1), ((2, 9):-1)",
-				"((0, 0):-1)"],
-	"presetDatas": [[22, 24, 5, 11],
-					""]}
+	"edges": [[[2, 4, -1], [3, 4, -1], [4, 0, 6, -1], [1, 4, -1]], #All Gap Levels
+			  [[2, 4, -1], [4], [4], [4]], #Saw Level
+			  [[2, 4, -1], [-1], [0, 6], [1, 4, -1]], #Deadlier Saw Level
+			  [[-1], [-1], [-1], [-1]], #Empty sides with deadly floor
+			  ],
+	"patterns": [[[[20, 20, 8, 16], 5, 1, 1, 4], [[4, 18, 1, 15], 4, .15]], #All Gap Levels
+				 [[[0, 3, 9, 17], 4, 1], [[28, 31, 9, 17], 4, 1]], #Saw Level
+				 [[[0, 3, 9, 17], 4, 1], [[1, 2, 10, 16], 7, 1], [[1, 2, 10, 10], 6, 1], [[28, 31, 9, 17], 4, 1], [[29, 30, 10, 16], 7, 1], [[29, 30, 10, 10], 6, 1], [[5, 26, 16, 16], 5, .2]], #Deadlier Saw Level
+				 [[[10, 21, 4, 4], 5, .15, 1, 1, 5], [[10, 21, 8, 8], 5, .15, 1, 1, 5], [[10, 21, 12, 12], 5, .15, 1, 1, 5], [[10, 21, 16, 16], 5, .15, 1, 1, 5], [[5, 5, 0, 16], 1, 1, 1, 2], [[26, 26, 0, 16], 3, 1, 1, 2]], #Teleportation Levels
+				 ],
+	"customs": ["((0, 0):-1)", #Erase a block
+				#Gap Level with gap in the middle
+				"((0, 0):2), ((0, 1):-1), ((0, 10):0), ((0, 11):2), ((0, 12):-1), ((0, 13):-1), ((0, 14):-1), ((0, 15):-1), ((0, 16):-1), ((0, 17):0), ((0, 2):-1), ((0, 3):-1), ((0, 4):-1), ((0, 5):0), ((0, 6):2), ((0, 7):-1), ((0, 8):-1), ((0, 9):-1), ((1, 0):4), ((1, 1):4), ((1, 10):0), ((1, 11):4), ((1, 12):4), ((1, 13):4), ((1, 14):4), ((1, 15):4), ((1, 16):4), ((1, 17):4), ((1, 2):4), ((1, 3):4), ((1, 4):4), ((1, 5):4), ((1, 6):2), ((1, 7):-1), ((1, 8):-1), ((1, 9):-1), ((2, 0):2), ((2, 1):-1), ((2, 10):0), ((2, 11):2), ((2, 12):-1), ((2, 13):-1), ((2, 14):-1), ((2, 15):-1), ((2, 16):-1), ((2, 17):0), ((2, 2):-1), ((2, 3):-1), ((2, 4):-1), ((2, 5):0), ((2, 6):2), ((2, 7):-1), ((2, 8):-1), ((2, 9):-1)",
+				#Gap Level with gap at the bottom
+				"((0, 0):2), ((0, 1):-1), ((0, 10):0), ((0, 11):2), ((0, 12):-1), ((0, 13):-1), ((0, 14):-1), ((0, 15):0), ((0, 16):2), ((0, 17):0), ((0, 2):-1), ((0, 3):-1), ((0, 4):-1), ((0, 5):-1), ((0, 6):-1), ((0, 7):-1), ((0, 8):-1), ((0, 9):-1), ((1, 0):4), ((1, 1):4), ((1, 10):4), ((1, 11):2), ((1, 12):-1), ((1, 13):-1), ((1, 14):-1), ((1, 15):0), ((1, 16):4), ((1, 17):4), ((1, 2):4), ((1, 3):4), ((1, 4):4), ((1, 5):4), ((1, 6):4), ((1, 7):4), ((1, 8):4), ((1, 9):4), ((2, 0):2), ((2, 1):-1), ((2, 10):0), ((2, 11):2), ((2, 12):-1), ((2, 13):-1), ((2, 14):-1), ((2, 15):0), ((2, 16):2), ((2, 17):0), ((2, 2):-1), ((2, 3):-1), ((2, 4):-1), ((2, 5):-1), ((2, 6):-1), ((2, 7):-1), ((2, 8):-1), ((2, 9):-1)",
+				#Teleportation Magma Handling
+				"((0, 0):4), ((1, 0):6), ((10, 0):6), ((11, 0):6), ((12, 0):6), ((13, 0):6), ((14, 0):6), ((15, 0):6), ((16, 0):6), ((17, 0):6), ((18, 0):6), ((19, 0):6), ((2, 0):6), ((20, 0):6), ((21, 0):4), ((3, 0):6), ((4, 0):6), ((5, 0):6), ((6, 0):6), ((7, 0):6), ((8, 0):6), ((9, 0):6)",
+				],
+	"presetDatas": ["", # No Special Data needed to be maintained
+					[22, 24, 5, 11], #Gap Level with gap in the middle
+					[22, 24, 10, 16], #Gap Level with gap at the bottom
+					]}
 	presets = [{ # Gap up and down preset
-		"prstData": 0,
+		"prstData": 1,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0], 
@@ -68,19 +80,17 @@ func _ready():
 		"map": {
 			"edge": 0,
 			"pattern": 0,
-			"custom": 0,
+			"custom": 1,
 			"customPos": [Vector2(22, 0)],
-			"deathplatform": 4,
-			"survivorplatform": 4,
-			"winplatform": 4,
+			"winPlatform": 4,
 			"deadlyFloor": true
-		}, 
-		"survivor": {
+		}, "survivor": {
+			"survivorPlatform": 4,
 			"position": getPosFromIdx(Vector2(2, 8)), 
 			"facing": Vector2(-1, 0), 
-			"wincondition": [26, 31, 13, 16],
-		}, 
-		"death": {
+			"winCondition": [26, 31, 13, 16],
+		}, "death": {
+			"deathPlatform": 4,
 			"position": getPosFromIdx(Vector2(29, 3)),
 			"facing": Vector2(-1, 0), 
 			"canTurnX": false, 
@@ -94,7 +104,7 @@ func _ready():
 			"moveReloadMax": secToStep(1.5),
 		}
 	}, { # Gap move up and down and shuts preset
-		"prstData": 0,
+		"prstData": 1,
 		"timeLength": 60,
 		"survivorTimeoutWin": false, 
 		"bgs": [0], 
@@ -102,19 +112,17 @@ func _ready():
 		"map": {
 			"edge": 0,
 			"pattern": 0,
-			"custom": 0,
+			"custom": 1,
 			"customPos": [Vector2(22, 0)],
-			"deathplatform": 4,
-			"survivorplatform": 5,
-			"winplatform": 4,
+			"winPlatform": 4,
 			"deadlyFloor": true
-		}, 
-		"survivor": {
+		}, "survivor": {
+			"survivorPlatform": 5,
 			"position": getPosFromIdx(Vector2(2, 8)), 
 			"facing": Vector2(-1, 0), 
-			"wincondition": [26, 31, 13, 16],
-		}, 
-		"death": {
+			"winCondition": [26, 31, 13, 16],
+		}, "death": {
+			"deathPlatform": 4,
 			"position": getPosFromIdx(Vector2(29, 3)),
 			"facing": Vector2(-1, 0), 
 			"canTurnX": false, 
@@ -124,12 +132,13 @@ func _ready():
 			"rightFunc": ["na", "na"],
 			"downFunc": ["controlGapDown", "controlGapDown"],
 			"leftFunc": ["na", "na"],
-			"actionFunc": ["controlGapShut", "na"],
+			"actionFunc": ["controlGapShut", "controlGapShut"],
 			"moveReloadMax": secToStep(.5),
+			"delayReloadMax": secToStep(.25),
 			"actionReloadMax": secToStep(3),
 		}
 	}, { # Gap at the bottom and shuts preset
-		"prstData": 0,
+		"prstData": 2,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0], 
@@ -137,34 +146,33 @@ func _ready():
 		"map": {
 			"edge": 0,
 			"pattern": 0,
-			"custom": 0,
+			"custom": 2,
 			"customPos": [Vector2(22, 0)],
-			"deathplatform": 4,
-			"survivorplatform": 4,
-			"winplatform": 4,
+			"winPlatform": 4,
 			"deadlyFloor": true
-		}, 
-		"survivor": {
+		}, "survivor": {
+			"survivorPlatform": 4,
 			"position": getPosFromIdx(Vector2(2, 8)), 
 			"facing": Vector2(-1, 0), 
-			"wincondition": [26, 31, 13, 16],
-		}, 
-		"death": {
+			"winCondition": [26, 31, 13, 16],
+		}, "death": {
+			"deathPlatform": 4,
 			"position": getPosFromIdx(Vector2(29, 3)),
 			"facing": Vector2(-1, 0), 
 			"canTurnX": false, 
 			"canTurnY": false, 
 			"static": true,
-			"upFunc": ["controlGapUp", "controlGapUp"],
+			"upFunc": ["na", "na"],
 			"rightFunc": ["na", "na"],
-			"downFunc": ["controlGapDown", "controlGapDown"],
+			"downFunc": ["na", "na"],
 			"leftFunc": ["na", "na"], 
-			"actionFunc": ["controlGapShut", "na"],
+			"actionFunc": ["controlGapShut", "controlGapShut"],
 			"moveReloadMax": secToStep(1.5), 
-			"actionReloadMax": secToStep(3), 
+			"delayReloadMax": secToStep(.25),
+			"actionReloadMax": secToStep(3),
 		}
 	}, { # Saw Level
-		"prstData": 1,
+		"prstData": 0,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0],
@@ -173,19 +181,17 @@ func _ready():
 		"map": {
 			"edge": 1,
 			"pattern": 1,
-			"custom": 1,
+			"custom": 0,
 			"customPos": [Vector2(25, 16), Vector2(26, 16), Vector2(27, 16), Vector2(31, 5)],
-			"deathplatform": 4,
-			"survivorplatform": 4,
-			"winplatform": 4,
+			"winPlatform": 4,
 			"deadlyFloor": true
-		}, 
-		"survivor": {
+		}, "survivor": {
+			"survivorPlatform": 4,
 			"position": getPosFromIdx(Vector2(2, 8)), 
 			"facing": Vector2(-1, 0), 
-			"wincondition": [28, 31, 6, 8],
-		}, 
-		"death": {
+			"winCondition": [28, 31, 6, 8],
+		}, "death": {
+			"deathPlatform": 4,
 			"position": getPosFromIdx(Vector2(29, 3)),
 			"facing": Vector2(-1, 0), 
 			"canTurnX": false, 
@@ -199,7 +205,7 @@ func _ready():
 			"saw": {"position": getPosFromIdx(Vector2(26, 16))}
 		}
 	}, { # Deadlier Saw Level
-		"prstData": 1,
+		"prstData": 0,
 		"timeLength": 60, 
 		"survivorTimeoutWin": false, 
 		"bgs": [0],
@@ -208,19 +214,17 @@ func _ready():
 		"map": {
 			"edge": 2,
 			"pattern": 2,
-			"custom": 1,
+			"custom": 0,
 			"customPos": [Vector2(25, 15), Vector2(26, 15), Vector2(27, 15), Vector2(31, 5)],
-			"deathplatform": 4,
-			"survivorplatform": 4,
-			"winplatform": 4,
+			"winPlatform": 4,
 			"deadlyFloor": true
-		}, 
-		"survivor": {
+		}, "survivor": {
+			"survivorPlatform": 4,
 			"position": getPosFromIdx(Vector2(2, 8)), 
 			"facing": Vector2(-1, 0), 
-			"wincondition": [28, 31, 6, 8],
-		}, 
-		"death": {
+			"winCondition": [28, 31, 6, 8],
+		}, "death": {
+			"deathPlatform": 4,
 			"position": getPosFromIdx(Vector2(29, 3)),
 			"facing": Vector2(-1, 0), 
 			"canTurnX": false, 
@@ -233,7 +237,105 @@ func _ready():
 			"actionFunc": ["na", "na"],
 			"saw": {"position": getPosFromIdx(Vector2(26, 15))}
 		}
-	}] #"teleTiles": [[29, 29, 3, 15], [2, 2, 3, 15]],
+	}, { # Left Right Shooter Level
+		"prstData": 0,
+		"timeLength": 60,
+		"survivorTimeoutWin": true,
+		"bgs": [0],
+		"bgMusic": [1, 2, 3],
+		"map": {
+			"edge": 3,
+			"pattern": 3,
+			"custom": 3,
+			"customPos": [Vector2(5, 17)],
+			"teleTiles": [[29, 29, 4, 16], [2, 2, 4, 16]],
+			"deadlyFloor": false
+		}, "survivor": {
+			"survivorPlatform": 5,
+			"position": getPosFromIdx(Vector2(15, 11)), 
+			"facing": Vector2(-1, 0)
+		}, "death": {
+			"deathPlatform": 4,
+			"position": getPosFromIdx(Vector2(29, 11)),
+			"facing": Vector2(-1, 0),
+			"invertOnTele": true,
+			"canTurnX": false,
+			"canTurnY": false,
+			"static": true,
+			"teleportRange": [26, 3, true, "bat"],
+			"upFunc": ["teleportUp", "na"],
+			"rightFunc": ["teleportRight", "na"],
+			"downFunc": ["teleportDown", "na"],
+			"leftFunc": ["teleportLeft", "na"],
+			"actionFunc": ["shoot", "na"],
+			"moveReloadMax": secToStep(.5), 
+			"actionReloadMax": secToStep(.75),
+		}
+	}, { #Right Shooter Level
+		"prstData": 0,
+		"timeLength": 60,
+		"survivorTimeoutWin": true,
+		"bgs": [0],
+		"bgMusic": [1, 2, 3],
+		"map": {
+			"edge": 3,
+			"pattern": 3,
+			"teleTiles": [[29, 29, 4, 16]],
+			"deadlyFloor": false
+		}, "survivor": {
+			"survivorPlatform": 5,
+			"position": getPosFromIdx(Vector2(15, 11)), 
+			"facing": Vector2(-1, 0)
+		}, "death": {
+			"deathPlatform": 4,
+			"position": getPosFromIdx(Vector2(29, 11)),
+			"facing": Vector2(-1, 0),
+			"invertOnTele": true,
+			"canTurnX": false,
+			"canTurnY": false,
+			"static": true,
+			"teleportRange": [26, 3, true, "bat"],
+			"upFunc": ["teleportUp", "na"],
+			"rightFunc": ["teleportRight", "na"],
+			"downFunc": ["teleportDown", "na"],
+			"leftFunc": ["teleportLeft", "na"],
+			"actionFunc": ["shoot", "na"],
+			"moveReloadMax": secToStep(.5), 
+			"actionReloadMax": secToStep(.75),
+		}
+	}, { #Left Shooter Level
+		"prstData": 0,
+		"timeLength": 60,
+		"survivorTimeoutWin": true,
+		"bgs": [0],
+		"bgMusic": [1, 2, 3],
+		"map": {
+			"edge": 3,
+			"pattern": 3,
+			"teleTiles": [[2, 2, 4, 16]],
+			"deadlyFloor": false
+		}, "survivor": {
+			"survivorPlatform": 5,
+			"position": getPosFromIdx(Vector2(15, 11)), 
+			"facing": Vector2(-1, 0)
+		}, "death": {
+			"deathPlatform": 4,
+			"position": getPosFromIdx(Vector2(2, 11)),
+			"facing": Vector2(1, 0),
+			"invertOnTele": true,
+			"canTurnX": false,
+			"canTurnY": false,
+			"static": true,
+			"teleportRange": [26, 3, true, "bat"],
+			"upFunc": ["teleportUp", "na"],
+			"rightFunc": ["teleportRight", "na"],
+			"downFunc": ["teleportDown", "na"],
+			"leftFunc": ["teleportLeft", "na"],
+			"actionFunc": ["shoot", "na"],
+			"moveReloadMax": secToStep(.5), 
+			"actionReloadMax": secToStep(.75),
+		}
+	}]
 	act("hide", ["deathwinsplash", "deathkillsplash", "survivorwinsplash", "endpopup", "goal"])
 	act("show", ["splash", "survivorsplash", "deathsplash", "switchsplash"])
 	state["subg"].play("start")
@@ -297,7 +399,7 @@ func setUp():
 	state["bg"].set_frame(presets[state["preset"]]["bgs"][randI(0, presets[state["preset"]]["bgs"].size())])
 	state["bg"].set_flip_h(flpCoin())
 	act("hide", ["goal"])
-#	print(copyRange([8, 10, 0, 17])) # - Use to get the mem for any drawn tiles
+	print(copyRange([5, 26, 17, 17])) # - Use to get the mem for any drawn tiles
 	state["presetData"] = state["presetDatas"][presets[state["preset"]]["prstData"]]
 	generateMap(state["layer0"], presets[state["preset"]]["map"])
 #HANDLE ROUND END ----------------------------------------------------------------------------------------------
@@ -393,14 +495,13 @@ func generateMap(map, prst):
 	fillSides(state["edges"][prst["edge"]])
 	if prst["deadlyFloor"] && detectTileName([0, 31, 17, 17], "block"):
 		fillRangeProb([1, 30, 16, 16], 0, .25)
-	fillRanges(state["patterns"][prst["pattern"]])
+	fillRanges(state["patterns"][prst["pattern"]]) 
 	handleSurvivor(getIdxFromPos(presets[state["preset"]]["survivor"]["position"]), prst)
-	if(presets[state["preset"]]["death"].has("teleportRange")): handleDeathTeleport(getIdxFromPos(presets[state["preset"]]["death"]["position"]), getIdxFromPos(presets[state["preset"]]["death"]["teleportRange"]), prst)
-	# Add Death Teleport handling
+	if(presets[state["preset"]]["death"].has("teleportRange")): handleDeathTeleport(map, prst, presets[state["preset"]]["death"], getIdxFromPos(presets[state["preset"]]["death"]["position"]))
 	else: handleDeath(getIdxFromPos(presets[state["preset"]]["death"]["position"]), prst)
-	if presets[state["preset"]]["survivor"].has("wincondition"):
-		handleGoal(presets[state["preset"]]["survivor"]["wincondition"], prst)
-		setPosCenter("goal", getPosFromIdxAlt(getXCenterFromRange(presets[state["preset"]]["survivor"]["wincondition"])))
+	if presets[state["preset"]]["survivor"].has("winCondition"):
+		handleGoal(presets[state["preset"]]["survivor"]["winCondition"], prst)
+		setPosCenter("goal", getPosFromIdxAlt(getXCenterFromRange(presets[state["preset"]]["survivor"]["winCondition"])))
 		act("show", ["goal"])
 	if prst.has("customPos"):
 		for c in prst["customPos"]:
@@ -409,19 +510,26 @@ func fillSides(edges):
 	for i in [1, 3, 0, 2]: # 0 -1 | 0 1 0 0 | [0, 31, 0, 0] Up # 1  0 | 1 1 0 1 | [31, 31, 0, 17] Right # 0  1 | 0 1 1 1 | [0, 31, 17, 17] Down # -1  0 | 0 0 0 1 | [0, 0, 0, 17] Left
 		fillRange([31 if state["facing"][i].x == 1 else 0, 0 if state["facing"][i].x == -1 else 31, 17 if state["facing"][i].y == 1 else 0, 0 if state["facing"][i].y == -1 else 17], edges[i][randI(0, edges[i].size())])
 func handleSurvivor(pos, prst):
-	fillRanges([[[pos.x, pos.x, pos.y+1, pos.y+1], prst["survivorplatform"]], 
+	fillRanges([[[pos.x, pos.x, pos.y+1, pos.y+1], presets[state["preset"]]["survivor"]["survivorPlatform"]], 
 				[[pos.x-1, pos.x+1, pos.y-2, pos.y], -1]])
 func handleDeath(pos, prst):
-	fillRanges([[[pos.x-2, pos.x+2, pos.y-3, pos.y+1], prst["deathplatform"]],
+	fillRanges([[[pos.x-2, pos.x+2, pos.y-3, pos.y+1], presets[state["preset"]]["death"]["deathPlatform"]],
 				[[pos.x-1, pos.x+1, pos.y-2, pos.y], -1]])
-func handleDeathTeleport(pos, rnge, prst):
-	pass
+func handleDeathTeleport(map, prst, death, pos):
+#	rnge, idx, prob, xSkip, ySkip, quota
+#	"teleportRange": [1, 3, true, "bat"]
+#	"teleTiles": [[29, 29, 4, 16], [2, 2, 4, 16]]
+	for teleRange in prst["teleTiles"]:
+		fillCustom([teleRange, death["deathPlatform"], 1, death["teleportRange"][0]+1, death["teleportRange"][1]+1])
+		fillCustom([attributeRange(Vector2(teleRange[0], teleRange[2]+1), teleRange), nameToTileId("bat")[randI(0, nameToTileId("bat").size())], 1, death["teleportRange"][0]+1, death["teleportRange"][1]+1])
 func handleGoal(rnge, prst):
 	fillRanges([[rnge, -1],
-				[[rnge[0], rnge[1], rnge[3]+1, rnge[3]+1], prst["winplatform"]]])
+				[[rnge[0], rnge[1], rnge[3]+1, rnge[3]+1], prst["winPlatform"]]])
 #TILE/MAP HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
 func getTile(pos):
 	return state["layer0"].get_cell(pos.x, pos.y)
+func getCell(x, y):
+	return getTile(Vector2(x, y))
 func setTile(pos, idx):
 	state["layer0"].set_cell(pos.x, pos.y, idx)
 func setCell(x, y, idx):
@@ -432,6 +540,12 @@ func cutTile(pos):
 	var mem = getTile(pos)
 	setTile(pos, -1)
 	return mem
+func nameToTileId(name):
+	var ids = []
+	for id in state["layer0"].get_tileset().get_tiles_ids():
+		if state["layer0"].get_tileset().tile_get_name(id).to_lower().find(name) != -1:
+			ids.append(id)
+	return ids
 func getTileName(pos):
 	return state["layer0"].get_tileset().tile_get_name(getTile(pos)) if hasTile(pos) else ""
 func hasTileName(pos, name):
@@ -470,13 +584,25 @@ func slideRange(rnge, dir, dist):
 	moveRange(rnge, dirDistToVec2(Vector2(rnge[0], rnge[2]), dir, dist))
 func canMove(rnge, check):
 	return !detectTileName(rnge, check)
-func fillRanges(rnges):
-	for rnge in rnges:
-		fillRangeProbSkip(rnge[0], rnge[1], 1 if rnge.size() < 3 else rnge[2], 1 if rnge.size() < 4 else rnge[3], 1 if rnge.size() < 5 else rnge[4])
-func fillRangeProbSkip(rnge, idx, prob, xSkip, ySkip):
+func fillRangeProbSkipQuota(rnge, idx, prob, xSkip, ySkip, quota):
 	for x in range(rnge[0], rnge[1]+1, xSkip):
 		for y in range(rnge[2], rnge[3]+1, ySkip):
-			if flp(prob): setCell(x, y, idx)
+			if flp(prob) && getCell(x, y) != idx:
+				quota = quota - 1
+				setCell(x, y, idx)
+	if quota > 0 && idx != -1:
+		fillRangeProbSkipQuota(rnge, idx, prob, xSkip, ySkip, quota)
+func fillCustom(rnge):
+	fillRangeProbSkipQuota(rnge[0], rnge[1], 1 if rnge.size() < 3 else rnge[2], 1 if rnge.size() < 4 else rnge[3], 1 if rnge.size() < 5 else rnge[4], -1 if rnge.size() < 6 else rnge[5])
+func fillRanges(rnges):
+	for rnge in rnges:
+		fillCustom(rnge)
+func fillRangeProbSkip(rnge, idx, prob, xSkip, ySkip):
+	fillRangeProbSkipQuota(rnge, idx, prob, 1, 1, -1)
+#func fillRangeProbSkip(rnge, idx, prob, xSkip, ySkip):
+#	for x in range(rnge[0], rnge[1]+1, xSkip):
+#		for y in range(rnge[2], rnge[3]+1, ySkip):
+#			if flp(prob): setCell(x, y, idx)
 func fillRangeProb(rnge, idx, prob):
 	fillRangeProbSkip(rnge, idx, prob, 1, 1)
 func fillRange(rnge, idx):
@@ -503,6 +629,18 @@ func slideTiles(rnge, dir, dist, check):
 	return oldPos
 func moveGap(dir):
 	state["presetData"] = attributeRange(slideTiles(state["presetData"], dir, 1, "spike"), state["presetData"])
+func shutGap():
+	setCell(state["presetData"][0]+1, state["presetData"][2]+2, 4)
+	setCell(state["presetData"][0]+1, state["presetData"][3]-2, 4)
+	slideTiles([state["presetData"][0], state["presetData"][1], state["presetData"][2], state["presetData"][2]+1], state["facing"][2], 1, "spike")
+	slideTiles([state["presetData"][0], state["presetData"][1], state["presetData"][3]-1, state["presetData"][3]], state["facing"][0], 1, "spike")
+	state["gapClose"] = true
+func openGap():
+	slideTiles([state["presetData"][0], state["presetData"][1], state["presetData"][2]+1, state["presetData"][2]+2], state["facing"][0], 1, "spike")
+	slideTiles([state["presetData"][0], state["presetData"][1], state["presetData"][3]-2, state["presetData"][3]-1], state["facing"][2], 1, "spike")
+	setCell(state["presetData"][0]+1, state["presetData"][2]+2, -1)
+	setCell(state["presetData"][0]+1, state["presetData"][3]-2, -1)
+	state["gapClose"] = false
 #TILEMAP DEATH DETECTION HELPER FUNCTIONS ----------------------------------------------------------------------------------------------
 func getTileKill(pos, dir):
 	if !hasTile(pos): return ["", false, pos, dir]#, [false, false, false]]
@@ -552,6 +690,9 @@ func controlGapDown():
 	moveGap(state["facing"][2])
 func controlGapLeft():
 	moveGap(state["facing"][3])
+func controlGapShut():
+	if state.has("gapClose") && state["gapClose"]: openGap()
+	else: shutGap()
 func flpCoin(): randomize(); return bool(randI(0, 2))
 func flp(cutoff): randomize(); return randf(0, 1) <= cutoff
 func randI(a, b): randomize(); return int(randF(a, b))

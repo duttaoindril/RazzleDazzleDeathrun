@@ -134,7 +134,8 @@ func getSpriteFrame():
 	return state["sprite"].get_animation()+str(state["sprite"].get_frame())
 #WIN HANDLING & HELPERS ----------------------------------------------------------------------------------------------
 func checkWin():
-	return getPosIdx().x > preset["wincondition"][0] && getPosIdx().x < preset["wincondition"][1] && getPosIdx().y > preset["wincondition"][2] && getPosIdx().y <= preset["wincondition"][3]
+	if !preset.has("winCondition"): return false
+	return getPosIdx().x > preset["winCondition"][0] && getPosIdx().x < preset["winCondition"][1] && getPosIdx().y > preset["winCondition"][2] && getPosIdx().y <= preset["winCondition"][3]
 func win():
 	state["game"].roundEnd(true, false)
 #DEATH HANDLING & HELPERS ----------------------------------------------------------------------------------------------

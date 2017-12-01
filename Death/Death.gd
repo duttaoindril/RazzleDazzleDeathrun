@@ -64,7 +64,7 @@ func _fixed_process(DELTA):
 				if type == "delay":
 					call(preset["actionFunc"][0])
 					if preset["actionFunc"][1] != "na":
-						state["game"].call(preset["actionFunc"][1], state["delayData"])
+						state["game"].call(preset["actionFunc"][1])
 	#ACTION & FRAME RESOLUTION HANDLING
 	if state["action"] == "shoot" && isFrame("shoot1"):
 		shootBolt()
@@ -125,8 +125,9 @@ func _input(i):
 	#ACTION DIRECTION CONTROLS
 	if pressed(i, "action"):
 		if preset.has("delayReloadMax") && state["delayReload"] == 0 && preset["actionFunc"][0] != "na":
-			state["delayReload"] = preset["delayReloadMax"]
-		elif !preset.has("actionReloadMax") || (preset.has("actionReloadMax") && state["actionReload"] == 0):
+			if preset.has("actionReloadMax") && state["actionReload"] != 0: pass
+			else: state["delayReload"] = preset["delayReloadMax"]
+		if !preset.has("actionReloadMax") || (preset.has("actionReloadMax") && state["actionReload"] == 0):
 			if preset.has("actionReloadMax") && preset["actionFunc"][0] != "na":
 				state["actionReload"] = preset["actionReloadMax"]
 				state["actionReloadBar"].show()
@@ -137,13 +138,13 @@ func shoot():
 	state["action"] = "shoot"
 	anim("shoot")
 func teleportUp():
-	teleport(idx(), state["facings"][0], preset["teleportRange"][0], preset["teleportRange"][4], preset["teleportRange"][5])
+	teleport(idx(), state["facings"][0], preset["teleportRange"][1], preset["teleportRange"][2], preset["teleportRange"][3])
 func teleportRight():
-	teleport(idx(), state["facings"][1], preset["teleportRange"][1], preset["teleportRange"][4], preset["teleportRange"][5])
+	teleport(idx(), state["facings"][1], preset["teleportRange"][0], preset["teleportRange"][2], preset["teleportRange"][3])
 func teleportDown():
-	teleport(idx(), state["facings"][2], preset["teleportRange"][2], preset["teleportRange"][4], preset["teleportRange"][5])
+	teleport(idx(), state["facings"][2], preset["teleportRange"][1], preset["teleportRange"][2], preset["teleportRange"][3])
 func teleportLeft():
-	teleport(idx(), state["facings"][3], preset["teleportRange"][3], preset["teleportRange"][4], preset["teleportRange"][5])
+	teleport(idx(), state["facings"][3], preset["teleportRange"][0], preset["teleportRange"][2], preset["teleportRange"][3])
 func controlGapUp():
 	pass
 func controlGapRight():
@@ -172,21 +173,23 @@ func shootBolt():
 	state["action"] = "idle"
 func removeGround():
 	var tilePos = state["game"].get_node("Player "+state["otherId"]).dirTile("feet")
-	state["delayData"] = [tilePos, state["game"].getTile(tilePos)]
+#	state["delayData"] = [tilePos, state["game"].getTile(tilePos)]
 	state["map0"].set_cell(tilePos.x, tilePos.y, -1)
-func teleport(pos, dir, rng, far, bat):
-	var tilePos = pos+dir*(rng+1)
-	if get_viewport_rect().has_point(idx2Pos(tilePos)) && state["game"].hasTile(tilePos+2*state["facings"][2]) && !state["game"].hasTile(tilePos) && !state["game"].hasTile(tilePos+state["facings"][2]) && !state["game"].getTileKill(tilePos+2*state["facings"][2], 2)[1] && !state["game"].getTileKill(tilePos+state["facings"][0], 0)[1] && (!bat || bat && state["game"].hasTileName(tilePos+3*state["facings"][2], "bat")):
+func teleport(pos, dir, dist, rpt, chck):
+	var tilePos = pos+dir*(dist+1)
+	if dist > 0 && get_viewport_rect().has_point(idx2Pos(tilePos)) && state["game"].getTile(tilePos+2*state["facings"][2]) == preset["deathPlatform"] && !state["game"].hasTile(tilePos) && !state["game"].hasTile(tilePos+state["facings"][2]) && !state["game"].getTileKill(tilePos+2*state["facings"][2], 2)[1] && !state["game"].getTileKill(tilePos+state["facings"][0], 0)[1] && (chck == "xxx" || chck != "xxx" && state["game"].hasTileName(tilePos+3*state["facings"][2], chck)):
 		state["action"] = "tele"
 		anim("teleport")
 		set_pos(idx2Pos(tilePos))
-	elif get_viewport_rect().has_point(idx2Pos(tilePos)) && far:
-		teleport(tilePos, dir, rng, far, bat)
+		if preset["invertOnTele"] && dir.x != 0:
+			state["facing"].x = -state["facing"].x
+	elif get_viewport_rect().has_point(idx2Pos(tilePos)) && rpt && dist > 0:
+		teleport(tilePos, dir, dist, rpt, chck)
 	else:
 		state["moveReloadBar"].hide()
 		state["moveReload"] = 0
-func controlSaw(dir):
-	state["game"].get_node("Player "+str(state["id"])+"'s Saw").call(dir)
+#func controlSaw(dir):
+#	state["game"].get_node("Player "+str(state["id"])+"'s Saw").call(dir)
 #HELPERS ----------------------------------------------------------------------------------------------
 func pressed(i, dir):
 	return i.is_action_pressed(dir+state["id"])
